@@ -10,7 +10,7 @@ type CustomHeaderProps = {};
 
 const arr = [
   {
-    link: "/",
+    link: "/home-page",
     label: "НҮҮР",
   },
   {
@@ -23,7 +23,7 @@ const arr = [
   },
 ];
 
-export const CustomHeader = (props: CustomHeaderProps) => {
+export const Header = (props: CustomHeaderProps) => {
   const pathname = usePathname();
   const {} = props;
   console.log(pathname);

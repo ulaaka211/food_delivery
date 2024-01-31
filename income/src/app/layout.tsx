@@ -4,8 +4,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Container } from "@mui/material";
-import { CustomHeader } from "@/components";
-import { CustomFooter } from "@/components";
+import { Header } from "@/components";
+import { Footer } from "@/components";
 import { ThemeProvider, CssBaseline } from "@mui/material";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
 import { theme } from "@/theme";
@@ -21,13 +21,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <CustomHeader />
         <AppRouterCacheProvider>
-          <ThemeProvider theme={theme}>{children}</ThemeProvider>
-          <CssBaseline />
+          <ThemeProvider theme={theme}>
+            <Header />
+            {children}
+            <Footer />
+            <CssBaseline />
+          </ThemeProvider>
         </AppRouterCacheProvider>
-
-        <CustomFooter />
       </body>
     </html>
   );

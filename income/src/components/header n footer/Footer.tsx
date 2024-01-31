@@ -33,7 +33,7 @@ const arr = [
   },
 ];
 
-export const CustomFooter = (props: FooterProps) => {
+export const Footer = (props: FooterProps) => {
   return (
     <Stack
       sx={{

@@ -4,6 +4,7 @@ import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import { Button } from "@mui/material";
 import RemoveOutlinedIcon from "@mui/icons-material/RemoveOutlined";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
+import Link from "next/link";
 
 export const CartCard = () => {
   return (
@@ -112,17 +113,19 @@ export const CartCard = () => {
             </Typography>
           </Stack>
           <Stack width={"50%"}>
-            <Button
-              fullWidth
-              variant="contained"
-              disableElevation
-              sx={{
-                py: "14.5px",
-                bgcolor: "#18BA51",
-              }}
-            >
-              Захиалах
-            </Button>
+            <Link href={"/order"}>
+              <Button
+                fullWidth
+                variant="contained"
+                disableElevation
+                sx={{
+                  py: "14.5px",
+                  bgcolor: "#18BA51",
+                }}
+              >
+                Захиалах
+              </Button>
+            </Link>
           </Stack>
         </Stack>
       </Stack>

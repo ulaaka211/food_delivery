@@ -2,9 +2,17 @@ import { Stack, Typography } from "@mui/material";
 
 export const InProgress = () => {
   return (
-    <Stack paddingY={2} paddingX={3} gap={2}>
+    <Stack
+      direction={"row"}
+      alignItems={"center"}
+      paddingY={2}
+      paddingX={3}
+      gap={2}
+    >
       <Stack
         border={1}
+        width={"50px"}
+        height={"50px"}
         borderRadius={"50%"}
         borderColor={"#0468C8"}
         padding={1.5}

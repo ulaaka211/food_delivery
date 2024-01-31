@@ -6,7 +6,7 @@ import { useState } from "react";
 import { Button } from "@mui/material";
 import CloudIcon from "@mui/icons-material/Cloud";
 import CloudQueueIcon from "@mui/icons-material/CloudQueue";
-import { CustomCheckBox } from "../CustomCheckBox";
+import { CustomCheckBox } from "../custom components/CustomCheckBox";
 
 type CustomLoginProps = {};
 

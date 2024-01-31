@@ -2,7 +2,7 @@ import { Divider, Stack, Typography } from "@mui/material";
 import { Container } from "@mui/material";
 import Image from "next/image";
 
-export const HomePage = () => {
+export const HomeImg = () => {
   return (
     <>
       <Stack paddingTop={"70px"} paddingBottom={"122px"} spacing={""}>
