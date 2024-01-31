@@ -91,16 +91,6 @@ export const Signup = (props: CustomLoginProps) => {
             alignItems={"center"}
             justifyContent={"start"}
           >
-            {/* <CustomCheckBox
-              icon={<CloudQueueIcon />}
-              checkedIcon={
-                <CloudIcon
-                  sx={{
-                    color: "black",
-                  }}
-                />
-              }
-            /> */}
             <Stack
               onClick={() => {
                 setCheckBox(!checkBox);

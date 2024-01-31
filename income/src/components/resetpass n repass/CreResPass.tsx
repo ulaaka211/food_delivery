@@ -5,42 +5,48 @@ import { CreateNewPassword } from "..";
 import { ResetPassword1 } from "..";
 import { ResetPassword2 } from "..";
 import { Button } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const arr =[
-  {
-    component: <CreateNewPassword/>
-  },
   {
     component: <ResetPassword1/>
   },
   {
     component: <ResetPassword2/>
-  }
+  },
+{
+component: <CreateNewPassword/>
+}
+  
 ]
 
 export const CreResPass = () => {
- 
+  const [index, setIndex] = useState(0)
+
+
   return (
     <Stack>
       <Container maxWidth="xl">
-          <Stack width={"100"} overflow={""} >
+          <Stack width={"100"} overflow={"hidden"}  sx={{
+            
+             tranform: index === 0 ? "translate(-50% -50%)" : "translate(200%)"
+          }}  >
               <Stack
                 width={"300%"}
                 height={"70vh"}
                 justifyContent={"center"}
-                alignItems={"center"}
-                direction={"row"}
-              > 
-              {arr.map((item) => (
-                <Stack width={"100%"}  >
-                  {item.component}
-                </Stack>
-              ))}
                 
-                </Stack>
-                <Stack
+              > 
+              <Stack direction={"row"}>
+
+              {arr.map((item) => (
+                <Stack  width={"100%"}  alignItems={"center"}   >
+                  {item.component}
+                  <Stack maxWidth={"450px"} onClick={() =>{
+                    setIndex(index + 1);
+                  }}
                   sx={{
+                    
                     width: "26%",
                     justifyContent: "center",
                     alignItems: "center",
@@ -59,6 +65,12 @@ export const CreResPass = () => {
                     Үргэлжлүүлэх
                   </Button>
               </Stack>
+                </Stack>
+              ))}
+              </Stack>
+                
+               
+                </Stack>
           </Stack>
       </Container>
     </Stack>
