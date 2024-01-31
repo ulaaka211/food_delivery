@@ -5,10 +5,29 @@ import { CustomInput } from "@/components";
 import Link from "next/link";
 import { useState } from "react";
 import { Button } from "@mui/material";
+import { useFormik } from "formik";
+import * as yup from "yup"
+
+const validationSchema = yup.object({
+  password: yup.string().required(),
+  rePassword: yup.string().required()
+
+})
 
 export const CreateNewPassword = () => {
-  const [password, setPassword] = useState("");
-  const [rePassword, setRePassword] = useState("");
+ 
+
+  const formik = useFormik({
+    initialValues: {
+     password: "",
+     rePassword: ""
+     
+    },
+    validationSchema: validationSchema,
+    onSubmit: (values) => {
+      console.log(values);
+    }
+  })
 
   return (
     <Stack
@@ -23,20 +42,24 @@ export const CreateNewPassword = () => {
       </Typography>
       <Stack gap={2} width={"100%"}>
         <CustomInput
-          onChange={(event) => {
-            setPassword(event.target.value);
-          }}
-          value={password}
+        name="password"
+          onChange={formik.handleChange}
+          value={formik.values.password}
+          error={formik.touched.password && Boolean(formik.errors.password)}
+          helperText={formik.touched.password && formik.errors.password}
+          onBlur={formik.handleBlur}
           label="Нууц үг "
           placeholder="Нууц үгээ оруулна уу"
           type="password"
         />
 
         <CustomInput
-          onChange={(event) => {
-            setRePassword(event.target.value);
-          }}
-          value={rePassword}
+        name="rePassword"
+          onChange={formik.handleChange}
+          value={formik.values.rePassword}
+          error={formik.touched.rePassword && Boolean(formik.errors.rePassword)}
+          helperText={formik.touched.rePassword && formik.errors.rePassword}
+          onBlur={formik.handleBlur}
           label="Нууц үг давтах "
           placeholder="Нууц үгээ оруулна уу"
           type="password"

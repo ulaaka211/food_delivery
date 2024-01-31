@@ -4,9 +4,27 @@ import { Container, Stack, Typography } from "@mui/material";
 import { CustomInput } from "@/components";
 import { useState } from "react";
 import { Button } from "@mui/material";
+import { useFormik } from "formik";
+import * as yup from "yup"
+
+const validationSchema = yup.object({
+
+  password: yup.string().required()
+})
 
 export const ResetPassword2 = () => {
-  const [resetCode, setResetCode] = useState("");
+  const formik = useFormik({
+    initialValues: {
+     
+      password: ""
+     
+    },
+    validationSchema: validationSchema,
+    onSubmit: (values) => {
+      console.log(values);
+    }
+  })
+ 
 
   return (
     <Stack
@@ -24,10 +42,12 @@ export const ResetPassword2 = () => {
           Таны example@pinecone.mn хаяг руу сэргээх код илгээх болно.{" "}
         </Typography>
         <CustomInput
-          onChange={(event) => {
-            setResetCode(event.target.value);
-          }}
-          value={resetCode}
+        name="password"
+          onChange={formik.handleChange}
+          value={formik.values.password}
+          error={formik.touched.password && Boolean(formik.errors.password)}
+          helperText={formik.touched.password && formik.errors.password}
+          onBlur={formik.handleBlur}
           label="Нууц үг сэргээх код "
           placeholder="Нууц үг сэргээх кодоо оруулна уу"
           type="password"

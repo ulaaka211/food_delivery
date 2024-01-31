@@ -7,20 +7,38 @@ import { ResetPassword2 } from "..";
 import { Button } from "@mui/material";
 import { useState } from "react";
 
+const arr =[
+  {
+    component: <CreateNewPassword/>
+  },
+  {
+    component: <ResetPassword1/>
+  },
+  {
+    component: <ResetPassword2/>
+  }
+]
+
 export const CreResPass = () => {
-  const [email, setEmail] = useState("");
+ 
   return (
     <Stack>
       <Container maxWidth="xl">
-        <Stack width="100%" overflow={"hidden"}>
-          <Stack width={"300%"} height={"70vh"} justifyContent={"center"}>
-            <Stack direction={"row"}>
+          <Stack width={"100"} overflow={""} >
               <Stack
-                width={"100%"}
+                width={"300%"}
+                height={"70vh"}
                 justifyContent={"center"}
                 alignItems={"center"}
-              >
-                <ResetPassword1 />
+                direction={"row"}
+              > 
+              {arr.map((item) => (
+                <Stack width={"100%"}  >
+                  {item.component}
+                </Stack>
+              ))}
+                
+                </Stack>
                 <Stack
                   sx={{
                     width: "26%",
@@ -32,7 +50,7 @@ export const CreResPass = () => {
                     fullWidth
                     variant="contained"
                     disableElevation
-                    disabled={!email}
+                   
                     sx={{
                       py: "14.5px",
                     }}
@@ -40,65 +58,8 @@ export const CreResPass = () => {
                     {" "}
                     Үргэлжлүүлэх
                   </Button>
-                </Stack>
               </Stack>
-              <Stack
-                width={"100%"}
-                justifyContent={"center"}
-                alignItems={"center"}
-              >
-                <ResetPassword2 />
-                <Stack
-                  sx={{
-                    width: "26%",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <Button
-                    fullWidth
-                    variant="contained"
-                    disableElevation
-                    disabled={!email}
-                    sx={{
-                      py: "14.5px",
-                    }}
-                  >
-                    {" "}
-                    Үргэлжлүүлэх
-                  </Button>
-                </Stack>
-              </Stack>
-              <Stack
-                width={"100%"}
-                justifyContent={"center"}
-                alignItems={"center"}
-              >
-                <CreateNewPassword />
-                <Stack
-                  sx={{
-                    width: "26%",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <Button
-                    fullWidth
-                    variant="contained"
-                    disableElevation
-                    disabled={!email}
-                    sx={{
-                      py: "14.5px",
-                    }}
-                  >
-                    {" "}
-                    Үргэлжлүүлэх
-                  </Button>
-                </Stack>
-              </Stack>
-            </Stack>
           </Stack>
-        </Stack>
       </Container>
     </Stack>
   );

@@ -4,9 +4,27 @@ import { Container, Stack, Typography } from "@mui/material";
 import { CustomInput } from "@/components";
 import { useState } from "react";
 import { Button } from "@mui/material";
+import { useFormik } from "formik";
+import * as yup from "yup";
+
+const validationSchema = yup.object({
+  email: yup.string().email().required(),
+
+})
 
 export const ResetPassword1 = () => {
-  const [email, setEmail] = useState("");
+  
+
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+     
+    },
+    validationSchema: validationSchema,
+    onSubmit: (values) => {
+      console.log(values);
+    }
+  })
 
   return (
     <Stack
@@ -21,10 +39,12 @@ export const ResetPassword1 = () => {
       </Typography>
       <Stack gap={2} width={"100%"}>
         <CustomInput
-          onChange={(event) => {
-            setEmail(event.target.value);
-          }}
-          value={email}
+        name="email"
+          onChange={formik.handleChange}
+          value={formik.values.email}
+          error={formik.touched.email && Boolean(formik.errors.email)}
+          helperText={formik.touched.email && formik.errors.email}
+          onBlur={formik.handleBlur}
           label="Имэйл "
           placeholder="Имэйл хаягаа оруулна уу"
           type="text"
