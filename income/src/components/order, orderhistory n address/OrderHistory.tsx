@@ -4,7 +4,7 @@ import { Typography } from "@mui/material";
 export const OrderHistory = () => {
   return (
     <Stack
-      minHeight={"816px"}
+      minHeight={"800px"}
       maxWidth={"432px"}
       width={"100%"}
       height={"100%"}

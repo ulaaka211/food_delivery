@@ -12,7 +12,7 @@ export const OrderCard = () => {
 
       <Stack
         maxWidth={"432px"}
-        minHeight={"651px"}
+        minHeight={"588px"}
         border={1}
         padding={3}
         borderRadius={2}

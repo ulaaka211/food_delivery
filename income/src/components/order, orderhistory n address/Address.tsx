@@ -3,8 +3,14 @@
 import { Checkbox, Stack, Typography } from "@mui/material";
 import { CustomInput, InProgress } from "..";
 import { CustomInputSelect } from "..";
+import CheckBoxIcon from "@mui/icons-material/CheckBox";
+import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
+import { useState } from "react";
 
 export const Address = () => {
+  const [checkIcon, setCheckIcon] = useState(false);
+  const [checkBox, setCheckBox] = useState(false);
+
   return (
     <Stack maxWidth={"432px"} width={"100%"} gap={"50px"}>
       <InProgress />
@@ -42,26 +48,28 @@ export const Address = () => {
             </Typography>
             <Stack direction={"row"} justifyContent={"space-between"}>
               <Stack direction={"row"} alignItems={"center"} gap={"10px"}>
-                <Checkbox
-                  sx={{
-                    "&.Mui-checked": {
-                      color: "black !important",
-                    },
+                <Stack
+                  onClick={() => {
+                    setCheckBox(!checkBox);
                   }}
-                />
+                >
+                  {(!checkBox && <CheckBoxOutlineBlankIcon />) ||
+                    (checkBox && <CheckBoxIcon />)}
+                </Stack>
                 <Typography color="#8B8E95" fontSize={16} fontWeight={400}>
                   Бэлнээр
                 </Typography>
               </Stack>
 
               <Stack direction={"row"} alignItems={"center"} spacing={"10px"}>
-                <Checkbox
-                  sx={{
-                    "&.Mui-checked": {
-                      color: "black !important",
-                    },
+                <Stack
+                  onClick={() => {
+                    setCheckIcon(!checkIcon);
                   }}
-                />
+                >
+                  {(!checkIcon && <CheckBoxOutlineBlankIcon />) ||
+                    (checkIcon && <CheckBoxIcon />)}
+                </Stack>
                 <Typography color="#8B8E95" fontSize={16} fontWeight={400}>
                   Картаар
                 </Typography>

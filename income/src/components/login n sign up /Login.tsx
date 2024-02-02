@@ -1,28 +1,43 @@
 "use client";
 
-import { Container, Stack, Typography } from "@mui/material";
+import { Container, Modal, ModalProps, Stack, Typography } from "@mui/material";
 import { CustomInput } from "@/components";
 import Link from "next/link";
 import { useState } from "react";
 import { Button } from "@mui/material";
+import { useRouter } from "next/navigation";
+import { useAuth } from "../provider/AuthProvider";
 
-type CustomLoginProps = {};
+type LoginProps = {
+  handleClose: () => void;
+  open: boolean;
+};
 
-export const Login = (props: CustomLoginProps) => {
+export const Login = ({ handleClose, open }: LoginProps) => {
+  const { login } = useAuth();
+
+  const router = useRouter();
+
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
 
   return (
-    <Container
+    <Modal
       sx={{
-        height: "80vh",
-        width: "100vw",
         display: "flex",
-        justifyContent: "center",
         alignItems: "center",
+        justifyContent: "center",
+      }}
+      open={open}
+      onClose={() => {
+        handleClose();
       }}
     >
       <Stack
+        bgcolor={"#fff"}
+        borderRadius={2}
+        height={"100%"}
+        maxHeight={"589px"}
         maxWidth={"450px"}
         width={"100%"}
         padding={4}
@@ -72,30 +87,35 @@ export const Login = (props: CustomLoginProps) => {
               py: "14.5px",
             }}
             disabled={!email || !password}
+            onClick={(e) => {
+              e.preventDefault();
+              login(email, password);
+            }}
           >
-            {" "}
             Нэвтрэх
           </Button>
           <Typography sx={{ fontSize: "14", fontWeight: "400" }}>
             Эсвэл
           </Typography>
           <Stack border={1} borderColor={"green"} width={"100%"}>
-            <Link href={"/signup"}>
-              <Button
-                fullWidth
-                variant="outlined"
-                disableElevation
-                sx={{
-                  py: "14px",
-                  color: "#000",
-                }}
-              >
-                Бүртгүүлэх
-              </Button>
-            </Link>
+            <Button
+              fullWidth
+              variant="outlined"
+              disableElevation
+              sx={{
+                py: "14px",
+                color: "#000",
+              }}
+              onClick={() => {
+                handleClose();
+                router.push("/signup");
+              }}
+            >
+              Бүртгүүлэх
+            </Button>
           </Stack>
         </Stack>
       </Stack>
-    </Container>
+    </Modal>
   );
 };

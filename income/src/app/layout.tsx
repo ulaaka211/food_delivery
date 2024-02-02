@@ -9,7 +9,10 @@ import { Footer } from "@/components";
 import { ThemeProvider, CssBaseline } from "@mui/material";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
 import { theme } from "@/theme";
-// import { AuthProvider } from "@/components";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
+
+import { AuthProvider } from "@/components/provider/AuthProviderx";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,9 +26,12 @@ export default function RootLayout({
       <body className={inter.className}>
         <AppRouterCacheProvider>
           <ThemeProvider theme={theme}>
-            <Header />
-            {children}
-            <Footer />
+            <AuthProvider>
+              <Header />
+              {children}
+              <Footer />
+            </AuthProvider>
+            <ToastContainer />
             <CssBaseline />
           </ThemeProvider>
         </AppRouterCacheProvider>

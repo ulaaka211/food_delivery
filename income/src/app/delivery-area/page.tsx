@@ -17,7 +17,7 @@ export default function delivery() {
 
   return (
     <APIProvider apiKey="AIzaSyBAdenS5wzqAaY7Tnxlig46zOi01XCI4cE">
-      <Stack paddingBottom={4} paddingTop={14}>
+      <Stack paddingBottom={4} paddingTop={4}>
         <Container maxWidth="xl">
           <Stack height={"100vh"} spacing={6}>
             <Stack height={"80vh"}>

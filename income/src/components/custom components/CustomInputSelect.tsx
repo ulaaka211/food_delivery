@@ -36,17 +36,15 @@ export const CustomInputSelect = (props: CustomInputSelectProps) => {
   const { placeholder } = props;
 
   return (
-    <Stack>
+    <Stack bgcolor={"#ECEDF0"}>
       <TextField
         select
         placeholder={placeholder}
-        variant="filled"
+        variant="outlined"
         InputProps={{
           sx: {
             justifyContent: "center",
             alignItems: "center",
-            paddingX: "20px",
-            paddingBottom: "15px",
           },
           startAdornment: (
             <InputAdornment position="start">

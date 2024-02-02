@@ -5,7 +5,7 @@ import Image from "next/image";
 export const HomeImg = () => {
   return (
     <>
-      <Stack paddingTop={"70px"} paddingBottom={"122px"} spacing={""}>
+      <Stack paddingBottom={"122"} marginBottom={"5%"}>
         <Stack
           direction={"row"}
           display={"flex"}

@@ -1,3 +1,5 @@
+"use client";
+
 import { Container, Stack, Typography } from "@mui/material";
 import Image from "next/image";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
@@ -5,8 +7,11 @@ import { Button } from "@mui/material";
 import RemoveOutlinedIcon from "@mui/icons-material/RemoveOutlined";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import Link from "next/link";
+import { useState } from "react";
 
 export const CartCard = () => {
+  const [count, setCount] = useState(1);
+
   return (
     <Container maxWidth="xl">
       <Stack width={"100%"} height={"90vh"} justifyContent={"space-between"}>
@@ -79,12 +84,15 @@ export const CartCard = () => {
                     color={"#fff"}
                     justifyContent={"center"}
                     alignItems={"center"}
+                    onClick={() => {
+                      setCount((prev) => prev - 1);
+                    }}
                   >
                     <RemoveOutlinedIcon />
                   </Stack>
                   <Stack paddingX={"30px"} paddingY={1}>
                     <Typography fontSize={24} fontWeight={500}>
-                      1
+                      {count}
                     </Typography>
                   </Stack>
                   <Stack
@@ -95,6 +103,9 @@ export const CartCard = () => {
                     color={"#fff"}
                     justifyContent={"center"}
                     alignItems={"center"}
+                    onClick={() => {
+                      setCount((prev) => prev + 1);
+                    }}
                   >
                     <AddOutlinedIcon />
                   </Stack>

@@ -37,7 +37,7 @@ export const Menu = () => {
           <Stack
             direction={"row"}
             justifyContent={"space-between"}
-            paddingTop={12}
+            paddingTop={4}
             paddingBottom={10}
             gap={7}
           >

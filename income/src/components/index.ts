@@ -41,3 +41,5 @@ export * from "./HomeImg";
 export * from "./deliver";
 export * from "./Menu";
 export * from "./foods";
+
+// export * from "./provider/authprovider";

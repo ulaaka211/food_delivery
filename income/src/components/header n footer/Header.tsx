@@ -1,16 +1,18 @@
+"use client";
+
 import Image from "next/image";
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
-import { InputAdornment, Stack, TextField } from "@mui/material";
+import { Box, InputAdornment, Stack, TextField } from "@mui/material";
 import { Container } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { usePathname } from "next/navigation";
-
-type CustomHeaderProps = {};
+import { useState } from "react";
+import { Login } from "..";
 
 const arr = [
   {
-    link: "/home-page",
+    link: "/",
     label: "НҮҮР",
   },
   {
@@ -23,15 +25,15 @@ const arr = [
   },
 ];
 
-export const Header = (props: CustomHeaderProps) => {
+export const Header = () => {
   const pathname = usePathname();
-  const {} = props;
-  console.log(pathname);
+  const [open, setOpen] = useState(false);
+
   return (
     <Stack
       width="100vw"
       bgcolor={"#fff"}
-      position={"fixed"}
+      position={"sticky"}
       top={0}
       left={0}
       zIndex={10}
@@ -83,15 +85,20 @@ export const Header = (props: CustomHeaderProps) => {
                 Сагс
               </Typography>
             </Stack>
-
-            <Link href={"/login"}>
+            <Box
+              onClick={() => {
+                setOpen(true);
+              }}
+            >
               <Stack spacing={1} direction={"row"} alignItems={"center"}>
                 <Image src="/vector (4).svg" alt="" width={19} height={19} />
                 <Typography fontSize={14} fontWeight={700}>
                   Нэвтрэх
                 </Typography>
               </Stack>
-            </Link>
+            </Box>
+
+            <Login open={open} handleClose={() => setOpen(false)} />
           </Stack>
         </Stack>
       </Container>
