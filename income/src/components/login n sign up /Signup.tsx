@@ -117,6 +117,7 @@ export const Signup = (props: CustomLoginProps) => {
               !rePassword ||
               !checkBox
             }
+            onClick={() => {}}
           >
             {" "}
             Бүртгүүлэх

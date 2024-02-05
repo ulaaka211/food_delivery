@@ -15,6 +15,12 @@ const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 type AuthContextType = {
   isLoggedIn: boolean;
   login: (email: string, password: string) => Promise<void>;
+  signUp: (
+    name: string,
+    email: string,
+    address: string,
+    password: string
+  ) => Promise<void>;
 };
 
 export const AuthProvider = ({ children }: PropsWithChildren) => {
@@ -52,11 +58,32 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     setIsReady(true);
   }, []);
 
+  const signUp = async (
+    name: string,
+    email: string,
+    address: string,
+    password: string
+  ) => {
+    try {
+      const { data } = await api.post("/signup", {
+        name,
+        email,
+        address,
+        password,
+      });
+
+      router.push("/food-menu");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
         isLoggedIn,
         login,
+        signUp,
       }}
     >
       {children}
