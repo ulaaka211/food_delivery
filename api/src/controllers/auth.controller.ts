@@ -2,7 +2,7 @@ import { RequestHandler } from "express";
 import { UserModel } from "../models";
 import jwt = require("jsonwebtoken");
 
-export const SignUp: RequestHandler = async (req, res) => {
+export const signup: RequestHandler = async (req, res) => {
   const { name, email, address, password } = req.body;
 
   try {
@@ -25,7 +25,7 @@ export const SignUp: RequestHandler = async (req, res) => {
   } catch (error) {}
 };
 
-export const Login: RequestHandler = async (req, res) => {
+export const login: RequestHandler = async (req, res) => {
   const { email, password } = req.body;
 
   try {

@@ -2,7 +2,7 @@
 
 import { Container, Stack, Typography } from "@mui/material";
 import { CustomInput } from "@/components";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Button } from "@mui/material";
 import CloudIcon from "@mui/icons-material/Cloud";
 import CloudQueueIcon from "@mui/icons-material/CloudQueue";
@@ -19,14 +19,9 @@ export const Signup = (props: CustomLoginProps) => {
 
   const validationSchema = yup.object({
     name: yup.string().required("Нэрээ оруулна уу"),
-    email: yup
-      .string()
-      .email("И-мэйл буруу байна")
-      .required("И-мэйлээ оруулна уу"),
+    email: yup.string().email().required(),
     password: yup.string().required("Нууц үгээ оруулна уу"),
-
     address: yup.string().required("Хаягаа оруулна уу"),
-    // repassword: yup.string().required("Нууц үгээ оруулна уу"),
     checkBox: yup.string().required(),
   });
 
@@ -40,14 +35,13 @@ export const Signup = (props: CustomLoginProps) => {
       checkBox: "",
     },
     validationSchema: validationSchema,
-    onSubmit: async (values) => {
-      await signup({
+    onSubmit: (values) => {
+      signup({
         email: values.email,
         name: values.name,
         password: values.password,
         address: values.address,
       });
-      // console.log(values);
     },
   });
 

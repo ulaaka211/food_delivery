@@ -6,21 +6,12 @@ import { useState } from "react";
 import { Button } from "@mui/material";
 import { useFormik } from "formik";
 import * as yup from "yup";
-
-const validationSchema = yup.object({
-  email: yup.string().email().required(),
-});
+import { useContext } from "react";
+import { AuthContext } from "../provider/authprovider";
 
 export const ResetPassword1 = () => {
-  const formik = useFormik({
-    initialValues: {
-      email: "",
-    },
-    validationSchema: validationSchema,
-    onSubmit: (values) => {
-      console.log(values);
-    },
-  });
+  const { index, setIndex } = useContext(AuthContext);
+  const [email, setEmail] = useState("");
 
   return (
     <Stack
@@ -35,21 +26,22 @@ export const ResetPassword1 = () => {
       </Typography>
       <Stack gap={6} width={"100%"}>
         <CustomInput
-          name="email"
-          onChange={formik.handleChange}
-          value={formik.values.email}
-          error={formik.touched.email && Boolean(formik.errors.email)}
-          helperText={formik.touched.email && formik.errors.email}
-          onBlur={formik.handleBlur}
+          onChange={(e) => {
+            setEmail(e.target.value);
+          }}
+          value={email}
           label="Имэйл "
           placeholder="Имэйл хаягаа оруулна уу"
           type="text"
         />
         <Button
+          onClick={() => {
+            setIndex((prev) => prev + 1);
+          }}
           fullWidth
           variant="contained"
           disableElevation
-          disabled={!formik.values.email}
+          disabled={!email}
           sx={{
             py: "14.5px",
           }}

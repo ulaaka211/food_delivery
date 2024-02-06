@@ -6,7 +6,7 @@ type createOtpProps = {
   otp: String;
 };
 
-export const SendEmail: RequestHandler = async (req, res) => {
+export const sendemail: RequestHandler = async (req, res) => {
   const { email } = req.body;
 
   const user = await UserModel.findOne({ email });

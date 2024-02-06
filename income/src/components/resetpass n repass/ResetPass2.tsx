@@ -6,21 +6,12 @@ import { useState } from "react";
 import { Button } from "@mui/material";
 import { useFormik } from "formik";
 import * as yup from "yup";
-
-const validationSchema = yup.object({
-  password: yup.string().required(),
-});
+import { useContext } from "react";
+import { AuthContext } from "../provider/authprovider";
 
 export const ResetPassword2 = () => {
-  const formik = useFormik({
-    initialValues: {
-      password: "",
-    },
-    validationSchema: validationSchema,
-    onSubmit: (values) => {
-      console.log(values);
-    },
-  });
+  const { index, setIndex } = useContext(AuthContext);
+  const [password, setPassword] = useState("");
 
   return (
     <Stack
@@ -40,21 +31,23 @@ export const ResetPassword2 = () => {
           </Typography>
           <CustomInput
             name="password"
-            onChange={formik.handleChange}
-            value={formik.values.password}
-            error={formik.touched.password && Boolean(formik.errors.password)}
-            helperText={formik.touched.password && formik.errors.password}
-            onBlur={formik.handleBlur}
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+            value={password}
             label="Нууц үг сэргээх код "
             placeholder="Нууц үг сэргээх кодоо оруулна уу"
             type="password"
           />
         </Stack>
         <Button
+          onClick={() => {
+            setIndex((prev) => prev + 1);
+          }}
           fullWidth
           variant="contained"
           disableElevation
-          disabled={!formik.values.password}
+          disabled={!password}
           sx={{
             py: "14.5px",
           }}

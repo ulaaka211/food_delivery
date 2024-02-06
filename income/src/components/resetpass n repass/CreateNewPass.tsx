@@ -8,25 +8,16 @@ import { Button } from "@mui/material";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import Router, { useRouter } from "next/navigation";
-
-const validationSchema = yup.object({
-  password: yup.string().required(),
-  rePassword: yup.string().required(),
-});
+import { useContext } from "react";
+import { AuthContext } from "../provider/authprovider";
+import { useAuth } from "../provider/authprovider";
 
 export const CreateNewPassword = () => {
   const router = useRouter();
-
-  const formik = useFormik({
-    initialValues: {
-      password: "",
-      rePassword: "",
-    },
-    validationSchema: validationSchema,
-    onSubmit: (values) => {
-      console.log(values);
-    },
-  });
+  const { setOpen } = useAuth();
+  const { index, setIndex } = useContext(AuthContext);
+  const [password, setPassword] = useState("");
+  const [rePassword, setRePassword] = useState("");
 
   return (
     <Stack
@@ -43,11 +34,10 @@ export const CreateNewPassword = () => {
         <Stack>
           <CustomInput
             name="password"
-            onChange={formik.handleChange}
-            value={formik.values.password}
-            error={formik.touched.password && Boolean(formik.errors.password)}
-            helperText={formik.touched.password && formik.errors.password}
-            onBlur={formik.handleBlur}
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+            value={password}
             label="Нууц үг "
             placeholder="Нууц үгээ оруулна уу"
             type="password"
@@ -55,13 +45,9 @@ export const CreateNewPassword = () => {
 
           <CustomInput
             name="rePassword"
-            onChange={formik.handleChange}
-            value={formik.values.rePassword}
-            error={
-              formik.touched.rePassword && Boolean(formik.errors.rePassword)
-            }
-            helperText={formik.touched.rePassword && formik.errors.rePassword}
-            onBlur={formik.handleBlur}
+            onChange={(e) => {
+              setRePassword(e.target.value);
+            }}
             label="Нууц үг давтах "
             placeholder="Нууц үгээ оруулна уу"
             type="password"
@@ -71,9 +57,14 @@ export const CreateNewPassword = () => {
           fullWidth
           variant="contained"
           disableElevation
-          disabled={!formik.values.password || !formik.values.rePassword}
+          disabled={!password || !rePassword}
           onClick={() => {
-            router.push("/");
+            setIndex((prev) => prev + 1);
+            if (index === 2) {
+              router.push("/");
+              setIndex(0);
+              setOpen(true);
+            }
           }}
           sx={{
             py: "14.5px",

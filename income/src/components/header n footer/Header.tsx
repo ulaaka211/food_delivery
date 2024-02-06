@@ -9,6 +9,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Login } from "..";
+import { useAuth } from "../provider/authprovider";
 
 const arr = [
   {
@@ -27,7 +28,7 @@ const arr = [
 
 export const Header = () => {
   const pathname = usePathname();
-  const [open, setOpen] = useState(false);
+  const { open, setOpen } = useAuth();
 
   return (
     <Stack
@@ -37,6 +38,7 @@ export const Header = () => {
       top={0}
       left={0}
       zIndex={10}
+      boxShadow={5}
     >
       <Container maxWidth="xl">
         <Stack direction="row" justifyContent={"space-between"} paddingY={1}>

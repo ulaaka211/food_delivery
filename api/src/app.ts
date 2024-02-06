@@ -3,7 +3,6 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import authRouter from "./routers/auth.router";
 import foodRouter from "./routers/food.router";
-import { authMiddleware } from "./middleware/auth.middleware";
 import { connectDatabase } from "./database";
 import emailRouter from "./routers/Reset.router";
 import { user } from "./controllers/user.controller";

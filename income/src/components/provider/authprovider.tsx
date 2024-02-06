@@ -7,6 +7,8 @@ import {
   createContext,
   useState,
   useEffect,
+  Dispatch,
+  SetStateAction,
 } from "react";
 import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
@@ -27,14 +29,22 @@ type loginParams = {
 
 type AuthContextType = {
   isLoggedIn: boolean;
+  open: boolean;
+  setOpen: Dispatch<SetStateAction<boolean>>;
+  index: number;
+  setIndex: Dispatch<SetStateAction<number>>;
   signup: (params: signupParams) => void;
   login: (params: loginParams) => void;
 };
 
-const AuthContext = createContext<AuthContextType>({} as AuthContextType);
+export const AuthContext = createContext<AuthContextType>(
+  {} as AuthContextType
+);
 
 export const AuthProvider = ({ children }: PropsWithChildren) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [index, setIndex] = useState(0);
+  const [open, setOpen] = useState(false);
   const [isReady, setIsReady] = useState(false);
   const router = useRouter();
 
@@ -66,7 +76,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   }, []);
 
   const signup = async (params: signupParams) => {
-    alert();
+    alert("asdkfjk");
     try {
       const { data } = await api.post("/signup", params);
       router.push("/");
@@ -92,6 +102,10 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
         isLoggedIn,
         login,
         signup,
+        index,
+        setIndex,
+        open,
+        setOpen,
       }}
     >
       {children}

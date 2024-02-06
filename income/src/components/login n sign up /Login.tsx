@@ -107,7 +107,7 @@ export const Login = ({ handleClose, open }: LoginProps) => {
             }}
             disabled={!formik.values.email || !formik.values.password}
             onClick={() => {
-              login;
+              formik.handleSubmit();
             }}
           >
             Нэвтрэх
