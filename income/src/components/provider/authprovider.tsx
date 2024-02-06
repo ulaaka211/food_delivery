@@ -11,6 +11,7 @@ import {
 import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { AxiosError } from "axios";
 
 type signupParams = {
   email: string;
@@ -75,11 +76,13 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
         hideProgressBar: true,
       });
     } catch (err) {
-      toast.error(err.response.data.message, {
-        position: "top-center",
-        autoClose: 3000,
-        hideProgressBar: true,
-      });
+      if (err instanceof AxiosError) {
+        toast.error(err.response?.data.message ?? err.message, {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: true,
+        });
+      }
     }
   };
 
