@@ -6,5 +6,5 @@ type CustomLoginProps = {
 };
 
 export default function CustomLogin(props: CustomLoginProps) {
-  return <Login />;
+  return <Login/>
 }

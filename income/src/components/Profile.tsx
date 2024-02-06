@@ -1,6 +1,7 @@
 import { Container, Stack, Typography } from "@mui/material";
 import Image from "next/image";
 import CreateOutlinedIcon from "@mui/icons-material/CreateOutlined";
+import { CustomInput2 } from ".";
 
 export const MyProfile = () => {
   return (
@@ -50,6 +51,11 @@ export const MyProfile = () => {
             </Stack>
 
             <Stack paddingX={"20px"} paddingTop={2} spacing={2}></Stack>
+          </Stack>
+          <Stack>
+            <CustomInput2 type="text"/>
+            <CustomInput2 type="number"/>
+            <CustomInput2 type="email"/>
           </Stack>
         </Stack>
       </Container>

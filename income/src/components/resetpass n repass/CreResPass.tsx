@@ -45,7 +45,7 @@ export const CreResPass = () => {
                   onClick={() => {
                     setIndex((prev) => prev + 1);
                     if (index === 2) {
-                      router.push("/login");
+                      router.push("/");
                     }
                   }}
                   sx={{

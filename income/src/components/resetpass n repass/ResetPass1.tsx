@@ -33,7 +33,7 @@ export const ResetPassword1 = () => {
       <Typography fontSize={28} fontWeight={700}>
         Нууц үг сэргээх
       </Typography>
-      <Stack gap={2} width={"100%"}>
+      <Stack gap={6} width={"100%"}>
         <CustomInput
           name="email"
           onChange={formik.handleChange}
@@ -45,6 +45,17 @@ export const ResetPassword1 = () => {
           placeholder="Имэйл хаягаа оруулна уу"
           type="text"
         />
+        <Button
+          fullWidth
+          variant="contained"
+          disableElevation
+          disabled={!formik.values.email}
+          sx={{
+            py: "14.5px",
+          }}
+        >
+          Үргэлжлүүлэх
+        </Button>
       </Stack>
     </Stack>
   );

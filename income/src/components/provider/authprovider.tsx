@@ -9,18 +9,29 @@ import {
   useEffect,
 } from "react";
 import { useRouter } from "next/navigation";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 
+type signupParams = {
+  email: string;
+  password: string;
+  name: string;
+  address: string;
+};
+
+
+type loginParams = {
+  email: string;
+  password: string;
+};
+
 type AuthContextType = {
   isLoggedIn: boolean;
-  login: (email: string, password: string) => Promise<void>;
-  signUp: (
-    name: string,
-    email: string,
-    address: string,
-    password: string
-  ) => Promise<void>;
+  signup: (params: signupParams) => Promise<void>;
+  login: (params: loginParams) => Promise<void>;
 };
 
 export const AuthProvider = ({ children }: PropsWithChildren) => {
@@ -28,12 +39,9 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   const [isReady, setIsReady] = useState(false);
   const router = useRouter();
 
-  const login = async (email: string, password: string) => {
+  const login = async (params: loginParams) => {
     try {
-      const { data } = await api.post("/login", {
-        email,
-        password,
-      });
+      const { data } = await api.post("/login", params);
 
       const { token } = data;
 
@@ -58,22 +66,21 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     setIsReady(true);
   }, []);
 
-  const signUp = async (
-    name: string,
-    email: string,
-    address: string,
-    password: string
-  ) => {
+  const signup = async (params: signupParams) => {
     try {
-      const { data } = await api.post("/signup", {
-        name,
-        email,
-        address,
-        password,
+      const { data } = await api.post("/signup", params);
+      router.push("/");
+      toast.success("Амжилттай бүртгэгдлээ", {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: true,
       });
     } catch (error) {
-      console.log(error);
-    }
+      // toast.error(error.response.data.message, {
+      //   position: "top-center",
+      //   autoClose: 3000,
+      //   hideProgressBar: true,
+      // });
   };
 
   return (
@@ -81,7 +88,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
       value={{
         isLoggedIn,
         login,
-        signUp,
+        signup,
       }}
     >
       {children}
@@ -91,4 +98,4 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 
 export const useAuth = () => {
   return useContext(AuthContext);
-};
+}

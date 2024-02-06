@@ -7,16 +7,39 @@ import { Button } from "@mui/material";
 import CloudIcon from "@mui/icons-material/Cloud";
 import CloudQueueIcon from "@mui/icons-material/CloudQueue";
 import { CustomCheckBox } from "../custom components/CustomCheckBox";
+import * as yup from "yup";
+import { useFormik } from "formik";
+import { useAuth } from "../provider/authprovider";
 
 type CustomLoginProps = {};
 
 export const Signup = (props: CustomLoginProps) => {
   const [checkBox, setCheckBox] = useState(false);
-  const [name, setName] = useState("");
-  const [address, setAddress] = useState("");
-  const [rePassword, setRePassword] = useState("");
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
+  const {} = useAuth();
+
+  const validationSchema = yup.object({
+    name: yup.string().required(),
+    email: yup.string().required(),
+    address: yup.string().required(),
+    password: yup.string().required(),
+    rePassword: yup.string().required(),
+    checkBox: yup.string().required(),
+  });
+
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      email: "",
+      address: "",
+      password: "",
+      rePassword: "",
+      checkBox: "",
+    },
+    validationSchema: validationSchema,
+    onSubmit: (values) => {
+      console.log(values);
+    },
+  });
 
   return (
     <Container
@@ -35,49 +58,58 @@ export const Signup = (props: CustomLoginProps) => {
         <Stack gap={2} width={"100%"}>
           <Stack alignItems={"flex-end"}>
             <CustomInput
-              onChange={(event) => {
-                setName(event.target.value);
-              }}
-              value={name}
+              name="name"
+              onChange={formik.handleChange}
+              value={formik.values.name}
+              error={formik.touched.name && Boolean(formik.errors.name)}
+              helperText={formik.touched.name && formik.errors.name}
               label="Нэр"
               placeholder="Нэрээ оруулна уу"
               type="name"
             />
           </Stack>
           <CustomInput
-            onChange={(event) => {
-              setEmail(event.target.value);
-            }}
-            value={email}
+            name="email"
+            onChange={formik.handleChange}
+            value={formik.values.email}
+            error={formik.touched.email && Boolean(formik.errors.email)}
+            helperText={formik.touched.email && formik.errors.email}
             label="Имэйл "
             placeholder="Имэйл хаягаа оруулна уу"
           />
 
           <CustomInput
-            onChange={(event) => {
-              setAddress(event.target.value);
-            }}
-            value={address}
+            name="address"
+            onChange={formik.handleChange}
+            value={formik.values.address}
+            error={formik.touched.address && Boolean(formik.errors.address)}
+            helperText={formik.touched.address && formik.errors.address}
             label="Хаяг"
             placeholder="Та хаягаа оруулна уу"
             type="text"
           />
 
           <CustomInput
-            onChange={(event) => {
-              setPassword(event.target.value);
-            }}
-            value={password}
+            name="password"
+            onChange={formik.handleChange}
+            value={formik.values.password}
+            error={formik.touched.password && Boolean(formik.errors.password)}
+            helperText={formik.touched.password && formik.errors.password}
+            onBlur={formik.handleBlur}
             label="Нууц үг"
             placeholder="Нууц үгээ оруулна уу"
             type="password"
           />
 
           <CustomInput
-            onChange={(event) => {
-              setRePassword(event.target.value);
-            }}
-            value={rePassword}
+            name="rePassword"
+            onChange={formik.handleChange}
+            value={formik.values.rePassword}
+            error={
+              formik.touched.rePassword && Boolean(formik.errors.rePassword)
+            }
+            helperText={formik.touched.rePassword && formik.errors.rePassword}
+            onBlur={formik.handleBlur}
             label="Нууц үг давтах"
             placeholder="Нууц үгээ оруулна уу"
             type="password"
@@ -110,14 +142,16 @@ export const Signup = (props: CustomLoginProps) => {
               py: "14.5px",
             }}
             disabled={
-              !name ||
-              !email ||
-              !address ||
-              !password ||
-              !rePassword ||
+              !formik.values.name ||
+              !formik.values.email ||
+              !formik.values.address ||
+              !formik.values.password ||
+              !formik.values.rePassword ||
               !checkBox
             }
-            onClick={() => {}}
+            onClick={() => {
+              formik.handleSubmit();
+            }}
           >
             {" "}
             Бүртгүүлэх

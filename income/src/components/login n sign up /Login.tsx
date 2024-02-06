@@ -1,12 +1,12 @@
 "use client";
 
-import { Container, Modal, ModalProps, Stack, Typography } from "@mui/material";
+import { Modal, Stack, Typography } from "@mui/material";
 import { CustomInput } from "@/components";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import { Button } from "@mui/material";
 import { useRouter } from "next/navigation";
-import { useAuth } from "../provider/AuthProvider";
+import * as yup from "yup";
+import { useFormik } from "formik";
 
 type LoginProps = {
   handleClose: () => void;
@@ -14,18 +14,23 @@ type LoginProps = {
 };
 
 export const Login = ({ handleClose, open }: LoginProps) => {
-  const { login, isLoggedIn } = useAuth();
-
-  useEffect(() => {
-    if (!isLoggedIn) router.push("/");
-  }, [isLoggedIn]);
-
-  if (!isLoggedIn) return null;
-
   const router = useRouter();
 
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
+  const validationSchema = yup.object({
+    email: yup.string().required(),
+    password: yup.string().required(),
+  });
+
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validationSchema: validationSchema,
+    onSubmit: (values) => {
+      console.log(values);
+    },
+  });
 
   return (
     <Modal
@@ -55,20 +60,23 @@ export const Login = ({ handleClose, open }: LoginProps) => {
         </Typography>
         <Stack gap={2} width={"100%"}>
           <CustomInput
-            onChange={(event) => {
-              setEmail(event.target.value);
-            }}
-            value={email}
+            name="email"
+            onChange={formik.handleChange}
+            value={formik.values.email}
+            error={formik.touched.email && Boolean(formik.errors.email)}
+            helperText={formik.touched.email && formik.errors.email}
             label="Имэйл "
             placeholder="Имэйл хаягаа оруулна уу"
             type="text"
           />
           <Stack alignItems={"flex-end"}>
             <CustomInput
-              onChange={(event) => {
-                setPassword(event.target.value);
-              }}
-              value={password}
+              name="password"
+              onChange={formik.handleChange}
+              value={formik.values.password}
+              error={formik.touched.password && Boolean(formik.errors.password)}
+              helperText={formik.touched.password && formik.errors.password}
+              onBlur={formik.handleBlur}
               label="Нууц үг"
               placeholder="Нууц үг"
               type="password"
@@ -92,10 +100,9 @@ export const Login = ({ handleClose, open }: LoginProps) => {
             sx={{
               py: "14.5px",
             }}
-            disabled={!email || !password}
-            onClick={(e) => {
-              e.preventDefault();
-              login(email, password);
+            disabled={!formik.values.email || !formik.values.password}
+            onClick={() => {
+              login;
             }}
           >
             Нэвтрэх

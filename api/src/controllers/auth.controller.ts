@@ -4,6 +4,9 @@ import { UserModel } from "../models";
 export const SignUp: RequestHandler = async (req, res) => {
   const { name, email, address, password } = req.body;
 
+  try {
+  } catch {}
+
   const user = await UserModel.create({
     name,
     email,
