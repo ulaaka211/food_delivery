@@ -2,13 +2,20 @@ import { RequestHandler } from "express";
 import { UserModel } from "../models";
 
 export const SignUp: RequestHandler = async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, address, password } = req.body;
 
   const user = await UserModel.create({
     name,
     email,
+    address,
     password,
   });
+
+  if (!user) {
+    return res.status(401).json({
+      message: "invalid credentials",
+    });
+  }
 
   return res.json(user);
 };
