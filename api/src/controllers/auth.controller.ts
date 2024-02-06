@@ -1,35 +1,52 @@
 import { RequestHandler } from "express";
 import { UserModel } from "../models";
+import jwt = require("jsonwebtoken");
 
 export const SignUp: RequestHandler = async (req, res) => {
   const { name, email, address, password } = req.body;
 
   try {
-  } catch {}
+    const usercheck = await UserModel.findOne({ email: email });
 
-  const user = await UserModel.create({
-    name,
-    email,
-    address,
-    password,
-  });
+    if (usercheck) {
+      return res.status(409).json({
+        message: "Хэрэглэгч давхцаж байна",
+      });
+    }
 
-  return res.json(user);
+    const user = await UserModel.create({
+      name,
+      email,
+      address,
+      password,
+    });
+
+    return res.json(user);
+  } catch (error) {}
 };
 
 export const Login: RequestHandler = async (req, res) => {
   const { email, password } = req.body;
 
-  const user = await UserModel.create({
-    email,
-    password,
-  });
+  try {
+    const user = await UserModel.findOne({ email: email });
 
-  if (!user) {
-    return res.status(401).json({
-      message: "invalid credentials",
-    });
-  }
+    if (!user) {
+      return res.status(401).json({
+        message: "E-mail буруу байна",
+      });
+    }
 
-  return res.json(user);
+    const userpassword = await UserModel.findOne({ password: password });
+
+    if (!userpassword) {
+      return res.status(401).json({
+        message: "Нууц үг буруу байна",
+      });
+    }
+
+    const id = user._id;
+    const token = jwt.sign({ id }, "secret-key");
+    res.json({ token });
+  } catch (error) {}
 };

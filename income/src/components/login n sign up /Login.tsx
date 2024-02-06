@@ -7,6 +7,7 @@ import { Button } from "@mui/material";
 import { useRouter } from "next/navigation";
 import * as yup from "yup";
 import { useFormik } from "formik";
+import { useAuth } from "../provider/authprovider";
 
 type LoginProps = {
   handleClose: () => void;
@@ -15,10 +16,14 @@ type LoginProps = {
 
 export const Login = ({ handleClose, open }: LoginProps) => {
   const router = useRouter();
+  const { login } = useAuth();
 
   const validationSchema = yup.object({
-    email: yup.string().required(),
-    password: yup.string().required(),
+    email: yup
+      .string()
+      .email("И-мэйл буруу байна")
+      .required("И-мэйлээ оруулна уу"),
+    password: yup.string().required("Нууц үгээ оруулна уу"),
   });
 
   const formik = useFormik({
@@ -28,7 +33,7 @@ export const Login = ({ handleClose, open }: LoginProps) => {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      console.log(values);
+      login({ email: values.email, password: values.password });
     },
   });
 

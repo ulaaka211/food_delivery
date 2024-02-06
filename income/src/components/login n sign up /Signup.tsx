@@ -15,14 +15,18 @@ type CustomLoginProps = {};
 
 export const Signup = (props: CustomLoginProps) => {
   const [checkBox, setCheckBox] = useState(false);
-  const {} = useAuth();
+  const { signup } = useAuth();
 
   const validationSchema = yup.object({
-    name: yup.string().required(),
-    email: yup.string().required(),
-    address: yup.string().required(),
-    password: yup.string().required(),
-    rePassword: yup.string().required(),
+    name: yup.string().required("Нэрээ оруулна уу"),
+    email: yup
+      .string()
+      .email("И-мэйл буруу байна")
+      .required("И-мэйлээ оруулна уу"),
+    password: yup.string().required("Нууц үгээ оруулна уу"),
+
+    address: yup.string().required("Хаягаа оруулна уу"),
+    // repassword: yup.string().required("Нууц үгээ оруулна уу"),
     checkBox: yup.string().required(),
   });
 
@@ -36,8 +40,14 @@ export const Signup = (props: CustomLoginProps) => {
       checkBox: "",
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      console.log(values);
+    onSubmit: async (values) => {
+      await signup({
+        email: values.email,
+        name: values.name,
+        password: values.password,
+        address: values.address,
+      });
+      // console.log(values);
     },
   });
 

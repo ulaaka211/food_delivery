@@ -12,16 +12,12 @@ import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-
-const AuthContext = createContext<AuthContextType>({} as AuthContextType);
-
 type signupParams = {
   email: string;
   password: string;
   name: string;
   address: string;
 };
-
 
 type loginParams = {
   email: string;
@@ -30,9 +26,11 @@ type loginParams = {
 
 type AuthContextType = {
   isLoggedIn: boolean;
-  signup: (params: signupParams) => Promise<void>;
-  login: (params: loginParams) => Promise<void>;
+  signup: (params: signupParams) => void;
+  login: (params: loginParams) => void;
 };
+
+const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 
 export const AuthProvider = ({ children }: PropsWithChildren) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -67,6 +65,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   }, []);
 
   const signup = async (params: signupParams) => {
+    alert();
     try {
       const { data } = await api.post("/signup", params);
       router.push("/");
@@ -75,12 +74,13 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
         autoClose: 3000,
         hideProgressBar: true,
       });
-    } catch (error) {
-      // toast.error(error.response.data.message, {
-      //   position: "top-center",
-      //   autoClose: 3000,
-      //   hideProgressBar: true,
-      // });
+    } catch (err) {
+      toast.error(err.response.data.message, {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: true,
+      });
+    }
   };
 
   return (
@@ -98,4 +98,4 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 
 export const useAuth = () => {
   return useContext(AuthContext);
-}
+};
