@@ -3,7 +3,7 @@
 import { Container, Modal, ModalProps, Stack, Typography } from "@mui/material";
 import { CustomInput } from "@/components";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../provider/AuthProvider";
@@ -14,7 +14,13 @@ type LoginProps = {
 };
 
 export const Login = ({ handleClose, open }: LoginProps) => {
-  const { login } = useAuth();
+  const { login, isLoggedIn } = useAuth();
+
+  useEffect(() => {
+    if (!isLoggedIn) router.push("/");
+  }, [isLoggedIn]);
+
+  if (!isLoggedIn) return null;
 
   const router = useRouter();
 

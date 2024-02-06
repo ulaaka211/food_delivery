@@ -5,7 +5,6 @@ import { CartCard, HomeImg, MyProfile } from "@/components";
 import { Deliver } from "@/components";
 import { All } from "@/components";
 import { Cart } from "@/components";
-import { useAuth } from "@/components/provider/AuthProvider";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 

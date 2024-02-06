@@ -11,12 +11,6 @@ export const SignUp: RequestHandler = async (req, res) => {
     password,
   });
 
-  if (!user) {
-    return res.status(401).json({
-      message: "invalid credentials",
-    });
-  }
-
   return res.json(user);
 };
 

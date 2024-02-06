@@ -1,8 +1,23 @@
 import { RequestHandler } from "express";
 import nodemailer from "nodemailer";
+import { UserModel } from "../models";
 
-export const sendEmail: RequestHandler = async (req, res) => {
+type createOtpProps = {
+  otp: String;
+};
+
+export const SendEmail: RequestHandler = async (req, res) => {
   const { email } = req.body;
+
+  const user = await UserModel.findOne({ email });
+
+  if (!user) {
+    return res.status(401).json({
+      message: "hereglegch oldsongui ",
+    });
+  }
+
+  const otpCode = Math.floor(Math.random() * 100000);
 
   try {
     const transporter = nodemailer.createTransport({
@@ -18,8 +33,8 @@ export const sendEmail: RequestHandler = async (req, res) => {
     const mailOptions = {
       from: "uulaaka73@gmail.com",
       to: email,
-      subject: "from Baldanpurev",
-      text: "sar shindee shn naadarai",
+      subject: "from Food Delivery",
+      text: `neg udaagiin code: ${otpCode}`,
     };
     await transporter.sendMail(mailOptions);
     res.json("Email sent!");

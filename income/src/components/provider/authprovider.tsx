@@ -41,7 +41,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 
       setIsLoggedIn(true);
 
-      router.push("/food-menu");
+      router.push("/");
     } catch (error) {
       console.log(error);
     } finally {
@@ -71,8 +71,6 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
         address,
         password,
       });
-
-      router.push("/food-menu");
     } catch (error) {
       console.log(error);
     }
