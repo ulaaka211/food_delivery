@@ -19,6 +19,6 @@ app.use("/", authRouter);
 app.use("/", user);
 
 app.use("/foods", foodRouter);
-app.use("/password", emailRouter);
+app.use("/", emailRouter);
 
 export default app;

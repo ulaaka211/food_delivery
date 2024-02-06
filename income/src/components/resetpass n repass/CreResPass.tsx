@@ -4,10 +4,7 @@ import { Container, Stack } from "@mui/material";
 import { CreateNewPassword } from "..";
 import { ResetPassword1 } from "..";
 import { ResetPassword2 } from "..";
-import { Button } from "@mui/material";
-import { useContext, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { AuthContext } from "../provider/authprovider";
+import { useAuth } from "../provider/authprovider";
 
 const arr = [
   {
@@ -22,9 +19,7 @@ const arr = [
 ];
 
 export const CreResPass = () => {
-  const { index, setIndex } = useContext(AuthContext);
-
-  const router = useRouter();
+  const { index } = useAuth();
 
   return (
     <Stack width="100%" overflow={"hidden"}>

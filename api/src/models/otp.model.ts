@@ -1,7 +1,7 @@
 import { Schema, model } from "mongoose";
 
 const otpSchema = new Schema({
-  password: {
+  coder: {
     type: String,
     required: false,
   },

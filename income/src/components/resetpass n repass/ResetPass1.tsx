@@ -4,13 +4,10 @@ import { Container, Stack, Typography } from "@mui/material";
 import { CustomInput } from "@/components";
 import { useState } from "react";
 import { Button } from "@mui/material";
-import { useFormik } from "formik";
-import * as yup from "yup";
-import { useContext } from "react";
-import { AuthContext } from "../provider/authprovider";
+import { useAuth } from "../provider/authprovider";
 
 export const ResetPassword1 = () => {
-  const { index, setIndex } = useContext(AuthContext);
+  const { resetpassword, setIndex } = useAuth();
   const [email, setEmail] = useState("");
 
   return (
@@ -37,6 +34,7 @@ export const ResetPassword1 = () => {
         <Button
           onClick={() => {
             setIndex((prev) => prev + 1);
+            resetpassword;
           }}
           fullWidth
           variant="contained"
