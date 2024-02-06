@@ -9,22 +9,18 @@ import * as yup from "yup";
 
 const validationSchema = yup.object({
   email: yup.string().email().required(),
-
-})
+});
 
 export const ResetPassword1 = () => {
-  
-
   const formik = useFormik({
     initialValues: {
       email: "",
-     
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
       console.log(values);
-    }
-  })
+    },
+  });
 
   return (
     <Stack
@@ -39,7 +35,7 @@ export const ResetPassword1 = () => {
       </Typography>
       <Stack gap={2} width={"100%"}>
         <CustomInput
-        name="email"
+          name="email"
           onChange={formik.handleChange}
           value={formik.values.email}
           error={formik.touched.email && Boolean(formik.errors.email)}

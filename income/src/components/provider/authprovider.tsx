@@ -16,7 +16,7 @@ type AuthContextType = {
   isLoggedIn: boolean;
   login: (email: string, password: string) => Promise<void>;
   signUp: (
-    name: string,
+    name: string,a
     email: string,
     address: string,
     password: string

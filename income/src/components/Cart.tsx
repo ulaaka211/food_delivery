@@ -4,7 +4,6 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import Button from "@mui/material/Button";
-import { OrderDetail } from ".";
 import { CartCard } from "./cards/CartCard";
 
 type Anchor = "top" | "left" | "bottom" | "right";
