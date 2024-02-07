@@ -46,7 +46,7 @@ export const Header = () => {
             <Image src="/logo.svg" width={30} height={30} alt="" />
             {arr.map((item) => (
               <Stack padding={[1, 2]}>
-                <Link href={item.link}>
+                <Link key={item.link} href={item.link}>
                   <Typography
                     sx={{
                       color: pathname === item.link ? "green" : "black",

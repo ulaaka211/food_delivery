@@ -1,7 +1,9 @@
 import { Container, Stack, Typography } from "@mui/material";
-import Image from "next/image";
 import CreateOutlinedIcon from "@mui/icons-material/CreateOutlined";
 import { CustomInput2 } from ".";
+import Image from "next/image";
+import HistoryOutlinedIcon from "@mui/icons-material/HistoryOutlined";
+import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 
 export const MyProfile = () => {
   return (
@@ -52,10 +54,46 @@ export const MyProfile = () => {
 
             <Stack paddingX={"20px"} paddingTop={2} spacing={2}></Stack>
           </Stack>
-          <Stack>
-            <CustomInput2 type="text"/>
-            <CustomInput2 type="number"/>
-            <CustomInput2 type="email"/>
+          <Stack gap={2}>
+            <CustomInput2 type="text" label="Таны нэр" />
+            <CustomInput2 type="number" label="Утасны дугаар" />
+            <CustomInput2 type="email" label="Имэйл хаяг" />
+            <Stack
+              direction={"row"}
+              width={"100%"}
+              py={2}
+              px={1.7}
+              gap={2}
+              alignItems={"center"}
+            >
+              <Stack
+                border={1}
+                borderColor={"#EEEFF2"}
+                p={"5px"}
+                borderRadius={"50%"}
+              >
+                <HistoryOutlinedIcon />
+              </Stack>
+              <Typography>Захиалгын түүх</Typography>
+            </Stack>
+            <Stack
+              direction={"row"}
+              width={"100%"}
+              py={2}
+              px={1.7}
+              gap={2}
+              alignItems={"center"}
+            >
+              <Stack
+                border={1}
+                borderColor={"#EEEFF2"}
+                p={"5px"}
+                borderRadius={"50%"}
+              >
+                <ExitToAppIcon />
+              </Stack>
+              <Typography>Гарах</Typography>
+            </Stack>
           </Stack>
         </Stack>
       </Container>

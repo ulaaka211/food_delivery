@@ -72,7 +72,7 @@ export const Footer = (props: FooterProps) => {
         color={"#fff"}
       >
         {arr.map((item) => (
-          <Link href={item.link}>
+          <Link key={item.link} href={item.link}>
             <Typography
               key={item.label}
               fontSize={16}

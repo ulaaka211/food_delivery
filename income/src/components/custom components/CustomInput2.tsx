@@ -1,19 +1,20 @@
 "use client";
- 
+
 import PersonOutlineSharpIcon from "@mui/icons-material/PersonOutlineSharp";
 import CallOutlinedIcon from "@mui/icons-material/CallOutlined";
 import ForwardToInboxOutlinedIcon from "@mui/icons-material/ForwardToInboxOutlined";
- 
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+
 import {
   InputAdornment,
   Stack,
   TextField,
   TextFieldProps,
 } from "@mui/material";
- 
+
 export const CustomInput2 = (props: TextFieldProps) => {
   const { variant = "standard", label, type = "text", ...rest } = props;
- 
+
   return (
     <Stack gap={1}>
       <TextField
@@ -54,6 +55,15 @@ export const CustomInput2 = (props: TextFieldProps) => {
               >
                 {label}
               </Stack>
+            </InputAdornment>
+          ),
+          endAdornment: (
+            <InputAdornment position="end">
+              <EditOutlinedIcon
+                sx={{
+                  color: "primary.main",
+                }}
+              />
             </InputAdornment>
           ),
         }}

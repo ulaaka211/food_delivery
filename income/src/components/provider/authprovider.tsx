@@ -37,9 +37,9 @@ type AuthContextType = {
   setOpen: Dispatch<SetStateAction<boolean>>;
   index: number;
   setIndex: Dispatch<SetStateAction<number>>;
-  signup: (params: signupParams) => void;
-  login: (params: loginParams) => void;
-  resetpassword: (params: resetpasswordParams) => void;
+  signup: (params: signupParams) => Promise<void>;
+  login: (params: loginParams) => Promise<void>;
+  resetpassword: (params: resetpasswordParams) => Promise<void>;
 };
 
 export const AuthContext = createContext<AuthContextType>(
@@ -63,9 +63,20 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 
       setIsLoggedIn(true);
 
+      toast.success("Амжилттай нэвтэрлээ", {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: true,
+      });
       router.push("/");
     } catch (error) {
-      console.log(error);
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data.message ?? error.message, {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: true,
+        });
+      }
     } finally {
     }
   };
@@ -83,7 +94,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   const resetpassword = async (params: resetpasswordParams) => {
     try {
       const { data } = await api.post("/email", params);
-      toast.success("Амжилттай бүртгэгдлээ", {
+      toast.success("Амжилттай солигдлоо", {
         position: "top-center",
         autoClose: 3000,
         hideProgressBar: true,
@@ -102,7 +113,9 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   const signup = async (params: signupParams) => {
     try {
       const { data } = await api.post("/signup", params);
+
       router.push("/");
+
       toast.success("Амжилттай бүртгэгдлээ", {
         position: "top-center",
         autoClose: 3000,

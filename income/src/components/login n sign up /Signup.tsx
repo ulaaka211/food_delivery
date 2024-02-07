@@ -19,10 +19,23 @@ export const Signup = (props: CustomLoginProps) => {
 
   const validationSchema = yup.object({
     name: yup.string().required("Нэрээ оруулна уу"),
-    email: yup.string().email().required(),
-    password: yup.string().required("Нууц үгээ оруулна уу"),
+    email: yup
+      .string()
+      .email("И-мэйл буруу байна")
+      .required("И-мэйлээ оруулна уу"),
+    password: yup
+      .string()
+      .matches(
+        /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+        "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number, and One Special Case Character"
+      )
+      .required("Нууц үгээ оруулна уу"),
+    rePassword: yup
+      .string()
+      .required("Нууц үгээ оруулна уу")
+      .oneOf([yup.ref("password")]),
     address: yup.string().required("Хаягаа оруулна уу"),
-    checkBox: yup.string().required(),
+    checkBox: yup.boolean().isTrue("Yйлчилгээний нөхцөлийг зөвшөөрнө үү"),
   });
 
   const formik = useFormik({
@@ -32,11 +45,11 @@ export const Signup = (props: CustomLoginProps) => {
       address: "",
       password: "",
       rePassword: "",
-      checkBox: "",
+      checkBox: false,
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      signup({
+    onSubmit: async (values) => {
+      await signup({
         email: values.email,
         name: values.name,
         password: values.password,
@@ -67,6 +80,7 @@ export const Signup = (props: CustomLoginProps) => {
               value={formik.values.name}
               error={formik.touched.name && Boolean(formik.errors.name)}
               helperText={formik.touched.name && formik.errors.name}
+              onBlur={formik.handleBlur}
               label="Нэр"
               placeholder="Нэрээ оруулна уу"
               type="name"
@@ -77,6 +91,7 @@ export const Signup = (props: CustomLoginProps) => {
             onChange={formik.handleChange}
             value={formik.values.email}
             error={formik.touched.email && Boolean(formik.errors.email)}
+            onBlur={formik.handleBlur}
             helperText={formik.touched.email && formik.errors.email}
             label="Имэйл "
             placeholder="Имэйл хаягаа оруулна уу"
@@ -87,6 +102,7 @@ export const Signup = (props: CustomLoginProps) => {
             onChange={formik.handleChange}
             value={formik.values.address}
             error={formik.touched.address && Boolean(formik.errors.address)}
+            onBlur={formik.handleBlur}
             helperText={formik.touched.address && formik.errors.address}
             label="Хаяг"
             placeholder="Та хаягаа оруулна уу"
@@ -129,6 +145,7 @@ export const Signup = (props: CustomLoginProps) => {
           >
             <Stack
               onClick={() => {
+                formik.setFieldValue("checkBox", !checkBox);
                 setCheckBox(!checkBox);
               }}
             >
@@ -138,6 +155,7 @@ export const Signup = (props: CustomLoginProps) => {
               Үйлчилгээний нөхцөл зөвшөөрөх
             </Typography>
           </Stack>
+
           <Button
             fullWidth
             variant="contained"
@@ -145,19 +163,11 @@ export const Signup = (props: CustomLoginProps) => {
             sx={{
               py: "14.5px",
             }}
-            disabled={
-              !formik.values.name ||
-              !formik.values.email ||
-              !formik.values.address ||
-              !formik.values.password ||
-              !formik.values.rePassword ||
-              !checkBox
-            }
+            disabled={!formik.isValid}
             onClick={() => {
               formik.handleSubmit();
             }}
           >
-            {" "}
             Бүртгүүлэх
           </Button>
         </Stack>
