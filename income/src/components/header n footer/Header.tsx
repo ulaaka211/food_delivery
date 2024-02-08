@@ -6,9 +6,9 @@ import Link from "next/link";
 import { Box, InputAdornment, Stack, TextField } from "@mui/material";
 import { Container } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
-import { Login } from "..";
+import { Login, MyProfile } from "..";
 import { useAuth } from "../provider/authprovider";
 
 const arr = [
@@ -28,7 +28,8 @@ const arr = [
 
 export const Header = () => {
   const pathname = usePathname();
-  const { open, setOpen } = useAuth();
+  const { open, setOpen, user, isLoggedIn } = useAuth();
+  const router = useRouter();
 
   return (
     <Stack
@@ -89,13 +90,17 @@ export const Header = () => {
             </Stack>
             <Box
               onClick={() => {
-                setOpen(true);
+                if (isLoggedIn) {
+                  router.push("/profile");
+                } else {
+                  setOpen(true);
+                }
               }}
             >
               <Stack spacing={1} direction={"row"} alignItems={"center"}>
                 <Image src="/vector (4).svg" alt="" width={19} height={19} />
                 <Typography fontSize={14} fontWeight={700}>
-                  Нэвтрэх
+                  {isLoggedIn ? user.name : "Нэвтрэх"}
                 </Typography>
               </Stack>
             </Box>

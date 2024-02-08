@@ -3,6 +3,7 @@ export * from "./header n footer/Footer";
 export * from "./Terms-of-service";
 
 export * from "./custom components/CustomInput";
+export * from "./custom components/CustomInput2";
 export * from "./custom components/CustomBtn";
 export * from "./custom components/CustomAlert";
 export * from "./custom components/CustomInputSelect";
@@ -36,11 +37,11 @@ export * from "./order, orderhistory n address/OrderCard";
 export * from "./order, orderhistory n address/OrderHistory";
 export * from "./order, orderhistory n address/OrderDetails";
 
-export * from "./Profile";
+export * from "./profile/Profile";
 export * from "./HomeImg";
 export * from "./deliver";
 export * from "./Menu";
 export * from "./foods";
-export * from "./custom components/CustomInput2";
+export * from "./profile/EditProfileImg";
 
 // export * from "./provider/authprovider";

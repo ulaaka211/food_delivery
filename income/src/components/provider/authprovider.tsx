@@ -32,6 +32,7 @@ type resetpasswordParams = {
 };
 
 type AuthContextType = {
+  user: {};
   isLoggedIn: boolean;
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
@@ -48,10 +49,12 @@ export const AuthContext = createContext<AuthContextType>(
 
 export const AuthProvider = ({ children }: PropsWithChildren) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   const [index, setIndex] = useState(0);
   const [open, setOpen] = useState(false);
   const [isReady, setIsReady] = useState(false);
   const router = useRouter();
+  const [user, setUser] = useState({});
 
   const login = async (params: loginParams) => {
     try {
@@ -81,6 +84,18 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     }
   };
 
+  const getUser = async () => {
+    try {
+      const { data } = await api.get("/getUser", {
+        headers: { Authorization: localStorage.getItem("token") },
+      });
+
+      setUser(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     const token = localStorage.getItem("token");
 
@@ -90,6 +105,12 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 
     setIsReady(true);
   }, []);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      getUser();
+    }
+  }, [isLoggedIn]);
 
   const resetpassword = async (params: resetpasswordParams) => {
     try {
@@ -113,8 +134,8 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   const signup = async (params: signupParams) => {
     try {
       const { data } = await api.post("/signup", params);
-
       router.push("/");
+      setOpen(true);
 
       toast.success("Амжилттай бүртгэгдлээ", {
         position: "top-center",
@@ -143,6 +164,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
         open,
         setOpen,
         resetpassword,
+        user,
       }}
     >
       {children}

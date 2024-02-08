@@ -1,13 +1,15 @@
 import { Container, Stack, Typography } from "@mui/material";
 import CreateOutlinedIcon from "@mui/icons-material/CreateOutlined";
-import { CustomInput2 } from ".";
+import { CustomInput2, EditProfileImg } from "..";
 import Image from "next/image";
 import HistoryOutlinedIcon from "@mui/icons-material/HistoryOutlined";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
+import { Box } from "@mui/material";
+import { useAuth } from "../provider/authprovider";
 
 export const MyProfile = () => {
   return (
-    <Stack>
+    <Stack height={"70vh"} justifyContent={"center"}>
       <Container>
         <Stack justifyContent={"center"} alignItems={"center"}>
           <Stack spacing={3}>
@@ -31,21 +33,24 @@ export const MyProfile = () => {
                     alignItems: "center",
                   }}
                 />
-                <Stack
-                  position={"absolute"}
-                  bottom={-5}
-                  right={-1}
-                  zIndex={1}
-                  width={34}
-                  height={34}
-                  border={1}
-                  borderRadius={"50%"}
-                  justifyContent={"center"}
-                  alignItems={"center"}
-                  bgcolor={"#FFF"}
-                >
-                  <CreateOutlinedIcon sx={{ color: "primary.main" }} />
-                </Stack>
+                <Box>
+                  <Stack
+                    position={"absolute"}
+                    bottom={-5}
+                    right={-1}
+                    zIndex={1}
+                    width={34}
+                    height={34}
+                    border={1}
+                    borderRadius={"50%"}
+                    justifyContent={"center"}
+                    alignItems={"center"}
+                    bgcolor={"#FFF"}
+                  >
+                    <CreateOutlinedIcon sx={{ color: "primary.main" }} />
+                  </Stack>
+                </Box>
+                {/* <EditProfileImg /> */}
               </Stack>
               <Typography fontSize={28} fontWeight={700}>
                 Adolf Catler

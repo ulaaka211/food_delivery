@@ -86,11 +86,18 @@ export const Login = ({ handleClose, open }: LoginProps) => {
               placeholder="Нууц үг"
               type="password"
             />
-            <Link href={"/forget-pass"}>
-              <Typography color={"#000"} fontSize={14} fontWeight={400}>
-                Нууц үг сэргээх
-              </Typography>
-            </Link>
+
+            <Typography
+              onClick={() => {
+                handleClose();
+                router.push("/forget-pass");
+              }}
+              color={"#000"}
+              fontSize={14}
+              fontWeight={400}
+            >
+              Нууц үг сэргээх
+            </Typography>
           </Stack>
         </Stack>
         <Stack
@@ -108,6 +115,7 @@ export const Login = ({ handleClose, open }: LoginProps) => {
             disabled={!formik.values.email || !formik.values.password}
             onClick={() => {
               formik.handleSubmit();
+              handleClose();
             }}
           >
             Нэвтрэх
