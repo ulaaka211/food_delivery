@@ -14,6 +14,7 @@ import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AxiosError } from "axios";
+import { type } from "os";
 
 type signupParams = {
   email: string;
@@ -27,11 +28,19 @@ type loginParams = {
   password: string;
 };
 
-type resetpasswordParams = {
+type checkresetemailParams = {
+  email: string;
+};
+
+type checkresetotbParams = {
   code: string;
 };
 
 type AuthContextType = {
+  userEmail: string;
+  setUserEmail: Dispatch<SetStateAction<string>>;
+  userOtb: string;
+  setUserOtb: Dispatch<SetStateAction<string>>;
   user: {};
   isLoggedIn: boolean;
   open: boolean;
@@ -40,7 +49,8 @@ type AuthContextType = {
   setIndex: Dispatch<SetStateAction<number>>;
   signup: (params: signupParams) => Promise<void>;
   login: (params: loginParams) => Promise<void>;
-  resetpassword: (params: resetpasswordParams) => Promise<void>;
+  checkresetemail: (params: checkresetemailParams) => Promise<void>;
+  checkresetotb: (params: checkresetotbParams) => Promise<void>;
 };
 
 export const AuthContext = createContext<AuthContextType>(
@@ -49,12 +59,13 @@ export const AuthContext = createContext<AuthContextType>(
 
 export const AuthProvider = ({ children }: PropsWithChildren) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-
+  const [userOtb, setUserOtb] = useState("");
   const [index, setIndex] = useState(0);
   const [open, setOpen] = useState(false);
   const [isReady, setIsReady] = useState(false);
   const router = useRouter();
   const [user, setUser] = useState({});
+  const [userEmail, setUserEmail] = useState("");
 
   const login = async (params: loginParams) => {
     try {
@@ -112,14 +123,37 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     }
   }, [isLoggedIn]);
 
-  const resetpassword = async (params: resetpasswordParams) => {
+  const checkresetemail = async (params?: checkresetemailParams) => {
     try {
-      const { data } = await api.post("/email", params);
-      toast.success("Амжилттай солигдлоо", {
+      const { data } = await api.post("/sendemail", params);
+
+      toast.success("Амжилттай илгээгдлээ", {
         position: "top-center",
         autoClose: 3000,
         hideProgressBar: true,
       });
+      setIndex((prev) => prev + 1);
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data.message ?? error.message, {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: true,
+        });
+      }
+    }
+  };
+
+  const checkresetotb = async (params?: checkresetotbParams) => {
+    try {
+      const { data } = await api.post("/sendemail", params);
+
+      toast.success("Амжилттай илгээгдлээ", {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: true,
+      });
+      setIndex((prev) => prev + 1);
     } catch (error) {
       if (error instanceof AxiosError) {
         toast.error(error.response?.data.message ?? error.message, {
@@ -156,6 +190,10 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   return (
     <AuthContext.Provider
       value={{
+        userEmail,
+        setUserEmail,
+        userOtb,
+        setUserOtb,
         isLoggedIn,
         login,
         signup,
@@ -163,7 +201,8 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
         setIndex,
         open,
         setOpen,
-        resetpassword,
+        checkresetemail,
+        checkresetotb,
         user,
       }}
     >

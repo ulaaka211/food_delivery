@@ -6,12 +6,26 @@ import { useState } from "react";
 import { Button } from "@mui/material";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { useContext } from "react";
-import { AuthContext } from "../provider/authprovider";
+import { useAuth } from "../provider/authprovider";
+
+const validationSchema = yup.object({
+  code: yup.string().required("").min(4),
+});
 
 export const ResetPassword2 = () => {
-  const { index, setIndex } = useContext(AuthContext);
+  const { userEmail, setUserOtb, checkresetotb } = useAuth();
   const [password, setPassword] = useState("");
+
+  const formik = useFormik({
+    initialValues: {
+      code: "",
+    },
+    validationSchema: validationSchema,
+    onSubmit: (values) => {
+      checkresetotb({ code: values.code });
+      setUserOtb(values.code);
+    },
+  });
 
   return (
     <Stack
@@ -27,7 +41,8 @@ export const ResetPassword2 = () => {
       <Stack gap={6} width={"100%"}>
         <Stack>
           <Typography>
-            Таны example@pinecone.mn хаяг руу сэргээх код илгээх болно.{" "}
+            Таны <Typography component={"span"}>{userEmail}</Typography> сэргээх
+            код илгээх болно.
           </Typography>
           <CustomInput
             name="password"
@@ -42,7 +57,7 @@ export const ResetPassword2 = () => {
         </Stack>
         <Button
           onClick={() => {
-            setIndex((prev) => prev + 1);
+            formik.handleSubmit();
           }}
           fullWidth
           variant="contained"

@@ -5,10 +5,29 @@ import { CustomInput } from "@/components";
 import { useState } from "react";
 import { Button } from "@mui/material";
 import { useAuth } from "../provider/authprovider";
+import { useFormik } from "formik";
+import * as yup from "yup";
+
+const validationSchema = yup.object({
+  email: yup
+    .string()
+    .email("И-мэйл буруу байна")
+    .required("И-мэйлээ оруулна уу"),
+});
 
 export const ResetPassword1 = () => {
-  const { resetpassword, setIndex } = useAuth();
-  const [email, setEmail] = useState("");
+  const { checkresetemail, setUserEmail } = useAuth();
+
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+    },
+    validationSchema: validationSchema,
+    onSubmit: (values) => {
+      checkresetemail({ email: values.email });
+      setUserEmail(values.email);
+    },
+  });
 
   return (
     <Stack
@@ -23,25 +42,26 @@ export const ResetPassword1 = () => {
       </Typography>
       <Stack gap={6} width={"100%"}>
         <CustomInput
-          onChange={(e) => {
-            setEmail(e.target.value);
-          }}
-          value={email}
+          name="email"
+          onChange={formik.handleChange}
+          value={formik.values.email}
+          error={formik.touched.email && Boolean(formik.errors.email)}
+          onBlur={formik.handleBlur}
+          helperText={formik.touched.email && formik.errors.email}
           label="Имэйл "
           placeholder="Имэйл хаягаа оруулна уу"
           type="text"
         />
         <Button
-          onClick={() => {
-            setIndex((prev) => prev + 1);
-            resetpassword;
-          }}
           fullWidth
           variant="contained"
           disableElevation
-          disabled={!email}
+          disabled={!formik.isValid}
           sx={{
             py: "14.5px",
+          }}
+          onClick={() => {
+            formik.handleSubmit();
           }}
         >
           Үргэлжлүүлэх

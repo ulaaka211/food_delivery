@@ -2,14 +2,10 @@ import { RequestHandler } from "express";
 import nodemailer from "nodemailer";
 import { UserModel } from "../models";
 
-type createOtpProps = {
-  otp: String;
-};
-
 export const sendemail: RequestHandler = async (req, res) => {
-  const { email } = req.body;
+  const { email, code } = req.body;
 
-  const user = await UserModel.findOne({ email });
+  const user = await UserModel.findOne({ email: email, code: code });
 
   if (!user) {
     return res.status(401).json({
@@ -37,6 +33,14 @@ export const sendemail: RequestHandler = async (req, res) => {
       text: `neg udaagiin code: ${otpCode}`,
     };
     await transporter.sendMail(mailOptions);
+
+    const checkotb = await UserModel.updateOne(
+      {
+        _id: user.id,
+      },
+      { $set: { otp: otpCode } }
+    );
+
     res.json("Email sent!");
   } catch (error) {
     res.status(500).json(error);
