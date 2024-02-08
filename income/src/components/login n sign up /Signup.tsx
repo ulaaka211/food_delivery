@@ -68,7 +68,13 @@ export const Signup = (props: CustomLoginProps) => {
         alignItems: "center",
       }}
     >
-      <Stack maxWidth={"450px"} width={"100%"} padding={4} gap={6}>
+      <Stack
+        maxWidth={"450px"}
+        width={"100%"}
+        padding={4}
+        gap={6}
+        alignItems={"center"}
+      >
         <Typography fontSize={28} fontWeight={700}>
           Бүртгүүлэх
         </Typography>

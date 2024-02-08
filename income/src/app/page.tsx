@@ -10,11 +10,10 @@ import { EditProfileImg } from "@/components";
 export default function Home() {
   return (
     <Stack>
-      <HomeImg />;
+      <HomeImg />
       <Deliver />
       <All />
       <Cart />
-      <EditProfileImg />
     </Stack>
   );
 }

@@ -9,11 +9,11 @@ export const sendemail: RequestHandler = async (req, res) => {
 
   if (!user) {
     return res.status(401).json({
-      message: "hereglegch oldsongui ",
+      message: "Хэрэглэгч олдсонгүй",
     });
   }
 
-  const otpCode = Math.floor(Math.random() * 100001);
+  const otpCode = Math.floor(Math.random() * 10000);
 
   try {
     const transporter = nodemailer.createTransport({
@@ -30,7 +30,7 @@ export const sendemail: RequestHandler = async (req, res) => {
       from: "uulaaka73@gmail.com",
       to: email,
       subject: "from Food Delivery",
-      text: `neg udaagiin code: ${otpCode}`,
+      text: `Нэг удаагын code: ${otpCode}`,
     };
     await transporter.sendMail(mailOptions);
 

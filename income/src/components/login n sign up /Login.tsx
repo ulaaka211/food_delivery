@@ -23,7 +23,13 @@ export const Login = ({ handleClose, open }: LoginProps) => {
       .string()
       .email("И-мэйл буруу байна")
       .required("И-мэйлээ оруулна уу"),
-    password: yup.string().required("Нууц үгээ оруулна уу"),
+    password: yup
+      .string()
+      .matches(
+        /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+        "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number, and One Special Case Character"
+      )
+      .required("Нууц үгээ оруулна уу"),
   });
 
   const formik = useFormik({
@@ -53,23 +59,25 @@ export const Login = ({ handleClose, open }: LoginProps) => {
         bgcolor={"#fff"}
         borderRadius={2}
         height={"100%"}
-        maxHeight={"589px"}
+        maxHeight={"655px"}
         maxWidth={"450px"}
         width={"100%"}
-        padding={4}
+        paddingX={4}
+        paddingY={4}
         gap={6}
-        sx={{ justifyContent: "center", alignItems: " center" }}
+        alignItems={"center"}
       >
         <Typography fontSize={28} fontWeight={700}>
           Нэвтрэх
         </Typography>
-        <Stack gap={2} width={"100%"}>
+        <Stack gap={2} width={"100%"} height={"100%"}>
           <CustomInput
             name="email"
             onChange={formik.handleChange}
             value={formik.values.email}
             error={formik.touched.email && Boolean(formik.errors.email)}
             helperText={formik.touched.email && formik.errors.email}
+            onBlur={formik.handleBlur}
             label="Имэйл "
             placeholder="Имэйл хаягаа оруулна уу"
             type="text"
@@ -112,7 +120,7 @@ export const Login = ({ handleClose, open }: LoginProps) => {
             sx={{
               py: "14.5px",
             }}
-            disabled={!formik.values.email || !formik.values.password}
+            disabled={!formik.isValid}
             onClick={() => {
               formik.handleSubmit();
               handleClose();

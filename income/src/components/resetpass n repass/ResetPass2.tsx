@@ -39,10 +39,13 @@ export const ResetPassword2 = () => {
         Нууц үг сэргээх
       </Typography>
       <Stack gap={6} width={"100%"}>
-        <Stack>
+        <Stack gap={2}>
           <Typography>
-            Таны <Typography component={"span"}>{userEmail}</Typography> сэргээх
-            код илгээх болно.
+            Таны{" "}
+            <Typography color={"primary.main"} component={"span"}>
+              {userEmail}
+            </Typography>{" "}
+            сэргээх код илгээх болно.
           </Typography>
           <CustomInput
             name="password"
