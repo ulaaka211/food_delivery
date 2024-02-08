@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { sendemail } from "../controllers/Reset.controller";
+import { sendemail } from "../controllers/reset.controller";
 
 const emailRouter = Router();
 

@@ -13,7 +13,7 @@ export const sendemail: RequestHandler = async (req, res) => {
     });
   }
 
-  const otpCode = Math.floor(Math.random() * 100000);
+  const otpCode = Math.floor(Math.random() * 100001);
 
   try {
     const transporter = nodemailer.createTransport({
