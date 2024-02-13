@@ -9,7 +9,7 @@ import CloudQueueIcon from "@mui/icons-material/CloudQueue";
 import { CustomCheckBox } from "../custom components/CustomCheckBox";
 import * as yup from "yup";
 import { useFormik } from "formik";
-import { useAuth } from "../provider/authprovider";
+import { useAuth } from "../provider/Authprovider";
 
 type CustomLoginProps = {};
 

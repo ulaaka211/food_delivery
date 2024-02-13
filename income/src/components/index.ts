@@ -39,9 +39,10 @@ export * from "./order, orderhistory n address/OrderDetails";
 
 export * from "./profile/Profile";
 export * from "./HomeImg";
-export * from "./deliver";
+export * from "./Deliver";
 export * from "./Menu";
-export * from "./foods";
+export * from "./Foods";
 export * from "./profile/EditProfileImg";
+export * from "./CRUD";
 
 // export * from "./provider/authprovider";

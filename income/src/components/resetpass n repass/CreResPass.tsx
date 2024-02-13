@@ -4,7 +4,7 @@ import { Container, Stack } from "@mui/material";
 import { CreateNewPassword } from "..";
 import { ResetPassword1 } from "..";
 import { ResetPassword2 } from "..";
-import { useAuth } from "../provider/authprovider";
+import { useAuth } from "../provider/Authprovider";
 
 const arr = [
   {

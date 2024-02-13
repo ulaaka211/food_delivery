@@ -4,7 +4,7 @@ import { Container, Stack, Typography } from "@mui/material";
 import { CustomInput } from "@/components";
 import { useState } from "react";
 import { Button } from "@mui/material";
-import { useAuth } from "../provider/authprovider";
+import { useAuth } from "../provider/Authprovider";
 import { useFormik } from "formik";
 import * as yup from "yup";
 

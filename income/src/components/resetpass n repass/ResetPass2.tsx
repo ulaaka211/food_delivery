@@ -6,7 +6,7 @@ import { useState } from "react";
 import { Button } from "@mui/material";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { useAuth } from "../provider/authprovider";
+import { useAuth } from "../provider/Authprovider";
 
 const validationSchema = yup.object({
   code: yup.string().required("").min(4),
@@ -44,7 +44,7 @@ export const ResetPassword2 = () => {
             Таны{" "}
             <Typography color={"primary.main"} component={"span"}>
               {userEmail}
-            </Typography>{" "}
+            </Typography>
             сэргээх код илгээх болно.
           </Typography>
           <CustomInput

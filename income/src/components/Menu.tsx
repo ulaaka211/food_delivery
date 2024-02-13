@@ -8,20 +8,20 @@ import { CardSale } from ".";
 
 const tabs = [
   {
+    link: "/breakfast",
+    label: "Breakfast",
+  },
+  {
+    link: "/soup",
+    label: "Soup",
+  },
+  {
     link: "/main-course",
     label: "Main course",
   },
   {
-    link: "/appetizers",
-    label: "Appetizers",
-  },
-  {
-    link: "/beverage",
-    label: "Beverage",
-  },
-  {
-    link: "/on-sale",
-    label: "On sale",
+    link: "/desserts",
+    label: "Desserts",
   },
 ];
 

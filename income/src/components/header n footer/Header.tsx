@@ -9,7 +9,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { Login, MyProfile } from "..";
-import { useAuth } from "../provider/authprovider";
+import { useAuth } from "../provider/Authprovider";
 
 const arr = [
   {

@@ -5,7 +5,7 @@ import Image from "next/image";
 import HistoryOutlinedIcon from "@mui/icons-material/HistoryOutlined";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import { Box } from "@mui/material";
-import { useAuth } from "../provider/authprovider";
+import { useAuth } from "../provider/Authprovider";
 
 export const MyProfile = () => {
   return (

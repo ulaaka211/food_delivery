@@ -12,7 +12,7 @@ import { theme } from "@/theme";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 
-import { AuthProvider } from "@/components/provider/authprovider";
+import { AuthProvider } from "@/components/provider/Authprovider";
 
 const inter = Inter({ subsets: ["latin"] });
 
