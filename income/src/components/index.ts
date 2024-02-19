@@ -4,6 +4,7 @@ export * from "./Terms-of-service";
 
 export * from "./custom components/CustomInput";
 export * from "./custom components/CustomInput2";
+export * from "./custom components/CustomInputSelect2";
 export * from "./custom components/CustomBtn";
 export * from "./custom components/CustomAlert";
 export * from "./custom components/CustomInputSelect";
@@ -43,6 +44,12 @@ export * from "./Deliver";
 export * from "./Menu";
 export * from "./Foods";
 export * from "./profile/EditProfileImg";
-export * from "./CRUD";
+export * from "./admin/AddCategory";
+export * from "./admin/AddFood";
+export * from "./admin/AdminSection";
+export * from "./admin/AddFoodImg";
+export * from "./admin/CreateCategory";
+export * from "./admin/CreateFood";
+export * from "./admin/EditCategory";
 
 // export * from "./provider/authprovider";

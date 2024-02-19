@@ -24,6 +24,10 @@ const arr = [
     link: "/delivery-area",
     label: "ХҮРГЭЛТИЙН БҮС",
   },
+  {
+    link: "/admin",
+    label: "Admin",
+  },
 ];
 
 export const Header = () => {

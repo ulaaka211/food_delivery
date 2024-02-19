@@ -14,7 +14,6 @@ import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AxiosError } from "axios";
-import { type } from "os";
 
 type signupParams = {
   email: string;
