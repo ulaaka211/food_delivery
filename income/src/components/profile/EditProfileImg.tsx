@@ -1,8 +1,14 @@
 "use client";
-import { Button, Container, Stack, TextField } from "@mui/material";
-import Image from "next/image";
+
+import { Button, Container, Stack, TextField, Modal } from "@mui/material";
 import { ChangeEvent, useState } from "react";
-export const EditProfileImg = () => {
+
+type ProfileProps = {
+  handleClose: () => void;
+  open: boolean;
+};
+
+export const EditProfileImg = ({ handleClose, open }: ProfileProps) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [imageUrl, setImageUrl] = useState(null);
   const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -31,31 +37,43 @@ export const EditProfileImg = () => {
     }
   };
   return (
-    <Stack>
-      <Container>
-        <Stack py={8} alignItems="center">
-          <Stack gap={3} width={400}>
-            <TextField
-              type="file"
-              onChange={handleImageChange}
-              variant="outlined"
-            />
-            <Button onClick={handleImageUpload} variant="contained">
-              Upload
-            </Button>
-            {imageUrl && (
-              <Stack width="100%" position="relative">
-                <img
-                  src={imageUrl}
-                  alt="Uploaded"
-                  width={"100%"}
-                  height={"100%"}
-                />
-              </Stack>
-            )}
+    <Modal
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+      open={open}
+      onClose={() => {
+        handleClose();
+      }}
+    >
+      <Stack bgcolor={"#fff"}>
+        <Container>
+          <Stack py={8} alignItems="center">
+            <Stack gap={3} width={400}>
+              <TextField
+                type="file"
+                onChange={handleImageChange}
+                variant="outlined"
+              />
+              <Button onClick={handleImageUpload} variant="contained">
+                Upload
+              </Button>
+              {imageUrl && (
+                <Stack width="100%" position="relative">
+                  <img
+                    src={imageUrl}
+                    alt="Uploaded"
+                    width={"100%"}
+                    height={"100%"}
+                  />
+                </Stack>
+              )}
+            </Stack>
           </Stack>
-        </Stack>
-      </Container>
-    </Stack>
+        </Container>
+      </Stack>
+    </Modal>
   );
 };

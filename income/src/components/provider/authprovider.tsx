@@ -61,6 +61,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   const [userOtb, setUserOtb] = useState("");
   const [index, setIndex] = useState(0);
   const [open, setOpen] = useState(false);
+
   const [isReady, setIsReady] = useState(false);
   const router = useRouter();
   const [user, setUser] = useState({});
@@ -71,7 +72,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
       const { data } = await api.post("/login", params);
 
       const { token } = data;
-
+      console.log(data);
       localStorage.setItem("token", token);
 
       setIsLoggedIn(true);

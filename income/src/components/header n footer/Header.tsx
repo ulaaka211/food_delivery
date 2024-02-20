@@ -49,8 +49,8 @@ export const Header = () => {
         <Stack direction="row" justifyContent={"space-between"} paddingY={1}>
           <Stack direction="row" alignItems={"center"} spacing={1}>
             <Image src="/logo.svg" width={30} height={30} alt="" />
-            {arr.map((item) => (
-              <Stack padding={[1, 2]}>
+            {arr.map((item, index) => (
+              <Stack padding={[1, 2]} key={index}>
                 <Link key={item.link} href={item.link}>
                   <Typography
                     sx={{

@@ -1,3 +1,5 @@
+"use client";
+
 import { Container, Stack, Typography } from "@mui/material";
 import CreateOutlinedIcon from "@mui/icons-material/CreateOutlined";
 import { CustomInput2, EditProfileImg } from "..";
@@ -5,9 +7,16 @@ import Image from "next/image";
 import HistoryOutlinedIcon from "@mui/icons-material/HistoryOutlined";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import { Box } from "@mui/material";
-import { useAuth } from "../provider/Authprovider";
+import { useState } from "react";
+
+// type myProfileProps = {
+//   open: boolean;
+//   setOpen: Dispatch<SetStateAction<boolean>>;
+// };
 
 export const MyProfile = () => {
+  const [open, setOpen] = useState(false);
+
   return (
     <Stack height={"70vh"} justifyContent={"center"}>
       <Container>
@@ -33,7 +42,11 @@ export const MyProfile = () => {
                     alignItems: "center",
                   }}
                 />
-                <Box>
+                <Box
+                  onClick={() => {
+                    setOpen(true);
+                  }}
+                >
                   <Stack
                     position={"absolute"}
                     bottom={-5}
@@ -50,7 +63,10 @@ export const MyProfile = () => {
                     <CreateOutlinedIcon sx={{ color: "primary.main" }} />
                   </Stack>
                 </Box>
-                {/* <EditProfileImg /> */}
+                <EditProfileImg
+                  open={open}
+                  handleClose={() => setOpen(false)}
+                />
               </Stack>
               <Typography fontSize={28} fontWeight={700}>
                 Adolf Catler
