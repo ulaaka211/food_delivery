@@ -18,6 +18,10 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
+  userImg: {
+    type: String,
+    required: true
+  },
   otp: {
     type: String,
     required: false,

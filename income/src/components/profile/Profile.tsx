@@ -7,15 +7,19 @@ import Image from "next/image";
 import HistoryOutlinedIcon from "@mui/icons-material/HistoryOutlined";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import { Box } from "@mui/material";
-import { useState } from "react";
-
-// type myProfileProps = {
-//   open: boolean;
-//   setOpen: Dispatch<SetStateAction<boolean>>;
-// };
+import {  useState } from "react";
+import { useAuth } from "../provider/Authprovider";
 
 export const MyProfile = () => {
   const [open, setOpen] = useState(false);
+  const {user} = useAuth()
+  const {name, email, address, password, profileImg} = user
+  const [userName , setUserName] = useState(name)
+  const [userEmail, setUserEmail] = useState(email)
+  const [ userAddress, setUserAddress] = useState(address)
+  const [ userPassword, setUserPassword] = useState(password)
+  const [imageUrl, setImageUrl] = useState(profileImg)
+
 
   return (
     <Stack height={"70vh"} justifyContent={"center"}>
@@ -29,8 +33,8 @@ export const MyProfile = () => {
               paddingX={"20px"}
             >
               <Stack position={"relative"}>
-                <Image
-                  src="/catler.png"
+                <img
+                  src={imageUrl}
                   alt=""
                   width={133}
                   height={133}
@@ -66,6 +70,9 @@ export const MyProfile = () => {
                 <EditProfileImg
                   open={open}
                   handleClose={() => setOpen(false)}
+                  setImageUrl={setImageUrl
+                  }
+                  imageUrl={imageUrl}
                 />
               </Stack>
               <Typography fontSize={28} fontWeight={700}>

@@ -14,6 +14,7 @@ import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AxiosError } from "axios";
+import { string } from "yup";
 
 type signupParams = {
   email: string;
@@ -36,11 +37,14 @@ type checkresetotbParams = {
 };
 
 type AuthContextType = {
+ 
   userEmail: string;
+  
   setUserEmail: Dispatch<SetStateAction<string>>;
   userOtb: string;
   setUserOtb: Dispatch<SetStateAction<string>>;
-  user: {};
+  user: {name: string, email: string, address: string, password: string, profileImg: string};
+  setUser: Dispatch<SetStateAction<{name: string, email: string, address:string, password: string, profileImg: string}>>
   isLoggedIn: boolean;
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
@@ -57,14 +61,20 @@ export const AuthContext = createContext<AuthContextType>(
 );
 
 export const AuthProvider = ({ children }: PropsWithChildren) => {
+ 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userOtb, setUserOtb] = useState("");
   const [index, setIndex] = useState(0);
   const [open, setOpen] = useState(false);
-
   const [isReady, setIsReady] = useState(false);
   const router = useRouter();
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState({
+    name: "",
+    email:"" ,
+    address:"",
+    password: "" ,
+    profileImg: "https://teams.microsoft.com/l/message/19:453abb07-68bd-4043-9d57-9152f07da242_d25fb1a3-f314-43d0-bff6-58d864ab3e92@unq.gbl.spaces/1708402672130?context=%7B%22contextType%22%3A%22chat%22%7D",
+});
   const [userEmail, setUserEmail] = useState("");
 
   const login = async (params: loginParams) => {
@@ -204,6 +214,8 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
         checkresetemail,
         checkresetotb,
         user,
+        setUser
+        
       }}
     >
       {children}
