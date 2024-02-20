@@ -1,6 +1,6 @@
 "use client";
 
-import { Stack, Typography } from "@mui/material";
+import { Button, Stack, Typography } from "@mui/material";
 import { Dispatch, SetStateAction, useState } from "react";
 import { CreateFood } from "./CreateFood";
 
@@ -23,17 +23,20 @@ export const AddFood = () => {
           <Typography fontSize={22} fontWeight={700}>
             Breakfast
           </Typography>
-          <Typography
+          <Button
+            variant="text"
             onClick={() => {
               setOpen(true);
             }}
-            bgcolor={"primary.main"}
-            p={1}
-            color={"common.white"}
-            borderRadius={1}
+            sx={{
+              color: "common.white",
+              padding: "8px",
+              bgcolor: "primary.main",
+              borderRadius: "8px",
+            }}
           >
             Add new food
-          </Typography>
+          </Button>
           <CreateFood open={open} handleClose={() => setOpen(false)} />
         </Stack>
       </Stack>

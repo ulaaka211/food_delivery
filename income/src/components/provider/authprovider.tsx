@@ -14,15 +14,12 @@ import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AxiosError } from "axios";
-import { string } from "yup";
-import { type } from "os";
-import { error } from "console";
 
 type createfoodParams = {
   name: string;
   ingredients: string;
   discount: string;
-  foodImg: string;
+  foodimg: string;
   price: string;
 };
 
@@ -73,7 +70,7 @@ type AuthContextType = {
   setOpen: Dispatch<SetStateAction<boolean>>;
   index: number;
   setIndex: Dispatch<SetStateAction<number>>;
-  create: (params: createfoodParams) => Promise<void>;
+  createfood: (params: createfoodParams) => Promise<void>;
   signup: (params: signupParams) => Promise<void>;
   login: (params: loginParams) => Promise<void>;
   checkresetemail: (params: checkresetemailParams) => Promise<void>;
@@ -97,7 +94,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     address: "",
     password: "",
     profileImg:
-      "https://teams.microsoft.com/l/message/19:453abb07-68bd-4043-9d57-9152f07da242_d25fb1a3-f314-43d0-bff6-58d864ab3e92@unq.gbl.spaces/1708402672130?context=%7B%22contextType%22%3A%22chat%22%7D",
+      "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
   });
   const [userEmail, setUserEmail] = useState("");
 
@@ -224,7 +221,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   const createfood = async (params: createfoodParams) => {
     try {
       const { data } = await api.post("/foods/createfood", params);
-      toast.success("Амжилттай бүртгэгдлээ", {
+      toast.success("хоол үүслээ", {
         position: "top-center",
         autoClose: 3000,
         hideProgressBar: true,

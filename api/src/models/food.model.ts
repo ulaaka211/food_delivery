@@ -5,7 +5,7 @@ const foodSchema = new Schema({
     type: String,
     required: true,
   },
-  image: {
+  foodimg: {
     type: String,
     required: false,
   },
@@ -15,10 +15,10 @@ const foodSchema = new Schema({
   },
   discount: {
     type: String,
-    required: true,
+    required: false,
     default: 0,
   },
-  ingdients: {
+  ingredients: {
     type: String,
     required: true,
   },
