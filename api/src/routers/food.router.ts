@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { createFood, getAllFoods } from "../controllers/food.controller";
+import { createfood, getallfoods } from "../controllers/food.controller";
 
 const foodRouter = Router();
 
-foodRouter.get("/", getAllFoods).get("/create", createFood);
+foodRouter.get("/getallfoods", getallfoods).get("/createfood", createfood);
 
 export default foodRouter;

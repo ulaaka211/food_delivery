@@ -18,6 +18,10 @@ const foodSchema = new Schema({
     required: true,
     default: 0,
   },
+  ingdients: {
+    type: String,
+    required: true,
+  },
 });
 
 export const FoodModel = model("food", foodSchema);
