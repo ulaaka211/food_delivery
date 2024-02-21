@@ -13,12 +13,11 @@ import * as yup from "yup";
 type CustomInputSelectProps = {
   imageUrl: string;
   setImageUrl: Dispatch<SetStateAction<string>>;
-
   open: boolean;
   handleClose: () => void;
 };
 
-export const CreateFood = (props: CustomInputSelectProps) => {
+export const CreateNewFood = (props: CustomInputSelectProps) => {
   const { open, handleClose } = props;
   const [imageUrl, setImageUrl] = useState("");
   const [openModal, setOpenModal] = useState(false);
@@ -120,14 +119,12 @@ export const CreateFood = (props: CustomInputSelectProps) => {
         </Stack>
         <Stack gap={0.5} px={3} width={"55%"}>
           <Typography fontSize={14}>Хоолны зураг</Typography>
-          <Stack
-            sx={{
-              backgroundImage: imageUrl,
-            }}
-            alignItems={"center"}
-            py={3}
-            borderRadius={3}
-          >
+          <Stack alignItems={"center"} py={3} borderRadius={3}>
+            <Stack
+              sx={{
+                backgroundImage: imageUrl,
+              }}
+            ></Stack>
             <Typography
               py={1}
               px={2}

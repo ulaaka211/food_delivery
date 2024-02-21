@@ -14,10 +14,8 @@ connectDatabase();
 app.use(cors());
 app.use(express());
 app.use(bodyParser.json());
-
 app.use("/", authRouter);
 app.use("/", userRouter);
-
 app.use("/foods", foodRouter);
 app.use("/", emailRouter);
 

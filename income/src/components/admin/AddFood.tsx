@@ -2,7 +2,7 @@
 
 import { Button, Stack, Typography } from "@mui/material";
 import { Dispatch, SetStateAction, useState } from "react";
-import { CreateFood } from "./CreateFood";
+import { CreateNewFood } from "./CreateNewFood";
 
 export const AddFood = () => {
   const [open, setOpen] = useState(false);
@@ -37,7 +37,7 @@ export const AddFood = () => {
           >
             Add new food
           </Button>
-          <CreateFood open={open} handleClose={() => setOpen(false)} />
+          <CreateNewFood open={open} handleClose={() => setOpen(false)} />
         </Stack>
       </Stack>
     </Stack>

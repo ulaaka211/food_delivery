@@ -42,7 +42,9 @@ type checkresetemailParams = {
 type checkresetotbParams = {
   code: string;
 };
-
+type Category = {
+  foodCategory: string;
+};
 type AuthContextType = {
   userEmail: string;
 
@@ -55,6 +57,7 @@ type AuthContextType = {
     address: string;
     password: string;
     profileImg: string;
+    role: string;
   };
   setUser: Dispatch<
     SetStateAction<{
@@ -63,16 +66,21 @@ type AuthContextType = {
       address: string;
       password: string;
       profileImg: string;
+      role: string;
     }>
   >;
+  isAdmin: boolean;
   isLoggedIn: boolean;
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
   index: number;
   setIndex: Dispatch<SetStateAction<number>>;
   createfood: (params: createfoodParams) => Promise<void>;
+  postCategory: (foodCategory: string) => Promise<void>;
   signup: (params: signupParams) => Promise<void>;
   login: (params: loginParams) => Promise<void>;
+  signout: () => void;
+  categories: Category[];
   checkresetemail: (params: checkresetemailParams) => Promise<void>;
   checkresetotb: (params: checkresetotbParams) => Promise<void>;
 };
@@ -82,12 +90,14 @@ export const AuthContext = createContext<AuthContextType>(
 );
 
 export const AuthProvider = ({ children }: PropsWithChildren) => {
+  const router = useRouter();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [userOtb, setUserOtb] = useState("");
   const [index, setIndex] = useState(0);
   const [open, setOpen] = useState(false);
   const [isReady, setIsReady] = useState(false);
-  const router = useRouter();
+  const [isAdmin, setIsAdmin] = useState(false);
   const [user, setUser] = useState({
     name: "",
     email: "",
@@ -95,6 +105,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     password: "",
     profileImg:
       "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
+    role: "",
   });
   const [userEmail, setUserEmail] = useState("");
 
@@ -133,10 +144,38 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
       });
 
       setUser(data);
+      const { role } = data;
+      if (role == "admin") {
+        setIsAdmin(true);
+      }
+      toast.success("", {
+        position: "top-center",
+        hideProgressBar: true,
+      });
     } catch (error) {
-      console.log(error);
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data.message ?? error.message, {
+          position: "top-center",
+          hideProgressBar: true,
+        });
+      }
+      console.log(error), "FFF";
     }
   };
+
+  // const getUser = async () => {
+  //   try {
+  //     const { data } = await api.get("/getUser", {
+  //       headers: { Authorization: localStorage.getItem("token") },
+  //     });
+
+  //     setUser(data);
+  //     const { role } = data;
+  //     if () {}
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -218,6 +257,17 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     }
   };
 
+  const signout = async () => {
+    try {
+      localStorage.removeItem("token");
+      setIsLoggedIn(false);
+      setIsAdmin(false);
+      router.push("/");
+    } catch (error) {
+      console.log(error), "FFF";
+    }
+  };
+
   const createfood = async (params: createfoodParams) => {
     try {
       const { data } = await api.post("/foods/createfood", params);
@@ -237,9 +287,35 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     }
   };
 
+  const postCategory = async (foodCategory: string) => {
+    try {
+      const { data } = await api.post(
+        "foods/postCategory",
+        { foodCategory },
+        {
+          headers: { Authorization: localStorage.getItem("token") },
+        }
+      );
+      toast.success(data.message, {
+        position: "top-center",
+        hideProgressBar: true,
+      });
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data.message ?? error.message, {
+          position: "top-center",
+          hideProgressBar: true,
+        });
+      }
+      console.log(error), "FFF";
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
+        categories,
+        postCategory,
         userEmail,
         setUserEmail,
         userOtb,
@@ -256,6 +332,8 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
         user,
         setUser,
         createfood,
+        isAdmin,
+        signout,
       }}
     >
       {children}

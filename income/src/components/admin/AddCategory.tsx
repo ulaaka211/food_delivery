@@ -4,7 +4,7 @@ import { Stack, Typography } from "@mui/material";
 import { useState } from "react";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import AddIcon from "@mui/icons-material/Add";
-import { Createcategory } from "./CreateCategory";
+import { CreateNewCategory } from "./CreateNewCategory";
 
 const tabs = [
   {
@@ -115,7 +115,7 @@ export const AddCategory = () => {
               >
                 Create new category
               </Typography>
-              <Createcategory
+              <CreateNewCategory
                 open={open}
                 handleClose={() => {
                   setOpen(false);

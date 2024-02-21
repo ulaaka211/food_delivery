@@ -1,10 +1,10 @@
 import { Schema, model } from "mongoose";
 
 const categorySchema = new Schema({
-  name: {
+  foodCategory: {
     type: String,
     required: true,
   },
 });
 
-export const CategoryModel = model("category", categorySchema);
+export const categoryModel = model("category", categorySchema);

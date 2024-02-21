@@ -2,24 +2,24 @@
 
 import { Container, Stack, Typography } from "@mui/material";
 import CreateOutlinedIcon from "@mui/icons-material/CreateOutlined";
-import { CustomInput2, EditProfileImg } from "..";
+import { CartCard, CustomInput2, EditProfileImg, SignOutConfirm } from "..";
 import Image from "next/image";
 import HistoryOutlinedIcon from "@mui/icons-material/HistoryOutlined";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import { Box } from "@mui/material";
-import {  useState } from "react";
+import { useState } from "react";
 import { useAuth } from "../provider/Authprovider";
 
 export const MyProfile = () => {
   const [open, setOpen] = useState(false);
-  const {user} = useAuth()
-  const {name, email, address, password, profileImg} = user
-  const [userName , setUserName] = useState(name)
-  const [userEmail, setUserEmail] = useState(email)
-  const [ userAddress, setUserAddress] = useState(address)
-  const [ userPassword, setUserPassword] = useState(password)
-  const [imageUrl, setImageUrl] = useState(profileImg)
-
+  const [openSignOut, setOpenSignOut] = useState(false);
+  const { user } = useAuth();
+  const { name, email, address, password, profileImg } = user;
+  const [userName, setUserName] = useState(name);
+  const [userEmail, setUserEmail] = useState(email);
+  const [userAddress, setUserAddress] = useState(address);
+  const [userPassword, setUserPassword] = useState(password);
+  const [imageUrl, setImageUrl] = useState(profileImg);
 
   return (
     <Stack height={"70vh"} justifyContent={"center"}>
@@ -70,8 +70,7 @@ export const MyProfile = () => {
                 <EditProfileImg
                   open={open}
                   handleClose={() => setOpen(false)}
-                  setImageUrl={setImageUrl
-                  }
+                  setImageUrl={setImageUrl}
                   imageUrl={imageUrl}
                 />
               </Stack>
@@ -111,6 +110,9 @@ export const MyProfile = () => {
               px={1.7}
               gap={2}
               alignItems={"center"}
+              onClick={() => {
+                setOpenSignOut(true);
+              }}
             >
               <Stack
                 border={1}
@@ -121,6 +123,11 @@ export const MyProfile = () => {
                 <ExitToAppIcon />
               </Stack>
               <Typography>Гарах</Typography>
+              <SignOutConfirm
+                openSignOut={openSignOut}
+                handleOut={() => setOpenSignOut(false)}
+                setOpenSignOut={setOpenSignOut}
+              />
             </Stack>
           </Stack>
         </Stack>

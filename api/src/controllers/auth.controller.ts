@@ -13,12 +13,13 @@ export const signup: RequestHandler = async (req, res) => {
         message: "Хэрэглэгч давхцаж байна",
       });
     }
-
+    const defaultRole = "user";
     const user = await UserModel.create({
       name,
       email,
       address,
       password,
+      role: defaultRole,
     });
 
     return res.json(user);
@@ -46,7 +47,10 @@ export const login: RequestHandler = async (req, res) => {
     }
 
     const id = user._id;
-    const token = jwt.sign({ id }, "secret-key");
-    res.json({ token });
-  } catch (error) {}
+    const role = user.role;
+    const token = jwt.sign({ id, role }, "secret-key");
+    res.json({ token, user });
+  } catch (error) {
+    res.json(error);
+  }
 };

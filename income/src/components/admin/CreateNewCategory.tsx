@@ -1,15 +1,35 @@
+"use client";
+
 import { Stack, Typography } from "@mui/material";
 import { CustomInput } from "..";
 import { Modal } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import { useFormik } from "formik";
+import * as yup from "yup";
+import { useAuth } from "../provider/Authprovider";
+
+const validationSchema = yup.object({
+  foodCategory: yup.string(),
+});
 
 type CustomInputSelectProps = {
   open: boolean;
   handleClose: () => void;
 };
 
-export const Createcategory = (props: CustomInputSelectProps) => {
+export const CreateNewCategory = (props: CustomInputSelectProps) => {
   const { open, handleClose } = props;
+  const { postCategory } = useAuth();
+
+  const formik = useFormik({
+    initialValues: {
+      foodCategory: "",
+    },
+    validationSchema: validationSchema,
+    onSubmit: (values) => {
+      postCategory(values.foodCategory);
+    },
+  });
 
   return (
     <Modal
@@ -19,9 +39,6 @@ export const Createcategory = (props: CustomInputSelectProps) => {
         justifyContent: "center",
       }}
       open={open}
-      onClick={() => {
-        handleClose();
-      }}
     >
       <Stack maxWidth={587} width={"100%"} bgcolor={"#fff"} borderRadius={3}>
         <Stack
@@ -32,13 +49,23 @@ export const Createcategory = (props: CustomInputSelectProps) => {
           px={3}
           width={"74%"}
         >
-          <CloseIcon />
+          <CloseIcon
+            onClick={() => {
+              handleClose();
+            }}
+          />
           <Typography fontSize={22} fontWeight={700}>
             Create new category
           </Typography>
         </Stack>
         <Stack py={2} px={3}>
-          <CustomInput label="Category name" placeholder="Placeholder" />
+          <CustomInput
+            label="Category name"
+            placeholder="Placeholder"
+            name="foodCategory"
+            value={formik.values.foodCategory}
+            onChange={formik.handleChange}
+          />
         </Stack>
 
         <Stack
@@ -59,6 +86,9 @@ export const Createcategory = (props: CustomInputSelectProps) => {
             Clear
           </Typography>
           <Typography
+            onClick={() => {
+              formik.handleSubmit();
+            }}
             py={1}
             px={2}
             fontSize={16}

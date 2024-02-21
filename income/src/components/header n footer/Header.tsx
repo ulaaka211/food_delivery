@@ -24,15 +24,11 @@ const arr = [
     link: "/delivery-area",
     label: "ХҮРГЭЛТИЙН БҮС",
   },
-  {
-    link: "/admin",
-    label: "Admin",
-  },
 ];
 
 export const Header = () => {
   const pathname = usePathname();
-  const { open, setOpen, user, isLoggedIn } = useAuth();
+  const { open, setOpen, user, isLoggedIn, isAdmin } = useAuth();
   const router = useRouter();
 
   return (
@@ -66,6 +62,21 @@ export const Header = () => {
                 </Link>
               </Stack>
             ))}
+            {isAdmin && (
+              <Typography
+                onClick={() => {
+                  router.push("/admin");
+                }}
+                fontSize="14px"
+                fontWeight={700}
+                color="primary.main"
+                sx={{
+                  color: pathname.includes("/admin" ? "green" : "black"),
+                }}
+              >
+                ADMIN
+              </Typography>
+            )}
           </Stack>
 
           <Stack spacing={3} direction={"row"} alignItems={"center"}>

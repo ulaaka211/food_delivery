@@ -20,11 +20,15 @@ const userSchema = new Schema({
   },
   userImg: {
     type: String,
-    required: true
+    required: true,
   },
   otp: {
     type: String,
     required: false,
+  },
+  role: {
+    type: String,
+    required: true,
   },
 });
 

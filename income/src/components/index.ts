@@ -48,8 +48,9 @@ export * from "./admin/AddCategory";
 export * from "./admin/AddFood";
 export * from "./admin/AdminSection";
 export * from "./admin/AddFoodImg";
-export * from "./admin/CreateCategory";
-export * from "./admin/CreateFood";
+export * from "./admin/CreateNewCategory";
+export * from "./admin/CreateNewFood";
 export * from "./admin/EditCategory";
+export * from "./profile/SignOut";
 
 // export * from "./provider/authprovider";
