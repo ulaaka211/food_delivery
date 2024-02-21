@@ -13,7 +13,7 @@ export const createfood: RequestHandler = async (req, res) => {
       ingredients,
     });
 
-    return res.json(food);
+    return res.json({ message: "Hool amjilttai uuslee" });
   } catch {}
 };
 

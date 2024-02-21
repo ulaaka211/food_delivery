@@ -18,9 +18,9 @@ import { AxiosError } from "axios";
 type createfoodParams = {
   name: string;
   ingredients: string;
-  discount: string;
+  discount: number;
   foodimg: string;
-  price: string;
+  price: number;
 };
 
 type signupParams = {
@@ -219,9 +219,11 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   };
 
   const createfood = async (params: createfoodParams) => {
+    alert("dfdfs");
     try {
+      alert("ff");
       const { data } = await api.post("/foods/createfood", params);
-      toast.success("хоол үүслээ", {
+      toast.success(data.message, {
         position: "top-center",
         autoClose: 3000,
         hideProgressBar: true,

@@ -1,4 +1,5 @@
 "use client";
+// .required("Хоолны зургаа оруулна уу"),
 
 import { Stack, Typography, Button } from "@mui/material";
 import { AddFoodImg, CustomInput, CustomInputSelect2 } from "..";
@@ -20,29 +21,30 @@ export const CreateFood = (props: CustomInputSelectProps) => {
   const { createfood } = useAuth();
 
   const validationSchema = yup.object({
-    name: yup.string().required("Хоолны нэрээ оруулна уу"),
-    ingredients: yup.string().required("Хоолны орцнуудаа оруулна уу"),
-    price: yup.string().required("Хоолны үнээ оруулна уу"),
-    discount: yup.string(),
-    foodimg: yup.string().required("Хоолны зургаа оруулна уу"),
+    // name: yup.string().required("Хоолны нэрээ оруулна уу"),
+    // ingredients: yup.string().required("Хоолны орцнуудаа оруулна уу"),
+    // price: yup.number().required("Хоолны үнээ оруулна уу"),
+    // discount: yup.number(),
+    // foodimg: yup.string(),
   });
 
   const formik = useFormik({
     initialValues: {
       name: "",
       ingredients: "",
-      price: "",
-      discount: "",
+      price: 0,
+      discount: 0,
       foodimg: "",
     },
     validationSchema: validationSchema,
-    onSubmit: async (values) => {
-      await createfood({
+    onSubmit: (values) => {
+      createfood({
         name: values.name,
         ingredients: values.ingredients,
         price: values.price,
         discount: values.discount,
-        foodimg: values.foodimg,
+        foodimg:
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/600px-Good_Food_Display_-_NCI_Visuals_Online.jpg",
       });
     },
   });
@@ -67,6 +69,16 @@ export const CreateFood = (props: CustomInputSelectProps) => {
           py={2}
           px={3}
           width={"65%"}
+          onClick={() => {
+            alert();
+            createfood({
+              name: "dd",
+              price: 300,
+              ingredients: "33s",
+              discount: 3,
+              foodimg: "img",
+            });
+          }}
         >
           <CloseIcon />
           <Typography fontSize={22} fontWeight={700}>
@@ -183,6 +195,7 @@ export const CreateFood = (props: CustomInputSelectProps) => {
               color: "#fff",
               bgcolor: "#3f4145",
             }}
+            variant="contained"
           >
             Continue
           </Button>
