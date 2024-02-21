@@ -1,18 +1,20 @@
 "use client";
 
 import { Button, Container, Stack, TextField, Modal } from "@mui/material";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
+import { useAuth } from "../provider/Authprovider";
 
 type AddFoodImgProps = {
+  imageUrl: string;
+  setImageUrl: Dispatch<SetStateAction<string>>;
+
   open: boolean;
   handleClose: () => void;
 };
 
 export const AddFoodImg = (props: AddFoodImgProps) => {
-  const { open, handleClose } = props;
-
+  const { open, handleClose, imageUrl, setImageUrl } = props;
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [imageUrl, setImageUrl] = useState(null);
   const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files) return;
     setSelectedFile(event.target.files[0]);

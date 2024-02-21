@@ -219,9 +219,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   };
 
   const createfood = async (params: createfoodParams) => {
-    alert("dfdfs");
     try {
-      alert("ff");
       const { data } = await api.post("/foods/createfood", params);
       toast.success(data.message, {
         position: "top-center",

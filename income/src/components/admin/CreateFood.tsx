@@ -5,36 +5,39 @@ import { Stack, Typography, Button } from "@mui/material";
 import { AddFoodImg, CustomInput, CustomInputSelect2 } from "..";
 import { Modal } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { useAuth } from "../provider/Authprovider";
 import { Formik, useFormik } from "formik";
 import * as yup from "yup";
 
 type CustomInputSelectProps = {
+  imageUrl: string;
+  setImageUrl: Dispatch<SetStateAction<string>>;
+
   open: boolean;
   handleClose: () => void;
 };
 
 export const CreateFood = (props: CustomInputSelectProps) => {
   const { open, handleClose } = props;
+  const [imageUrl, setImageUrl] = useState("");
   const [openModal, setOpenModal] = useState(false);
   const { createfood } = useAuth();
 
   const validationSchema = yup.object({
-    // name: yup.string().required("Хоолны нэрээ оруулна уу"),
-    // ingredients: yup.string().required("Хоолны орцнуудаа оруулна уу"),
-    // price: yup.number().required("Хоолны үнээ оруулна уу"),
-    // discount: yup.number(),
-    // foodimg: yup.string(),
+    name: yup.string().required("Хоолны нэрээ оруулна уу"),
+    ingredients: yup.string().required("Хоолны орцнуудаа оруулна уу"),
+    price: yup.number().required("Хоолны үнээ оруулна уу"),
+    discount: yup.number(),
   });
 
   const formik = useFormik({
     initialValues: {
       name: "",
       ingredients: "",
+      foodimg: "",
       price: 0,
       discount: 0,
-      foodimg: "",
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
@@ -43,8 +46,7 @@ export const CreateFood = (props: CustomInputSelectProps) => {
         ingredients: values.ingredients,
         price: values.price,
         discount: values.discount,
-        foodimg:
-          "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/600px-Good_Food_Display_-_NCI_Visuals_Online.jpg",
+        foodimg: imageUrl,
       });
     },
   });
@@ -69,16 +71,6 @@ export const CreateFood = (props: CustomInputSelectProps) => {
           py={2}
           px={3}
           width={"65%"}
-          onClick={() => {
-            alert();
-            createfood({
-              name: "dd",
-              price: 300,
-              ingredients: "33s",
-              discount: 3,
-              foodimg: "img",
-            });
-          }}
         >
           <CloseIcon />
           <Typography fontSize={22} fontWeight={700}>
@@ -95,7 +87,7 @@ export const CreateFood = (props: CustomInputSelectProps) => {
             helperText={formik.touched.name && formik.errors.name}
             onBlur={formik.handleBlur}
           />
-          {/* <CustomInputSelect2 label="Хоолны ангилал" placeholder="" /> */}
+          <CustomInputSelect2 label="Хоолны ангилал" placeholder="" />
           <CustomInput
             label="Хоолны орц"
             name="ingredients"
@@ -129,7 +121,9 @@ export const CreateFood = (props: CustomInputSelectProps) => {
         <Stack gap={0.5} px={3} width={"55%"}>
           <Typography fontSize={14}>Хоолны зураг</Typography>
           <Stack
-            bgcolor={"#ECEDF0"}
+            sx={{
+              backgroundImage: imageUrl,
+            }}
             alignItems={"center"}
             py={3}
             borderRadius={3}
@@ -159,6 +153,8 @@ export const CreateFood = (props: CustomInputSelectProps) => {
               Add Image
             </Typography>
             <AddFoodImg
+              imageUrl={imageUrl}
+              setImageUrl={setImageUrl}
               open={openModal}
               handleClose={() => {
                 setOpenModal(false);
