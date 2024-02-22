@@ -22,7 +22,7 @@ export const CreateNewFood = (props: CustomInputSelectProps) => {
   const [checkDiscount, setCheckDiscount] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
   const [openModal, setOpenModal] = useState(false);
-  const { createfood } = useAuth();
+  const { createFood } = useAuth();
 
   const validationSchema = yup.object({
     name: yup.string().required("Хоолны нэрээ оруулна уу"),
@@ -41,7 +41,7 @@ export const CreateNewFood = (props: CustomInputSelectProps) => {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      createfood({
+      createFood({
         name: values.name,
         ingredients: values.ingredients,
         price: values.price,

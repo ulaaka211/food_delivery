@@ -15,7 +15,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AxiosError } from "axios";
 
-type createfoodParams = {
+export type foodParams = {
   name: string;
   ingredients: string;
   discount: number;
@@ -75,13 +75,15 @@ type AuthContextType = {
   setOpen: Dispatch<SetStateAction<boolean>>;
   index: number;
   setIndex: Dispatch<SetStateAction<number>>;
-  createfood: (params: createfoodParams) => Promise<void>;
+  getFood: () => Promise<void>;
+  createFood: (params: foodParams) => Promise<void>;
   getCategories: () => Promise<void>;
   postCategory: (foodCategory: string) => Promise<void>;
   signup: (params: signupParams) => Promise<void>;
   login: (params: loginParams) => Promise<void>;
   signout: () => void;
   categories: Category[];
+  foods: foodParams[];
   checkresetemail: (params: checkresetemailParams) => Promise<void>;
   checkresetotb: (params: checkresetotbParams) => Promise<void>;
 };
@@ -94,6 +96,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   const router = useRouter();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [categories, setCategories] = useState<Category[]>([]);
+  const [foods, setFoods] = useState<foodParams[]>([]);
   const [userOtb, setUserOtb] = useState("");
   const [index, setIndex] = useState(0);
   const [open, setOpen] = useState(false);
@@ -255,9 +258,9 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     }
   };
 
-  const createfood = async (params: createfoodParams) => {
+  const createFood = async (params: foodParams) => {
     try {
-      const { data } = await api.post("/foods/createfood", params);
+      const { data } = await api.post("/foods/createFood", params);
       toast.success(data.message, {
         position: "top-center",
         autoClose: 3000,
@@ -271,6 +274,17 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
           hideProgressBar: true,
         });
       }
+    }
+  };
+
+  const getFood = async () => {
+    try {
+      const { data } = await api.get("foods/getFood", {
+        headers: { Authorization: localStorage.getItem("token") },
+      });
+      setFoods(data);
+    } catch (error) {
+      console.log(error), "FFF";
     }
   };
 
@@ -310,12 +324,22 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   };
 
   useEffect(() => {
-    getCategories();
-  });
+    if (isAdmin) {
+      getCategories();
+    }
+  }, [isAdmin]);
+
+  useEffect(() => {
+    if (isAdmin) {
+      getFood();
+    }
+  }, [isAdmin]);
 
   return (
     <AuthContext.Provider
       value={{
+        foods,
+        getFood,
         categories,
         getCategories,
         postCategory,
@@ -334,7 +358,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
         checkresetotb,
         user,
         setUser,
-        createfood,
+        createFood,
         isAdmin,
         signout,
       }}

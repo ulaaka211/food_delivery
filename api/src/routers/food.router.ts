@@ -1,15 +1,17 @@
 import { Router } from "express";
 import {
   createCategory,
-  createfood,
+  createFood,
   getCategories,
+  getFood,
 } from "../controllers/food.controller";
 
 const foodRouter = Router();
 
 foodRouter
-  .post("/createfood", createfood)
+  .post("/createFood", createFood)
   .post("/createCategory", createCategory)
-  .get("/getCategory", getCategories);
+  .get("/getCategory", getCategories)
+  .get("/getFood", getFood);
 
 export default foodRouter;

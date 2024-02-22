@@ -4,8 +4,8 @@ import bodyParser from "body-parser";
 import authRouter from "./routers/auth.router";
 import foodRouter from "./routers/food.router";
 import { connectDatabase } from "./database";
-import emailRouter from "./routers/Reset.router";
 import userRouter from "./routers/user.router";
+import emailRouter from "./routers/Reset.router";
 
 const app = express();
 

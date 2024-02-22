@@ -17,7 +17,7 @@ export * from "./login n sign up /Login";
 export * from "./login n sign up /Signup";
 
 export * from "./Cart";
-export * from "./cards/Card";
+export * from "./cards/CardModel";
 export * from "./cards/CartCard";
 export * from "./cards/Cardsale";
 export * from "./cards/OrderDetail";

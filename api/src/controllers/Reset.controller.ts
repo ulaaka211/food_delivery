@@ -47,27 +47,27 @@ export const sendemail: RequestHandler = async (req, res) => {
   }
 };
 
-export const resetpass: RequestHandler = async (req, res) => {
-  const { email, code, password } = req.body;
+// export const resetpass: RequestHandler = async (req, res) => {
+//   const { email, code, password } = req.body;
 
-  const user = await UserModel.findOne({ email: email, code: code });
+//   const user = await UserModel.findOne({ email: email, code: code });
 
-  // if (!user) {
-  //   return res.status(401).json({
-  //     message: "Хэрэглэгч олдсонгүй",
-  //   });
-  // }
-
-
-  // if(user.otp === code){
-
-  // }
-
-  // const dfd= await UserModel.updateOne({password: password})
+//   // if (!user) {
+//   //   return res.status(401).json({
+//   //     message: "Хэрэглэгч олдсонгүй",
+//   //   });
+//   // }
 
 
-    res.json("Email sent!");
-  } catch (error) {
-    res.status(500).json(error);
-  }
-};
+//   // if(user.otp === code){
+
+//   // }
+
+//   // const dfd= await UserModel.updateOne({password: password})
+
+
+//     res.json("Email sent!");
+//   } catch (error) {
+//     res.status(500).json(error);
+//   }
+// };

@@ -17,6 +17,7 @@ const validationSchema = yup.object({
 
 export const ResetPassword1 = () => {
   const { checkresetemail, setUserEmail } = useAuth();
+  const [isClicked, setIsClicked] = useState(false);
 
   const formik = useFormik({
     initialValues: {

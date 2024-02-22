@@ -66,28 +66,26 @@ export const SignOutConfirm = ({
           >
             Тийм
           </Typography>
-          <Button
+
+          <Typography
             onClick={() => {
               handleOut();
             }}
+            width={0.5}
+            bgcolor={"#18BA5133"}
+            textAlign={"center"}
+            fontSize={20}
+            fontWeight={600}
+            padding={"20px"}
+            sx={{
+              "&:hover": {
+                backgroundColor: "#18BA51",
+                color: "common.white",
+              },
+            }}
           >
-            <Typography
-              width={0.5}
-              bgcolor={"#18BA5133"}
-              textAlign={"center"}
-              fontSize={20}
-              fontWeight={600}
-              padding={"20px"}
-              sx={{
-                "&:hover": {
-                  backgroundColor: "#18BA51",
-                  color: "common.white",
-                },
-              }}
-            >
-              Үгүй
-            </Typography>
-          </Button>
+            Үгүй
+          </Typography>
         </Stack>
       </Stack>
     </Modal>

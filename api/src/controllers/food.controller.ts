@@ -1,7 +1,7 @@
 import { RequestHandler } from "express";
 import { FoodModel, categoryModel } from "../models";
 
-export const createfood: RequestHandler = async (req, res) => {
+export const createFood: RequestHandler = async (req, res) => {
   const { name, price, discount, foodimg, ingredients } = req.body;
 
   try {
@@ -17,7 +17,7 @@ export const createfood: RequestHandler = async (req, res) => {
   } catch {}
 };
 
-export const getallfoods: RequestHandler = async (req, res) => {
+export const getFood: RequestHandler = async (req, res) => {
   const foods = await FoodModel.find({});
 
   res.json(foods);

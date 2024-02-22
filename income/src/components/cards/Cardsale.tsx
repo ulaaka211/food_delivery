@@ -1,22 +1,21 @@
 import { Stack, Typography } from "@mui/material";
 import Image from "next/image";
 import { Container } from "@mui/material";
+import { foodParams, useAuth } from "../provider/AuthenticationProvider";
 
-export const CardSale = () => {
+export const CardSale = (props: foodParams) => {
   return (
     <Stack spacing={1.75}>
       <Stack position={"relative"}>
-        <Stack position={"relative"} width={"100%"} pt="66.6%" top={0} left={0}>
-          <Image
-            style={{
-              borderRadius: "16px",
-              position: "absolute",
-              objectFit: "cover",
-            }}
-            src="/food.svg"
-            alt=""
-            fill
-          />
+        <Stack
+          position={"relative"}
+          width={"100%"}
+          pt="66.6%"
+          top={0}
+          left={0}
+          key={props.foodimg}
+        >
+          {props.name}
         </Stack>
         <Typography
           top={10}
@@ -33,17 +32,23 @@ export const CardSale = () => {
           borderColor={"#fff"}
           fontSize={18}
           fontWeight={600}
+          key={props.discount}
         >
-          20%
+          {props.discount}
         </Typography>
       </Stack>
       <Stack>
-        <Typography fontSize={20} fontWeight={590}>
-          Өглөөний хоол
+        <Typography fontSize={20} fontWeight={590} key={props.name}>
+          {props.name}
         </Typography>
         <Stack direction={"row"} spacing={1.9}>
-          <Typography color={"#18BA51"} fontSize={18} fontWeight={590}>
-            4,800₮
+          <Typography
+            color={"#18BA51"}
+            fontSize={18}
+            fontWeight={590}
+            key={props.price}
+          >
+            {props.price}
           </Typography>
           <Typography
             sx={{

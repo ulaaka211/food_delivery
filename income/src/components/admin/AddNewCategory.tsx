@@ -9,15 +9,8 @@ import { useAuth } from "../provider/AuthenticationProvider";
 import { useRouter } from "next/navigation";
 
 export const AddNewCategory = () => {
-  const router = useRouter();
-  const { isAdmin, getCategories, categories } = useAuth();
+  const { categories } = useAuth();
   const [open, setOpen] = useState(false);
-
-  useEffect(() => {
-    if (!isAdmin) {
-      router.push("/");
-    }
-  }, []);
 
   return (
     <Stack width={"27.5vw"}>
