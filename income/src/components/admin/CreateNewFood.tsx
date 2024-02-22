@@ -2,11 +2,11 @@
 // .required("Хоолны зургаа оруулна уу"),
 
 import { Stack, Typography, Button } from "@mui/material";
-import { AddFoodImg, CustomInput, CustomInputSelect2 } from "..";
+import { AddFoodImg, CustomInput, CustomInputSelect2, IOSSwitch } from "..";
 import { Modal } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { Dispatch, SetStateAction, useState } from "react";
-import { useAuth } from "../provider/Authprovider";
+import { useAuth } from "../provider/AuthenticationProvider";
 import { Formik, useFormik } from "formik";
 import * as yup from "yup";
 
@@ -19,6 +19,7 @@ type CustomInputSelectProps = {
 
 export const CreateNewFood = (props: CustomInputSelectProps) => {
   const { open, handleClose } = props;
+  const [checkDiscount, setCheckDiscount] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
   const [openModal, setOpenModal] = useState(false);
   const { createfood } = useAuth();
@@ -107,15 +108,26 @@ export const CreateNewFood = (props: CustomInputSelectProps) => {
             helperText={formik.touched.price && formik.errors.price}
             onBlur={formik.handleBlur}
           />
-          <CustomInput
-            label="Хямдралтай эсэх"
-            name="discount"
-            onChange={formik.handleChange}
-            value={formik.values.discount}
-            error={formik.touched.discount && Boolean(formik.errors.discount)}
-            helperText={formik.touched.discount && formik.errors.discount}
-            onBlur={formik.handleBlur}
-          />
+          <Stack>
+            <Stack direction={"row"} alignItems={"center"} gap={1}>
+              <IOSSwitch
+                onChange={() => {
+                  setCheckDiscount((prev) => !prev);
+                }}
+              />
+              <Typography>Хямдралтай эсэх</Typography>
+            </Stack>
+            <CustomInput
+              name="discount"
+              onClick={() => setCheckDiscount(true)}
+              disabled={!checkDiscount}
+              onChange={formik.handleChange}
+              value={formik.values.discount}
+              error={formik.touched.discount && Boolean(formik.errors.discount)}
+              helperText={formik.touched.discount && formik.errors.discount}
+              onBlur={formik.handleBlur}
+            />
+          </Stack>
         </Stack>
         <Stack gap={0.5} px={3} width={"55%"}>
           <Typography fontSize={14}>Хоолны зураг</Typography>

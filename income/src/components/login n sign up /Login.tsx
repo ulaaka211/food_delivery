@@ -7,7 +7,7 @@ import { Button } from "@mui/material";
 import { useRouter } from "next/navigation";
 import * as yup from "yup";
 import { useFormik } from "formik";
-import { useAuth } from "../provider/Authprovider";
+import { useAuth } from "../provider/AuthenticationProvider";
 
 type LoginProps = {
   handleClose: () => void;

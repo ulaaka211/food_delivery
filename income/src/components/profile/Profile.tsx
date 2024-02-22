@@ -8,7 +8,7 @@ import HistoryOutlinedIcon from "@mui/icons-material/HistoryOutlined";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import { Box } from "@mui/material";
 import { useState } from "react";
-import { useAuth } from "../provider/Authprovider";
+import { useAuth } from "../provider/AuthenticationProvider";
 
 export const MyProfile = () => {
   const [open, setOpen] = useState(false);
@@ -20,6 +20,8 @@ export const MyProfile = () => {
   const [userAddress, setUserAddress] = useState(address);
   const [userPassword, setUserPassword] = useState(password);
   const [imageUrl, setImageUrl] = useState(profileImg);
+
+  console.log(openSignOut, "HHHH");
 
   return (
     <Stack height={"70vh"} justifyContent={"center"}>
@@ -123,12 +125,14 @@ export const MyProfile = () => {
                 <ExitToAppIcon />
               </Stack>
               <Typography>Гарах</Typography>
-              <SignOutConfirm
-                openSignOut={openSignOut}
-                handleOut={() => setOpenSignOut(false)}
-                setOpenSignOut={setOpenSignOut}
-              />
             </Stack>
+            <SignOutConfirm
+              openSignOut={openSignOut}
+              handleOut={() => {
+                setOpenSignOut(false);
+              }}
+              setOpenSignOut={setOpenSignOut}
+            />
           </Stack>
         </Stack>
       </Container>

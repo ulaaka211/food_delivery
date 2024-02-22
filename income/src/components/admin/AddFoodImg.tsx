@@ -2,7 +2,7 @@
 
 import { Button, Container, Stack, TextField, Modal } from "@mui/material";
 import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
-import { useAuth } from "../provider/Authprovider";
+import { useAuth } from "../provider/AuthenticationProvider";
 
 type AddFoodImgProps = {
   imageUrl: string;

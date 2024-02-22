@@ -4,7 +4,7 @@ import { Container, Stack, Typography } from "@mui/material";
 import { CustomInput } from "@/components";
 import { useState } from "react";
 import { Button } from "@mui/material";
-import { useAuth } from "../provider/Authprovider";
+import { useAuth } from "../provider/AuthenticationProvider";
 import { useFormik } from "formik";
 import * as yup from "yup";
 
@@ -24,7 +24,6 @@ export const ResetPassword1 = () => {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      checkresetemail({ email: values.email });
       setUserEmail(values.email);
     },
   });

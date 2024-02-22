@@ -1,8 +1,8 @@
 "use client";
 
-import { Stack, Typography } from "@mui/material";
+import { Button, Stack, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
-import { useAuth } from "../provider/Authprovider";
+import { useAuth } from "../provider/AuthenticationProvider";
 import { Modal } from "@mui/material";
 import { Dispatch, SetStateAction } from "react";
 
@@ -19,6 +19,8 @@ export const SignOutConfirm = ({
 }: SignOutProps) => {
   const router = useRouter();
   const { signout } = useAuth();
+
+  console.log(openSignOut);
 
   return (
     <Modal
@@ -64,26 +66,28 @@ export const SignOutConfirm = ({
           >
             Тийм
           </Typography>
-          <Typography
+          <Button
             onClick={() => {
               handleOut();
-              setOpenSignOut(false);
-            }}
-            width={0.5}
-            bgcolor={"#18BA5133"}
-            textAlign={"center"}
-            fontSize={20}
-            fontWeight={600}
-            padding={"20px"}
-            sx={{
-              "&:hover": {
-                backgroundColor: "#18BA51",
-                color: "common.white",
-              },
             }}
           >
-            Үгүй
-          </Typography>
+            <Typography
+              width={0.5}
+              bgcolor={"#18BA5133"}
+              textAlign={"center"}
+              fontSize={20}
+              fontWeight={600}
+              padding={"20px"}
+              sx={{
+                "&:hover": {
+                  backgroundColor: "#18BA51",
+                  color: "common.white",
+                },
+              }}
+            >
+              Үгүй
+            </Typography>
+          </Button>
         </Stack>
       </Stack>
     </Modal>

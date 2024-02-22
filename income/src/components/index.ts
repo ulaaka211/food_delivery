@@ -40,17 +40,18 @@ export * from "./order, orderhistory n address/OrderDetails";
 
 export * from "./profile/Profile";
 export * from "./HomeImg";
-export * from "./Deliver";
-export * from "./Menu";
 export * from "./Foods";
+export * from "./Menu";
+export * from "./Deliver";
 export * from "./profile/EditProfileImg";
-export * from "./admin/AddCategory";
-export * from "./admin/AddFood";
+export * from "./admin/AddNewCategory";
+export * from "./admin/AddNewFood";
 export * from "./admin/AdminSection";
 export * from "./admin/AddFoodImg";
 export * from "./admin/CreateNewCategory";
 export * from "./admin/CreateNewFood";
 export * from "./admin/EditCategory";
 export * from "./profile/SignOut";
+export * from "./admin/IOSSwitch";
 
 // export * from "./provider/authprovider";

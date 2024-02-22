@@ -6,7 +6,7 @@ import { Modal } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { useAuth } from "../provider/Authprovider";
+import { useAuth } from "../provider/AuthenticationProvider";
 
 const validationSchema = yup.object({
   foodCategory: yup.string(),

@@ -1,37 +1,23 @@
 "use client";
 
 import { Stack, Typography } from "@mui/material";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import AddIcon from "@mui/icons-material/Add";
 import { CreateNewCategory } from "./CreateNewCategory";
+import { useAuth } from "../provider/AuthenticationProvider";
+import { useRouter } from "next/navigation";
 
-const tabs = [
-  {
-    link: "/breakfast",
-    label: "Breakfast",
-    icon: <MoreVertIcon />,
-  },
-  {
-    link: "/soup",
-    label: "Soup",
-    icon: <MoreVertIcon />,
-  },
-  {
-    link: "/main-course",
-    label: "Main course",
-    icon: <MoreVertIcon />,
-  },
-  {
-    link: "/desserts",
-    label: "Desserts",
-    icon: <MoreVertIcon />,
-  },
-];
-
-export const AddCategory = () => {
-  const [activeTab, setActiveTab] = useState(tabs[0]);
+export const AddNewCategory = () => {
+  const router = useRouter();
+  const { isAdmin, getCategories, categories } = useAuth();
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    if (!isAdmin) {
+      router.push("/");
+    }
+  }, []);
 
   return (
     <Stack width={"27.5vw"}>
@@ -52,19 +38,10 @@ export const AddCategory = () => {
             paddingBottom={10}
             gap={5}
           >
-            {tabs.map((item) => (
+            {categories.map((item) => (
               <Stack
-                onClick={() => {
-                  setActiveTab(item);
-                }}
-                sx={{
-                  bgcolor:
-                    item.label === activeTab.label ? "#18BA51" : "common.white",
-                  color:
-                    item.label === activeTab.label
-                      ? "common.white"
-                      : "common.black",
-                }}
+                onClick={() => {}}
+                sx={{}}
                 border={1}
                 direction={"row"}
                 alignItems={"center"}
@@ -74,19 +51,14 @@ export const AddCategory = () => {
                 paddingY={1}
                 paddingX={2}
               >
-                <Typography key={item.label} fontSize={18} fontWeight={600}>
-                  {item.label}
-                </Typography>
                 <Typography
-                  sx={{
-                    color:
-                      item.icon === activeTab.icon
-                        ? "common.white"
-                        : "common.black",
-                  }}
+                  key={item.foodCategory}
+                  fontSize={18}
+                  fontWeight={600}
                 >
-                  {item.icon}
+                  {item.foodCategory}
                 </Typography>
+                <MoreVertIcon />
               </Stack>
             ))}
             <Stack
@@ -99,29 +71,25 @@ export const AddCategory = () => {
               borderRadius={1}
               paddingY={1}
               paddingX={2}
+              onClick={() => {
+                setOpen(true);
+              }}
             >
               <AddIcon
                 sx={{
                   color: "#D6D8DB",
                 }}
               />
-              <Typography
-                onClick={() => {
-                  setOpen(true);
-                }}
-                color={"#D6D8DB"}
-                fontSize={18}
-                fontWeight={600}
-              >
+              <Typography color={"#D6D8DB"} fontSize={18} fontWeight={600}>
                 Create new category
               </Typography>
-              <CreateNewCategory
-                open={open}
-                handleClose={() => {
-                  setOpen(false);
-                }}
-              />
             </Stack>
+            <CreateNewCategory
+              open={open}
+              handleClose={() => {
+                setOpen(false);
+              }}
+            />
           </Stack>
         </Stack>
       </Stack>

@@ -2,17 +2,22 @@
 
 import { Button, Container, Stack, TextField, Modal } from "@mui/material";
 import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
-import { useAuth } from "../provider/Authprovider";
+import { useAuth } from "../provider/AuthenticationProvider";
 import { string } from "yup";
 
 type ProfileProps = {
   handleClose: () => void;
   open: boolean;
-  imageUrl: string
-  setImageUrl: Dispatch<SetStateAction<string>>
+  imageUrl: string;
+  setImageUrl: Dispatch<SetStateAction<string>>;
 };
 
-export const EditProfileImg = ({ handleClose, open, imageUrl, setImageUrl  }: ProfileProps) => {
+export const EditProfileImg = ({
+  handleClose,
+  open,
+  imageUrl,
+  setImageUrl,
+}: ProfileProps) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -34,8 +39,7 @@ export const EditProfileImg = ({ handleClose, open, imageUrl, setImageUrl  }: Pr
         );
         const data = await response.json();
         console.log(data);
-        setImageUrl(data.secure_url)
-        
+        setImageUrl(data.secure_url);
       } catch (error) {
         console.error("Image upload error:", error);
       }

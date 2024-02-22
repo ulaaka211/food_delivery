@@ -9,7 +9,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { Login, MyProfile } from "..";
-import { useAuth } from "../provider/Authprovider";
+import { useAuth } from "../provider/AuthenticationProvider";
 
 const arr = [
   {
@@ -71,7 +71,7 @@ export const Header = () => {
                 fontWeight={700}
                 color="primary.main"
                 sx={{
-                  color: pathname.includes("/admin" ? "green" : "black"),
+                  color: pathname.includes("admin") ? "green" : "black",
                 }}
               >
                 ADMIN

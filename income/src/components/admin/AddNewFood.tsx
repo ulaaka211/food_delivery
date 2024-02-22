@@ -4,8 +4,9 @@ import { Button, Stack, Typography } from "@mui/material";
 import { Dispatch, SetStateAction, useState } from "react";
 import { CreateNewFood } from "./CreateNewFood";
 
-export const AddFood = () => {
+export const AddNewFood = () => {
   const [open, setOpen] = useState(false);
+  const [imageUrl, setImageUrl] = useState("");
   return (
     <Stack width={"72.5vw"}>
       <Stack
@@ -37,7 +38,12 @@ export const AddFood = () => {
           >
             Add new food
           </Button>
-          <CreateNewFood open={open} handleClose={() => setOpen(false)} />
+          <CreateNewFood
+            imageUrl={imageUrl}
+            setImageUrl={setImageUrl}
+            open={open}
+            handleClose={() => setOpen(false)}
+          />
         </Stack>
       </Stack>
     </Stack>

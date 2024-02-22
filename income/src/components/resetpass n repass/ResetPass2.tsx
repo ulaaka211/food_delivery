@@ -6,7 +6,7 @@ import { useState } from "react";
 import { Button } from "@mui/material";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { useAuth } from "../provider/Authprovider";
+import { useAuth } from "../provider/AuthenticationProvider";
 
 const validationSchema = yup.object({
   code: yup.string().required("").min(4),

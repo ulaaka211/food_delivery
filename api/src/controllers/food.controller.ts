@@ -23,6 +23,11 @@ export const getallfoods: RequestHandler = async (req, res) => {
   res.json(foods);
 };
 
+export const getCategories: RequestHandler = async (req, res) => {
+  const categories = await categoryModel.find({});
+  return res.json(categories);
+};
+
 export const createCategory: RequestHandler = async (req, res) => {
   try {
     const { foodCategory } = req.body;

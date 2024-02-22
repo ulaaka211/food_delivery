@@ -9,8 +9,8 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import Router, { useRouter } from "next/navigation";
 import { useContext } from "react";
-import { AuthContext } from "../provider/Authprovider";
-import { useAuth } from "../provider/Authprovider";
+import { AuthContext } from "../provider/AuthenticationProvider";
+import { useAuth } from "../provider/AuthenticationProvider";
 
 export const CreateNewPassword = () => {
   const router = useRouter();

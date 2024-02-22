@@ -76,6 +76,7 @@ type AuthContextType = {
   index: number;
   setIndex: Dispatch<SetStateAction<number>>;
   createfood: (params: createfoodParams) => Promise<void>;
+  getCategories: () => Promise<void>;
   postCategory: (foodCategory: string) => Promise<void>;
   signup: (params: signupParams) => Promise<void>;
   login: (params: loginParams) => Promise<void>;
@@ -148,10 +149,10 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
       if (role == "admin") {
         setIsAdmin(true);
       }
-      toast.success("", {
-        position: "top-center",
-        hideProgressBar: true,
-      });
+      // toast.success("", {
+      //   position: "top-center",
+      //   hideProgressBar: true,
+      // });
     } catch (error) {
       if (error instanceof AxiosError) {
         toast.error(error.response?.data.message ?? error.message, {
@@ -162,20 +163,6 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
       console.log(error), "FFF";
     }
   };
-
-  // const getUser = async () => {
-  //   try {
-  //     const { data } = await api.get("/getUser", {
-  //       headers: { Authorization: localStorage.getItem("token") },
-  //     });
-
-  //     setUser(data);
-  //     const { role } = data;
-  //     if () {}
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -290,7 +277,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   const postCategory = async (foodCategory: string) => {
     try {
       const { data } = await api.post(
-        "foods/postCategory",
+        "foods/createCategory",
         { foodCategory },
         {
           headers: { Authorization: localStorage.getItem("token") },
@@ -311,10 +298,26 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     }
   };
 
+  const getCategories = async () => {
+    try {
+      const { data } = await api.get("foods/getCategory", {
+        headers: { Authorization: localStorage.getItem("token") },
+      });
+      setCategories(data);
+    } catch (error) {
+      console.log(error), "FFF";
+    }
+  };
+
+  useEffect(() => {
+    getCategories();
+  });
+
   return (
     <AuthContext.Provider
       value={{
         categories,
+        getCategories,
         postCategory,
         userEmail,
         setUserEmail,
