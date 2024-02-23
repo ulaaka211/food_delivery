@@ -34,12 +34,12 @@ export const sendemail: RequestHandler = async (req, res) => {
     };
     await transporter.sendMail(mailOptions);
 
-    // const checkotb = await UserModel.updateOne(
-    //   {
-    //     _id: user.id,
-    //   },
-    //   { $set: { otp: otpCode } }
-    // );
+    const checkotb = await UserModel.updateOne(
+      {
+        _id: user.id,
+      },
+      { $set: { otp: otpCode } }
+    );
 
     res.json("Email sent!");
   } catch (error) {
@@ -58,13 +58,11 @@ export const sendemail: RequestHandler = async (req, res) => {
 //   //   });
 //   // }
 
-
 //   // if(user.otp === code){
 
 //   // }
 
 //   // const dfd= await UserModel.updateOne({password: password})
-
 
 //     res.json("Email sent!");
 //   } catch (error) {

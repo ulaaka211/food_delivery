@@ -41,6 +41,7 @@ type checkresetemailParams = {
 
 type checkresetotbParams = {
   code: string;
+  password: string;
 };
 type Category = {
   foodCategory: string;
@@ -102,6 +103,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   const [open, setOpen] = useState(false);
   const [isReady, setIsReady] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  // const [refresh, setRefresh] = usestate("");
   const [user, setUser] = useState({
     name: "",
     email: "",
@@ -324,16 +326,9 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   };
 
   useEffect(() => {
-    if (isAdmin) {
-      getCategories();
-    }
-  }, [isAdmin]);
-
-  useEffect(() => {
-    if (isAdmin) {
-      getFood();
-    }
-  }, [isAdmin]);
+    getCategories();
+    getFood();
+  }, []);
 
   return (
     <AuthContext.Provider

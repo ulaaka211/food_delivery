@@ -22,7 +22,6 @@ export const ResetPassword2 = () => {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      checkresetotb({ code: values.code });
       setUserOtb(values.code);
     },
   });

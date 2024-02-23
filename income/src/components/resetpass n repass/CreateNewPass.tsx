@@ -12,12 +12,31 @@ import { useContext } from "react";
 import { AuthContext } from "../provider/AuthenticationProvider";
 import { useAuth } from "../provider/AuthenticationProvider";
 
+const validationSchema = yup.object({
+  password: yup.string().required(""),
+  rePassword: yup
+    .string()
+    .required("")
+    .oneOf([yup.ref("password")]),
+});
+
 export const CreateNewPassword = () => {
   const router = useRouter();
-  const { setOpen } = useAuth();
+  const { setOpen, checkresetotb, userOtb } = useAuth();
   const { index, setIndex } = useContext(AuthContext);
   const [password, setPassword] = useState("");
   const [rePassword, setRePassword] = useState("");
+
+  const formik = useFormik({
+    initialValues: {
+      password: "",
+      rePassword: "",
+    },
+    validationSchema: validationSchema,
+    onSubmit: (values) => {
+      checkresetotb({ password: values.password, code: userOtb });
+    },
+  });
 
   return (
     <Stack
@@ -34,10 +53,11 @@ export const CreateNewPassword = () => {
         <Stack>
           <CustomInput
             name="password"
-            onChange={(e) => {
-              setPassword(e.target.value);
-            }}
-            value={password}
+            onChange={formik.handleChange}
+            value={formik.values.password}
+            error={formik.touched.password && Boolean(formik.errors.password)}
+            onBlur={formik.handleBlur}
+            helperText={formik.touched.password && formik.errors.password}
             label="Нууц үг "
             placeholder="Нууц үгээ оруулна уу"
             type="password"
@@ -45,9 +65,13 @@ export const CreateNewPassword = () => {
 
           <CustomInput
             name="rePassword"
-            onChange={(e) => {
-              setRePassword(e.target.value);
-            }}
+            onChange={formik.handleChange}
+            value={formik.values.rePassword}
+            error={
+              formik.touched.rePassword && Boolean(formik.errors.rePassword)
+            }
+            onBlur={formik.handleBlur}
+            helperText={formik.touched.rePassword && formik.errors.rePassword}
             label="Нууц үг давтах "
             placeholder="Нууц үгээ оруулна уу"
             type="password"

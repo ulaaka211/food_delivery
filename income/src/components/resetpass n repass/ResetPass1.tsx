@@ -56,12 +56,13 @@ export const ResetPassword1 = () => {
           fullWidth
           variant="contained"
           disableElevation
-          disabled={!formik.isValid}
+          disabled={!formik.isValid || isClicked}
           sx={{
             py: "14.5px",
           }}
           onClick={() => {
             formik.handleSubmit();
+            setIsClicked(true);
           }}
         >
           Үргэлжлүүлэх

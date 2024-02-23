@@ -5,6 +5,20 @@ export const createFood: RequestHandler = async (req, res) => {
   const { name, price, discount, foodimg, ingredients } = req.body;
 
   try {
+    const foodCheck = await FoodModel.find({
+      name,
+      price,
+      discount,
+      foodimg,
+      ingredients,
+    });
+
+    if (foodCheck.length) {
+      return res.status(401).json({
+        message: `${name} Хоол өмнө нь бүртгэгдсэн байна`,
+      });
+    }
+
     const food = await FoodModel.create({
       name,
       price,
@@ -32,9 +46,9 @@ export const createCategory: RequestHandler = async (req, res) => {
   try {
     const { foodCategory } = req.body;
 
-    const categorycheck = await categoryModel.find({ foodCategory });
+    const categoryCheck = await categoryModel.find({ foodCategory });
 
-    if (categorycheck.length) {
+    if (categoryCheck.length) {
       return res.status(401).json({
         message: `${foodCategory} ангилал өмнө нь бүртгэгдсэн байна`,
       });

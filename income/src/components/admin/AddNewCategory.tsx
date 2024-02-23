@@ -13,13 +13,13 @@ export const AddNewCategory = () => {
   const [open, setOpen] = useState(false);
 
   return (
-    <Stack width={"27.5vw"}>
+    <Stack width={"24.3%"}>
       <Stack
         width={"100%"}
         paddingTop={3}
         paddingRight={2}
         bgcolor={"#fff"}
-        alignItems={"flex-end"}
+        alignItems={"flex-start"}
       >
         <Stack gap={1} width={"58.5%"}>
           <Typography fontSize={22} fontWeight={700}>

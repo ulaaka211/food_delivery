@@ -9,6 +9,7 @@ import { Dispatch, SetStateAction, useState } from "react";
 import { useAuth } from "../provider/AuthenticationProvider";
 import { Formik, useFormik } from "formik";
 import * as yup from "yup";
+import Image from "next/image";
 
 type CustomInputSelectProps = {
   imageUrl: string;
@@ -22,6 +23,7 @@ export const CreateNewFood = (props: CustomInputSelectProps) => {
   const [checkDiscount, setCheckDiscount] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
   const [openModal, setOpenModal] = useState(false);
+  const [showPicture, setShowPicture] = useState(false);
   const { createFood } = useAuth();
 
   const validationSchema = yup.object({
@@ -63,13 +65,18 @@ export const CreateNewFood = (props: CustomInputSelectProps) => {
         handleClose();
       }}
     >
-      <Stack maxWidth={587} width={"100%"} bgcolor={"#fff"} borderRadius={3}>
+      <Stack
+        maxWidth={587}
+        width={"100%"}
+        bgcolor={"#fff"}
+        borderRadius={3}
+        px={3}
+      >
         <Stack
           direction={"row"}
           justifyContent={"space-between"}
           alignItems={"center"}
           py={2}
-          px={3}
           width={"65%"}
         >
           <CloseIcon />
@@ -77,7 +84,7 @@ export const CreateNewFood = (props: CustomInputSelectProps) => {
             Create food
           </Typography>
         </Stack>
-        <Stack py={2} px={3} gap={1}>
+        <Stack py={2} gap={1}>
           <CustomInput
             label="Хоолны нэр"
             name="name"
@@ -129,46 +136,60 @@ export const CreateNewFood = (props: CustomInputSelectProps) => {
             />
           </Stack>
         </Stack>
-        <Stack gap={0.5} px={3} width={"55%"}>
-          <Typography fontSize={14}>Хоолны зураг</Typography>
-          <Stack alignItems={"center"} py={3} borderRadius={3}>
+        <Stack direction={"row"}>
+          <Stack
+            width={"50%"}
+            gap={0.5}
+            justifyContent={"center"}
+            alignItems={"center"}
+          >
+            <Typography alignSelf={"flex-start"} fontSize={14}>
+              Хоолны зураг
+            </Typography>
             <Stack
-              sx={{
-                backgroundImage: imageUrl,
-              }}
-            ></Stack>
-            <Typography
-              py={1}
-              px={2}
-              fontSize={16}
-              fontWeight={700}
-              color={"#3F4145"}
-            >
-              Add image for the food
-            </Typography>
-            <Typography
-              onClick={() => {
-                setOpenModal(true);
-              }}
-              py={1.5}
-              px={1.5}
+              alignSelf={"flex-start"}
+              width={"100%"}
+              py={3}
+              bgcolor={"#F7F7F8"}
+              border={"dashed"}
               borderRadius={3}
-              fontSize={16}
-              fontWeight={700}
-              color={"#fff"}
-              bgcolor={"#3F4145"}
-              width={"fit-content"}
             >
-              Add Image
-            </Typography>
-            <AddFoodImg
-              imageUrl={imageUrl}
-              setImageUrl={setImageUrl}
-              open={openModal}
-              handleClose={() => {
-                setOpenModal(false);
-              }}
-            />
+              <Stack alignItems={"center"} borderRadius={3}>
+                <Typography
+                  py={1}
+                  px={2}
+                  fontSize={16}
+                  fontWeight={700}
+                  color={"#3F4145"}
+                >
+                  Add image for the food
+                </Typography>
+                <Typography
+                  onClick={() => {
+                    setOpenModal(true);
+                  }}
+                  py={1.5}
+                  px={1.5}
+                  borderRadius={3}
+                  fontSize={16}
+                  fontWeight={700}
+                  color={"#fff"}
+                  bgcolor={"#3F4145"}
+                  width={"fit-content"}
+                >
+                  Add Image
+                </Typography>
+                <AddFoodImg
+                  imageUrl={imageUrl}
+                  setImageUrl={setImageUrl}
+                  open={openModal}
+                  handleClose={() => {
+                    setOpenModal(false);
+                  }}
+                />
+              </Stack>
+              <Image src={imageUrl} alt="" width={50} height={50} />
+            </Stack>
           </Stack>
         </Stack>
         <Stack

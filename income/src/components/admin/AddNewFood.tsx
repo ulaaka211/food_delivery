@@ -13,20 +13,16 @@ export const AddNewFood = () => {
   const [imageUrl, setImageUrl] = useState("");
 
   return (
-    <Stack width={"72.5vw"}>
+    <Stack width={"75.7%"}>
       <Stack
         width={"100%"}
         height={"100vh"}
         paddingTop={6}
-        paddingX={4}
+        paddingLeft={4}
         gap={6}
         bgcolor={"#F7F7F8"}
       >
-        <Stack
-          direction={"row"}
-          width={"86.2%"}
-          justifyContent={"space-between"}
-        >
+        <Stack direction={"row"} justifyContent={"space-between"}>
           <Typography fontSize={22} fontWeight={700}>
             Breakfast
           </Typography>
