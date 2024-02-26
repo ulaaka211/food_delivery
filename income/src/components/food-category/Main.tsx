@@ -1,7 +1,6 @@
 import { Container, Stack, Typography, Grid } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
-import { Card } from "..";
 
 const arr = [
   {
@@ -63,9 +62,7 @@ export const Main = () => {
           <Stack direction={"row"} justifyContent={"space-between"}>
             <Grid container spacing={3}>
               {arr.map((_, index) => (
-                <Grid key={index} item xs={12} md={3}>
-                  <Card />
-                </Grid>
+                <Grid key={index} item xs={12} md={3}></Grid>
               ))}
             </Grid>
           </Stack>

@@ -1,8 +1,5 @@
 import { Container, Stack, Typography, Grid } from "@mui/material";
 import Image from "next/image";
-import { relative } from "path";
-import { CardSale } from "..";
-import { Card } from "..";
 import Link from "next/link";
 
 const arr = [
@@ -64,9 +61,7 @@ export const Sale = () => {
           </Stack>
           <Grid container spacing={3}>
             {arr.map((_, index) => (
-              <Grid key={index} item xs={12} md={3}>
-                <CardSale />
-              </Grid>
+              <Grid key={index} item xs={12} md={3}></Grid>
             ))}
           </Grid>
         </Stack>

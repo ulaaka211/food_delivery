@@ -1,12 +1,13 @@
 "use client";
 
 import { Stack, Typography } from "@mui/material";
-import { CustomInput } from "..";
+import { CustomInput, OrderDetail } from "..";
 import { Modal } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { useFood } from "../provider/FoodProvider";
+import { useState } from "react";
 
 const validationSchema = yup.object({
   foodCategory: yup.string(),
@@ -20,6 +21,7 @@ type CustomInputSelectProps = {
 export const CreateNewCategory = (props: CustomInputSelectProps) => {
   const { open, handleClose } = props;
   const { postCategory } = useFood();
+  const [openCard, setOpenCard] = useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -39,8 +41,19 @@ export const CreateNewCategory = (props: CustomInputSelectProps) => {
         justifyContent: "center",
       }}
       open={open}
+      onClick={() => {
+        handleClose();
+      }}
     >
-      <Stack maxWidth={587} width={"100%"} bgcolor={"#fff"} borderRadius={3}>
+      <Stack
+        onClick={() => {
+          setOpenCard(true);
+        }}
+        maxWidth={587}
+        width={"100%"}
+        bgcolor={"#fff"}
+        borderRadius={3}
+      >
         <Stack
           direction={"row"}
           justifyContent={"space-between"}

@@ -20,11 +20,11 @@ type CustomInputSelectProps = {
 
 export const CreateNewFood = (props: CustomInputSelectProps) => {
   const { open, handleClose } = props;
+  const { createFood } = useFood();
   const [checkDiscount, setCheckDiscount] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
   const [openModal, setOpenModal] = useState(false);
   const [showPicture, setShowPicture] = useState(false);
-  const { createFood } = useFood();
 
   const validationSchema = yup.object({
     name: yup.string().required("Хоолны нэрээ оруулна уу"),
@@ -79,7 +79,11 @@ export const CreateNewFood = (props: CustomInputSelectProps) => {
           py={2}
           width={"65%"}
         >
-          <CloseIcon />
+          <CloseIcon
+            onClick={() => {
+              handleClose();
+            }}
+          />
           <Typography fontSize={22} fontWeight={700}>
             Create food
           </Typography>
@@ -180,6 +184,10 @@ export const CreateNewFood = (props: CustomInputSelectProps) => {
                   Add Image
                 </Typography>
                 <AddFoodImg
+                  showPicture={showPicture}
+                  handleCloseImg={() => {
+                    setShowPicture(true);
+                  }}
                   imageUrl={imageUrl}
                   setImageUrl={setImageUrl}
                   open={openModal}
@@ -188,8 +196,11 @@ export const CreateNewFood = (props: CustomInputSelectProps) => {
                   }}
                 />
               </Stack>
-              <Image src={imageUrl} alt="" width={50} height={50} />
             </Stack>
+
+            {showPicture && (
+              <Image src={imageUrl} alt="" width={50} height={50} />
+            )}
           </Stack>
         </Stack>
         <Stack

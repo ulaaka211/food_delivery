@@ -2,14 +2,14 @@
 
 import { Button, Container, Stack, TextField, Modal } from "@mui/material";
 import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
-import { useAuth } from "../provider/AuthenticationProvider";
 
 type AddFoodImgProps = {
   imageUrl: string;
   setImageUrl: Dispatch<SetStateAction<string>>;
-
   open: boolean;
   handleClose: () => void;
+  showPicture: boolean;
+  handleCloseImg: () => void;
 };
 
 export const AddFoodImg = (props: AddFoodImgProps) => {
@@ -61,9 +61,17 @@ export const AddFoodImg = (props: AddFoodImgProps) => {
                 onChange={handleImageChange}
                 variant="outlined"
               />
-              <Button onClick={handleImageUpload} variant="contained">
-                Upload
-              </Button>
+              <Stack
+                showPicture={showPicture}
+                onClick={() => {
+                  handleCloseimg();
+                }}
+              >
+                <Button onClick={handleImageUpload} variant="contained">
+                  Upload
+                </Button>
+              </Stack>
+
               {imageUrl && (
                 <Stack width="100%" position="relative">
                   <img

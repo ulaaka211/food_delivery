@@ -3,7 +3,7 @@
 import { Button, Grid, Stack, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { CreateNewFood } from "./CreateNewFood";
-import { CardSale } from "..";
+import { CardModel } from "..";
 import { useFood } from "../provider/FoodProvider";
 
 export const AddNewFood = () => {
@@ -49,7 +49,7 @@ export const AddNewFood = () => {
         <Grid container spacing={3}>
           {foods.map((item, index) => (
             <Grid key={index} item xs={12} md={3}>
-              <CardSale {...item} />
+              <CardModel {...item} />
             </Grid>
           ))}
         </Grid>

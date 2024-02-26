@@ -1,18 +1,13 @@
 "use client";
 
 import { Stack } from "@mui/material";
-import { HomeImg } from "@/components";
+import { HomeImg, OrderDetail } from "@/components";
 import { Deliver } from "@/components";
 import { All } from "@/components";
 import { Cart } from "@/components";
-
-// type ProfileProps = {
-//   handleClose: () => void;
-//   open: boolean;
-// };
+import { foodParams } from "@/components/provider/AuthenticationProvider";
 
 export default function Home() {
-  // const { show, handleClose } = props;
   return (
     <Stack>
       <HomeImg />
