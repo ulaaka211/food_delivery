@@ -6,10 +6,10 @@ import { AddFoodImg, CustomInput, CustomInputSelect2, IOSSwitch } from "..";
 import { Modal } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { Dispatch, SetStateAction, useState } from "react";
-import { useAuth } from "../provider/AuthenticationProvider";
-import { Formik, useFormik } from "formik";
+import { useFormik } from "formik";
 import * as yup from "yup";
 import Image from "next/image";
+import { useFood } from "../provider/FoodProvider";
 
 type CustomInputSelectProps = {
   imageUrl: string;
@@ -24,7 +24,7 @@ export const CreateNewFood = (props: CustomInputSelectProps) => {
   const [imageUrl, setImageUrl] = useState("");
   const [openModal, setOpenModal] = useState(false);
   const [showPicture, setShowPicture] = useState(false);
-  const { createFood } = useAuth();
+  const { createFood } = useFood();
 
   const validationSchema = yup.object({
     name: yup.string().required("Хоолны нэрээ оруулна уу"),

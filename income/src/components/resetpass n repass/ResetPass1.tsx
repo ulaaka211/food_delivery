@@ -25,6 +25,7 @@ export const ResetPassword1 = () => {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
+      checkresetemail({ email: values.email });
       setUserEmail(values.email);
     },
   });

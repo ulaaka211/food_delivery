@@ -3,9 +3,9 @@ import nodemailer from "nodemailer";
 import { UserModel } from "../models";
 
 export const sendemail: RequestHandler = async (req, res) => {
-  const { email, code } = req.body;
+  const { email } = req.body;
 
-  const user = await UserModel.findOne({ email: email, code: code });
+  const user = await UserModel.findOne({ email: email });
 
   if (!user) {
     return res.status(401).json({
@@ -47,25 +47,57 @@ export const sendemail: RequestHandler = async (req, res) => {
   }
 };
 
-// export const resetpass: RequestHandler = async (req, res) => {
-//   const { email, code, password } = req.body;
+export const resetpass: RequestHandler = async (req, res) => {
+  const { email, code, password } = req.body;
+  // return res.json({ message: code });
 
-//   const user = await UserModel.findOne({ email: email, code: code });
+  const user = await UserModel.findOne({ email: email, otp: code });
 
-//   // if (!user) {
-//   //   return res.status(401).json({
-//   //     message: "Хэрэглэгч олдсонгүй",
-//   //   });
-//   // }
+  if (!user) {
+    return res.status(401).json({
+      message: "Wrond otp",
+    });
+  }
+  try {
+    if (user.otp === code) {
+    }
 
-//   // if(user.otp === code){
+    const userPassword = await UserModel.updateOne({ password: password });
 
-//   // }
+    res.json({ message: "Password updated!" });
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
 
-//   // const dfd= await UserModel.updateOne({password: password})
+// export const resetPassword: RequestHandler = async (req, res) => {
+//   try {
+//     const { email, password, otp } = req.body;
+//     const user = await UserModel.findOne({ email });
 
-//     res.json("Email sent!");
-//   } catch (error) {
-//     res.status(500).json(error);
+//     if (!user) {
+//       return res.status(401).json({
+//         message: "Хэрэглэгч олдсонгүй, и-мэйлээ дахин шалгана уу!",
+//       });
+//     }
+
+//     const userOTP = user?.otp;
+
+//     if (userOTP != otp) {
+//       return res.status(401).json({
+//         message: "Нэг удаагийн код буруу байна.",
+//       });
+//     }
+
+//     const updateUser = await UserModel.findOneAndUpdate(
+//       { _id: user._id },
+//       {
+//         password: password,
+//         updatedAt: new Date(),
+//       }
+//     );
+//     res.json({ message: "Хэрэглэгчийн нууц үг шинэчлэгдсэн" });
+//   } catch (err) {
+//     res.json(err);
 //   }
 // };

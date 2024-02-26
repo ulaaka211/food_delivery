@@ -5,11 +5,10 @@ import { useState, useEffect } from "react";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import AddIcon from "@mui/icons-material/Add";
 import { CreateNewCategory } from "./CreateNewCategory";
-import { useAuth } from "../provider/AuthenticationProvider";
-import { useRouter } from "next/navigation";
+import { useFood } from "../provider/FoodProvider";
 
 export const AddNewCategory = () => {
-  const { categories } = useAuth();
+  const { categories } = useFood();
   const [open, setOpen] = useState(false);
 
   return (

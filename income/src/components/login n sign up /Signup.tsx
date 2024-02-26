@@ -141,6 +141,7 @@ export const Signup = (props: CustomLoginProps) => {
             type="password"
           />
         </Stack>
+
         <Stack width={"100%"} gap={4}>
           <Stack
             width={"100%"}
@@ -161,6 +162,12 @@ export const Signup = (props: CustomLoginProps) => {
               Үйлчилгээний нөхцөл зөвшөөрөх
             </Typography>
           </Stack>
+
+          {formik.errors.checkBox && (
+            <Typography fontSize={12} color="error">
+              Үйлчилгээний нөхцөлийг зөвшөөрнө үү
+            </Typography>
+          )}
 
           <Button
             fullWidth

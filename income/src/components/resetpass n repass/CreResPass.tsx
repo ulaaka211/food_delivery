@@ -5,6 +5,7 @@ import { CreateNewPassword } from "..";
 import { ResetPassword1 } from "..";
 import { ResetPassword2 } from "..";
 import { useAuth } from "../provider/AuthenticationProvider";
+import { useState } from "react";
 
 const arr = [
   {

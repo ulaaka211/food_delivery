@@ -13,7 +13,7 @@ const validationSchema = yup.object({
 });
 
 export const ResetPassword2 = () => {
-  const { userEmail, setUserOtb, checkresetotb } = useAuth();
+  const { userEmail, setUserOtb, setIndex } = useAuth();
   const [password, setPassword] = useState("");
 
   const formik = useFormik({
@@ -47,11 +47,12 @@ export const ResetPassword2 = () => {
             сэргээх код илгээх болно.
           </Typography>
           <CustomInput
-            name="password"
-            onChange={(e) => {
-              setPassword(e.target.value);
-            }}
-            value={password}
+            name="code"
+            onChange={formik.handleChange}
+            value={formik.values.code}
+            error={formik.touched.code && Boolean(formik.errors.code)}
+            onBlur={formik.handleBlur}
+            helperText={formik.touched.code && formik.errors.code}
             label="Нууц үг сэргээх код "
             placeholder="Нууц үг сэргээх кодоо оруулна уу"
             type="password"
@@ -60,11 +61,12 @@ export const ResetPassword2 = () => {
         <Button
           onClick={() => {
             formik.handleSubmit();
+            setIndex((prev) => prev + 1);
           }}
           fullWidth
           variant="contained"
           disableElevation
-          disabled={!password}
+          // disabled={!password}
           sx={{
             py: "14.5px",
           }}

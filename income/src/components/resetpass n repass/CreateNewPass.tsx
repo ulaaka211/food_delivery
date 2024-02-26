@@ -22,8 +22,8 @@ const validationSchema = yup.object({
 
 export const CreateNewPassword = () => {
   const router = useRouter();
-  const { setOpen, checkresetotb, userOtb } = useAuth();
-  const { index, setIndex } = useContext(AuthContext);
+  const { index, setIndex, setOpen, checkresetotb, userEmail, userOtb } =
+    useAuth();
   const [password, setPassword] = useState("");
   const [rePassword, setRePassword] = useState("");
 
@@ -34,7 +34,12 @@ export const CreateNewPassword = () => {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      checkresetotb({ password: values.password, code: userOtb });
+      checkresetotb({
+        email: userEmail,
+        code: userOtb,
+        password: values.password,
+      });
+      console.log(values.password, userOtb, userEmail);
     },
   });
 
@@ -81,7 +86,7 @@ export const CreateNewPassword = () => {
           fullWidth
           variant="contained"
           disableElevation
-          disabled={!password || !rePassword}
+          // disabled={!password || !rePassword}
           onClick={() => {
             setIndex((prev) => prev + 1);
             if (index === 2) {
@@ -89,6 +94,7 @@ export const CreateNewPassword = () => {
               setIndex(0);
               setOpen(true);
             }
+            formik.handleSubmit();
           }}
           sx={{
             py: "14.5px",

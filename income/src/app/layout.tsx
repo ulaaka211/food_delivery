@@ -1,9 +1,7 @@
 "use client";
 
-import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { Container } from "@mui/material";
 import { Header } from "@/components";
 import { Footer } from "@/components";
 import { ThemeProvider, CssBaseline } from "@mui/material";
@@ -13,6 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 
 import { AuthProvider } from "@/components/provider/AuthenticationProvider";
+import { FoodProvider } from "@/components/provider/FoodProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -27,9 +26,11 @@ export default function RootLayout({
         <AppRouterCacheProvider>
           <ThemeProvider theme={theme}>
             <AuthProvider>
-              <Header />
-              {children}
-              <Footer />
+              <FoodProvider>
+                <Header />
+                {children}
+                <Footer />
+              </FoodProvider>
             </AuthProvider>
             <ToastContainer />
             <CssBaseline />

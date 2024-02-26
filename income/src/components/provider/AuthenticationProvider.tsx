@@ -40,15 +40,13 @@ type checkresetemailParams = {
 };
 
 type checkresetotbParams = {
+  email: string;
   code: string;
   password: string;
 };
-type Category = {
-  foodCategory: string;
-};
+
 type AuthContextType = {
   userEmail: string;
-
   setUserEmail: Dispatch<SetStateAction<string>>;
   userOtb: string;
   setUserOtb: Dispatch<SetStateAction<string>>;
@@ -76,15 +74,9 @@ type AuthContextType = {
   setOpen: Dispatch<SetStateAction<boolean>>;
   index: number;
   setIndex: Dispatch<SetStateAction<number>>;
-  getFood: () => Promise<void>;
-  createFood: (params: foodParams) => Promise<void>;
-  getCategories: () => Promise<void>;
-  postCategory: (foodCategory: string) => Promise<void>;
   signup: (params: signupParams) => Promise<void>;
   login: (params: loginParams) => Promise<void>;
   signout: () => void;
-  categories: Category[];
-  foods: foodParams[];
   checkresetemail: (params: checkresetemailParams) => Promise<void>;
   checkresetotb: (params: checkresetotbParams) => Promise<void>;
 };
@@ -95,15 +87,17 @@ export const AuthContext = createContext<AuthContextType>(
 
 export const AuthProvider = ({ children }: PropsWithChildren) => {
   const router = useRouter();
+
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [foods, setFoods] = useState<foodParams[]>([]);
-  const [userOtb, setUserOtb] = useState("");
   const [index, setIndex] = useState(0);
   const [open, setOpen] = useState(false);
   const [isReady, setIsReady] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+
   // const [refresh, setRefresh] = usestate("");
+
+  const [userEmail, setUserEmail] = useState("");
+  const [userOtb, setUserOtb] = useState("");
   const [user, setUser] = useState({
     name: "",
     email: "",
@@ -113,7 +107,6 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
       "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
     role: "",
   });
-  const [userEmail, setUserEmail] = useState("");
 
   const login = async (params: loginParams) => {
     try {
@@ -140,90 +133,6 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
         });
       }
     } finally {
-    }
-  };
-
-  const getUser = async () => {
-    try {
-      const { data } = await api.get("/getUser", {
-        headers: { Authorization: localStorage.getItem("token") },
-      });
-
-      setUser(data);
-      const { role } = data;
-      if (role == "admin") {
-        setIsAdmin(true);
-      }
-      // toast.success("", {
-      //   position: "top-center",
-      //   hideProgressBar: true,
-      // });
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        toast.error(error.response?.data.message ?? error.message, {
-          position: "top-center",
-          hideProgressBar: true,
-        });
-      }
-      console.log(error), "FFF";
-    }
-  };
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-
-    if (token) {
-      setIsLoggedIn(true);
-    }
-
-    setIsReady(true);
-  }, []);
-
-  useEffect(() => {
-    if (isLoggedIn) {
-      getUser();
-    }
-  }, [isLoggedIn]);
-
-  const checkresetemail = async (params?: checkresetemailParams) => {
-    try {
-      const { data } = await api.post("/sendemail", params);
-
-      toast.success("Амжилттай илгээгдлээ", {
-        position: "top-center",
-        autoClose: 3000,
-        hideProgressBar: true,
-      });
-      setIndex((prev) => prev + 1);
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        toast.error(error.response?.data.message ?? error.message, {
-          position: "top-center",
-          autoClose: 3000,
-          hideProgressBar: true,
-        });
-      }
-    }
-  };
-
-  const checkresetotb = async (params?: checkresetotbParams) => {
-    try {
-      const { data } = await api.post("/sendemail", params);
-
-      toast.success("Амжилттай илгээгдлээ", {
-        position: "top-center",
-        autoClose: 3000,
-        hideProgressBar: true,
-      });
-      setIndex((prev) => prev + 1);
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        toast.error(error.response?.data.message ?? error.message, {
-          position: "top-center",
-          autoClose: 3000,
-          hideProgressBar: true,
-        });
-      }
     }
   };
 
@@ -260,14 +169,42 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     }
   };
 
-  const createFood = async (params: foodParams) => {
+  const getUser = async () => {
     try {
-      const { data } = await api.post("/foods/createFood", params);
-      toast.success(data.message, {
+      const { data } = await api.get("/getUser", {
+        headers: { Authorization: localStorage.getItem("token") },
+      });
+
+      setUser(data);
+      const { role } = data;
+      if (role == "admin") {
+        setIsAdmin(true);
+      }
+      // toast.success("", {
+      //   position: "top-center",
+      //   hideProgressBar: true,
+      // });
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data.message ?? error.message, {
+          position: "top-center",
+          hideProgressBar: true,
+        });
+      }
+      console.log(error), "FFF";
+    }
+  };
+
+  const checkresetemail = async (params?: checkresetemailParams) => {
+    try {
+      const { data } = await api.post("/sendemail", params);
+
+      toast.success("Амжилттай илгээгдлээ", {
         position: "top-center",
         autoClose: 3000,
         hideProgressBar: true,
       });
+      setIndex((prev) => prev + 1);
     } catch (error) {
       if (error instanceof AxiosError) {
         toast.error(error.response?.data.message ?? error.message, {
@@ -279,65 +216,46 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     }
   };
 
-  const getFood = async () => {
+  const checkresetotb = async (params?: checkresetotbParams) => {
     try {
-      const { data } = await api.get("foods/getFood", {
-        headers: { Authorization: localStorage.getItem("token") },
-      });
-      setFoods(data);
-    } catch (error) {
-      console.log(error), "FFF";
-    }
-  };
+      const { data } = await api.post("/resetpass", params);
 
-  const postCategory = async (foodCategory: string) => {
-    try {
-      const { data } = await api.post(
-        "foods/createCategory",
-        { foodCategory },
-        {
-          headers: { Authorization: localStorage.getItem("token") },
-        }
-      );
       toast.success(data.message, {
         position: "top-center",
+        autoClose: 3000,
         hideProgressBar: true,
       });
+      setIndex((prev) => prev + 1);
     } catch (error) {
       if (error instanceof AxiosError) {
         toast.error(error.response?.data.message ?? error.message, {
           position: "top-center",
+          autoClose: 3000,
           hideProgressBar: true,
         });
       }
-      console.log(error), "FFF";
-    }
-  };
-
-  const getCategories = async () => {
-    try {
-      const { data } = await api.get("foods/getCategory", {
-        headers: { Authorization: localStorage.getItem("token") },
-      });
-      setCategories(data);
-    } catch (error) {
-      console.log(error), "FFF";
     }
   };
 
   useEffect(() => {
-    getCategories();
-    getFood();
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      setIsLoggedIn(true);
+    }
+
+    setIsReady(true);
   }, []);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      getUser();
+    }
+  }, [isLoggedIn]);
 
   return (
     <AuthContext.Provider
       value={{
-        foods,
-        getFood,
-        categories,
-        getCategories,
-        postCategory,
         userEmail,
         setUserEmail,
         userOtb,
@@ -353,7 +271,6 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
         checkresetotb,
         user,
         setUser,
-        createFood,
         isAdmin,
         signout,
       }}

@@ -6,7 +6,7 @@ import { Modal } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { useAuth } from "../provider/AuthenticationProvider";
+import { useFood } from "../provider/FoodProvider";
 
 const validationSchema = yup.object({
   foodCategory: yup.string(),
@@ -19,7 +19,7 @@ type CustomInputSelectProps = {
 
 export const CreateNewCategory = (props: CustomInputSelectProps) => {
   const { open, handleClose } = props;
-  const { postCategory } = useAuth();
+  const { postCategory } = useFood();
 
   const formik = useFormik({
     initialValues: {

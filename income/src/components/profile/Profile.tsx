@@ -21,8 +21,6 @@ export const MyProfile = () => {
   const [userPassword, setUserPassword] = useState(password);
   const [imageUrl, setImageUrl] = useState(profileImg);
 
-  console.log(openSignOut, "HHHH");
-
   return (
     <Stack height={"70vh"} justifyContent={"center"}>
       <Container>

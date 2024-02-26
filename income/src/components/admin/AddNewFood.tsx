@@ -3,12 +3,11 @@
 import { Button, Grid, Stack, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { CreateNewFood } from "./CreateNewFood";
-import { useRouter } from "next/navigation";
-import { useAuth } from "../provider/AuthenticationProvider";
 import { CardSale } from "..";
+import { useFood } from "../provider/FoodProvider";
 
 export const AddNewFood = () => {
-  const { foods, getFood } = useAuth();
+  const { foods } = useFood();
   const [open, setOpen] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
 
