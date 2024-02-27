@@ -12,12 +12,12 @@ export const AddNewFood = () => {
   const [imageUrl, setImageUrl] = useState("");
 
   return (
-    <Stack width={"75.7%"}>
+    <Stack width={"80%"}>
       <Stack
         width={"100%"}
         height={"100vh"}
         paddingTop={6}
-        paddingLeft={4}
+        paddingLeft={5}
         gap={6}
         bgcolor={"#F7F7F8"}
       >

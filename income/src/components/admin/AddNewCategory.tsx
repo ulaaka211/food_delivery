@@ -12,7 +12,7 @@ export const AddNewCategory = () => {
   const [open, setOpen] = useState(false);
 
   return (
-    <Stack width={"24.3%"}>
+    <Stack width={"22%"}>
       <Stack
         width={"100%"}
         paddingTop={3}

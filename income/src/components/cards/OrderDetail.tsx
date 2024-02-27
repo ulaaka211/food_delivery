@@ -42,9 +42,10 @@ export const OrderDetail = (
       >
         <Stack width={"50%"} overflow={"hidden"} borderRadius={3} border={1}>
           <Image
-            src="/income/public/download.jpeg"
+            src="image 6.svg"
             alt=""
-            fill
+            width={500}
+            height={400}
             objectFit="cover"
           />
         </Stack>

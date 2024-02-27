@@ -61,12 +61,7 @@ export const AddFoodImg = (props: AddFoodImgProps) => {
                 onChange={handleImageChange}
                 variant="outlined"
               />
-              <Stack
-                showPicture={showPicture}
-                onClick={() => {
-                  handleCloseimg();
-                }}
-              >
+              <Stack>
                 <Button onClick={handleImageUpload} variant="contained">
                   Upload
                 </Button>

@@ -4,7 +4,7 @@ import { Grid, Stack, Typography } from "@mui/material";
 import { Container } from "@mui/material";
 import Link from "next/link";
 import { useState } from "react";
-import { CardSale } from ".";
+import { CardModel } from ".";
 
 const tabs = [
   {
@@ -72,7 +72,7 @@ export const Menu = () => {
           <Grid container spacing={3}>
             {new Array(12).fill(0).map((_, index) => (
               <Grid key={index} item xs={12} sm={6} md={4} lg={3}>
-                <CardSale />
+                <CardModel />
               </Grid>
             ))}
           </Grid>

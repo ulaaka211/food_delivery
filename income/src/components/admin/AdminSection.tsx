@@ -41,8 +41,6 @@ export const AdminSection = () => {
         sx={{
           display: "flex",
           flexDirection: "row",
-
-          left: "15%",
         }}
       >
         <AddNewCategory />

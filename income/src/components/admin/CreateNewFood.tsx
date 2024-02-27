@@ -171,6 +171,7 @@ export const CreateNewFood = (props: CustomInputSelectProps) => {
                 <Typography
                   onClick={() => {
                     setOpenModal(true);
+                    setShowPicture(true);
                   }}
                   py={1.5}
                   px={1.5}
@@ -195,12 +196,23 @@ export const CreateNewFood = (props: CustomInputSelectProps) => {
                     setOpenModal(false);
                   }}
                 />
+                {showPicture && (
+                  <Stack
+                    onClick={() => {
+                      setShowPicture(false);
+                    }}
+                    position={"absolute"}
+                    zIndex={1}
+                    border={1}
+                    borderRadius={3}
+                    overflow={"hidden"}
+                    bottom={"22.4%"}
+                  >
+                    <Image src={imageUrl} alt="" width={269} height={139} />
+                  </Stack>
+                )}
               </Stack>
             </Stack>
-
-            {showPicture && (
-              <Image src={imageUrl} alt="" width={50} height={50} />
-            )}
           </Stack>
         </Stack>
         <Stack
