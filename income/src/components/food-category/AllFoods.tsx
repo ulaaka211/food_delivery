@@ -1,39 +1,14 @@
+"use client";
+
 import { Container, Stack, Typography, Grid } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
+import { useFood } from "../provider/FoodProvider";
+import { CardModel } from "..";
 
-const arr = [
-  {
-    image: "/food.svg",
-    discount: "20%",
-    name: " Өглөөний хоол",
-    price: " 4,800₮",
-    oldprice: "6,800₮",
-  },
-  {
-    image: "/food.svg",
-    discount: "20%",
-    name: " Өглөөний хоол",
-    price: " 4,800₮",
-    oldprice: "6,800₮",
-  },
-  {
-    image: "/food.svg",
-    discount: "20%",
-    name: " Өглөөний хоол",
-    price: " 4,800₮",
-    oldprice: "6,800₮",
-  },
-  {
-    image: "/food.svg",
-    discount: "20%",
-    name: " Өглөөний хоол",
-    price: " 4,800₮",
-    oldprice: "6,800₮",
-  },
-];
+export const AllFoods = () => {
+  const { foods } = useFood();
 
-export const Salad = () => {
   return (
     <Stack>
       <Container maxWidth="xl">
@@ -46,8 +21,9 @@ export const Salad = () => {
           >
             <Stack spacing={1} direction={"row"} alignItems={"center"}>
               <Image src="/Star 1.svg" alt="" width={32} height={32} />
+
               <Typography fontSize={22} fontWeight={700}>
-                Салад ба зууш
+                All foods
               </Typography>
             </Stack>
             <Link href={"/food-menu"}>
@@ -61,8 +37,10 @@ export const Salad = () => {
           </Stack>
           <Stack direction={"row"} justifyContent={"space-between"}>
             <Grid container spacing={3}>
-              {arr.map((_, index) => (
-                <Grid key={index} item xs={12} md={3}></Grid>
+              {foods.map((item, index) => (
+                <Grid key={index} item xs={12} md={3}>
+                  <CardModel {...item} />
+                </Grid>
               ))}
             </Grid>
           </Stack>

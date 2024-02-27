@@ -25,11 +25,8 @@ export * from "./inprogress n completed/InProgress";
 export * from "./inprogress n completed/InProgressIcon";
 export * from "./inprogress n completed/CompletedIcon";
 
-export * from "./food-category/Sale";
-export * from "./food-category/Dessert";
-export * from "./food-category/Main";
-export * from "./food-category/Salad";
-export * from "./food-category/All";
+export * from "./food-category/AllFoods";
+export * from "./food-category/SelectedFoods";
 
 export * from "./order, orderhistory n address/Address";
 export * from "./order, orderhistory n address/OrderCard";
@@ -38,7 +35,6 @@ export * from "./order, orderhistory n address/OrderDetails";
 
 export * from "./profile/Profile";
 export * from "./HomeImg";
-export * from "./Foods";
 export * from "./Menu";
 export * from "./Deliver";
 export * from "./profile/EditProfileImg";
@@ -51,5 +47,3 @@ export * from "./admin/CreateNewFood";
 export * from "./admin/EditCategory";
 export * from "./profile/SignOut";
 export * from "./admin/IOSSwitch";
-
-// export * from "./provider/authprovider";

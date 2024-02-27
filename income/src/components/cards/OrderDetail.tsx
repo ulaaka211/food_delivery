@@ -65,7 +65,7 @@ export const OrderDetail = ({
               }}
             />
           </Stack>
-          <Stack gap={3.92}>
+          <Stack gap={4.4}>
             <Stack>
               <Typography fontSize={28} fontWeight={700}>
                 {foodParams.name}

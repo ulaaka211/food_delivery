@@ -2,7 +2,7 @@ import { RequestHandler } from "express";
 import { FoodModel, categoryModel } from "../models";
 
 export const createFood: RequestHandler = async (req, res) => {
-  const { name, price, discount, foodimg, ingredients } = req.body;
+  const { name, price, discount, foodimg, ingredients, category } = req.body;
 
   try {
     const foodCheck = await FoodModel.find({
@@ -11,6 +11,7 @@ export const createFood: RequestHandler = async (req, res) => {
       discount,
       foodimg,
       ingredients,
+      category,
     });
 
     if (foodCheck.length) {
@@ -25,6 +26,7 @@ export const createFood: RequestHandler = async (req, res) => {
       discount,
       foodimg,
       ingredients,
+      category,
     });
 
     return res.json({ message: "Хоол амжилттай үүслээ " });

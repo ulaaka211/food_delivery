@@ -5,6 +5,7 @@ import { Container } from "@mui/material";
 import Link from "next/link";
 import { useState } from "react";
 import { CardModel } from ".";
+import { useFood } from "./provider/FoodProvider";
 
 const tabs = [
   {
@@ -26,9 +27,7 @@ const tabs = [
 ];
 
 export const Menu = () => {
-  const [getCards, setGetCards] = useState("");
-  const [page, setPages] = useState("");
-  const [activeTab, setActiveTab] = useState(tabs[0]);
+  const { categories, foods } = useFood();
 
   return (
     <Stack height={"120vh"} width={"100vw"}>
@@ -41,20 +40,10 @@ export const Menu = () => {
             paddingBottom={10}
             gap={7}
           >
-            {tabs.map((item) => (
+            {categories.map((item) => (
               <Stack
                 flex={1}
-                onClick={() => {
-                  setActiveTab(item);
-                }}
-                sx={{
-                  bgcolor:
-                    item.label === activeTab.label ? "#18BA51" : "common.white",
-                  color:
-                    item.label === activeTab.label
-                      ? "common.white"
-                      : "common.black",
-                }}
+                onClick={() => {}}
                 border={1}
                 justifyContent={"center"}
                 alignItems={"center"}
@@ -63,16 +52,20 @@ export const Menu = () => {
                 paddingY={1}
                 paddingX={2}
               >
-                <Typography key={item.label} fontSize={18} fontWeight={600}>
-                  {item.label}
+                <Typography
+                  key={item.foodCategory}
+                  fontSize={18}
+                  fontWeight={600}
+                >
+                  {item.foodCategory}
                 </Typography>
               </Stack>
             ))}
           </Stack>
           <Grid container spacing={3}>
-            {new Array(12).fill(0).map((_, index) => (
+            {foods.filter.map((item, index) => (
               <Grid key={index} item xs={12} sm={6} md={4} lg={3}>
-                <CardModel />
+                <CardModel {...item} />
               </Grid>
             ))}
           </Grid>

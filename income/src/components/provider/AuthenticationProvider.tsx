@@ -21,6 +21,7 @@ export type foodParams = {
   discount: number;
   foodimg: string;
   price: number;
+  category: string;
 };
 
 type signupParams = {

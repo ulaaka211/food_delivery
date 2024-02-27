@@ -42,6 +42,7 @@ export const AdminSection = () => {
         sx={{
           display: "flex",
           flexDirection: "row",
+          gap: "2.7%",
         }}
       >
         <AddNewCategory

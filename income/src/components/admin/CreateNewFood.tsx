@@ -1,7 +1,7 @@
 "use client";
 // .required("Хоолны зургаа оруулна уу"),
 
-import { Stack, Typography, Button } from "@mui/material";
+import { Stack, Typography, Button, TextField, MenuItem } from "@mui/material";
 import { AddFoodImg, CustomInput, CustomInputSelect2, IOSSwitch } from "..";
 import { Modal } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
@@ -21,7 +21,7 @@ type CustomInputSelectProps = {
 
 export const CreateNewFood = (props: CustomInputSelectProps) => {
   const { open, handleClose } = props;
-  const { createFood } = useFood();
+  const { createFood, categories } = useFood();
   const [checkDiscount, setCheckDiscount] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
   const [openModal, setOpenModal] = useState(false);
@@ -32,6 +32,7 @@ export const CreateNewFood = (props: CustomInputSelectProps) => {
     ingredients: yup.string().required("Хоолны орцнуудаа оруулна уу"),
     price: yup.number().required("Хоолны үнээ оруулна уу"),
     discount: yup.number(),
+    category: yup.string().required("Хоолны төрлөө оруулна уу"),
   });
 
   const formik = useFormik({
@@ -41,6 +42,7 @@ export const CreateNewFood = (props: CustomInputSelectProps) => {
       foodimg: "",
       price: 0,
       discount: 0,
+      category: "",
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
@@ -50,6 +52,7 @@ export const CreateNewFood = (props: CustomInputSelectProps) => {
         price: values.price,
         discount: values.discount,
         foodimg: imageUrl,
+        category: values.category,
       });
     },
   });
@@ -99,7 +102,22 @@ export const CreateNewFood = (props: CustomInputSelectProps) => {
             helperText={formik.touched.name && formik.errors.name}
             onBlur={formik.handleBlur}
           />
-          <CustomInputSelect2 label="Хоолны ангилал" placeholder="" />
+          <CustomInput
+            select={true}
+            label="Хоолны ангилал"
+            name="category"
+            onChange={formik.handleChange}
+            value={formik.values.category}
+            error={formik.touched.category && Boolean(formik.errors.category)}
+            helperText={formik.touched.category && formik.errors.category}
+            onBlur={formik.handleBlur}
+          >
+            {categories.map((item: any) => (
+              <MenuItem key={item.foodCategory} value={item.foodCategory}>
+                {item.foodCategory}
+              </MenuItem>
+            ))}
+          </CustomInput>
           <CustomInput
             label="Хоолны орц"
             name="ingredients"
