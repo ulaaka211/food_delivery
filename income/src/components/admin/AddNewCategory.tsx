@@ -1,13 +1,18 @@
 "use client";
 
 import { Stack, Typography } from "@mui/material";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import AddIcon from "@mui/icons-material/Add";
 import { CreateNewCategory } from "./CreateNewCategory";
 import { useFood } from "../provider/FoodProvider";
 
-export const AddNewCategory = () => {
+type AddNewCategoryProps = {
+  selectedCategory: string;
+  setSelectedCategory: Dispatch<SetStateAction<string>>;
+};
+
+export const AddNewCategory = (props: AddNewCategoryProps) => {
   const { categories } = useFood();
   const [open, setOpen] = useState(false);
 
@@ -16,7 +21,6 @@ export const AddNewCategory = () => {
       <Stack
         width={"100%"}
         paddingTop={3}
-        paddingRight={2}
         bgcolor={"#fff"}
         alignItems={"flex-start"}
       >
@@ -32,6 +36,9 @@ export const AddNewCategory = () => {
           >
             {categories.map((item) => (
               <Stack
+                onClick={() => {
+                  props.setSelectedCategory(item.foodCategory);
+                }}
                 border={1}
                 direction={"row"}
                 alignItems={"center"}
@@ -40,6 +47,16 @@ export const AddNewCategory = () => {
                 borderRadius={1}
                 paddingY={1}
                 paddingX={2}
+                bgcolor={
+                  props.selectedCategory == item.foodCategory
+                    ? "primary.main"
+                    : "common.white"
+                }
+                color={
+                  props.selectedCategory == item.foodCategory
+                    ? "common.white"
+                    : "common.black"
+                }
               >
                 <Typography
                   key={item.foodCategory}

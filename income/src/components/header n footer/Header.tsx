@@ -3,12 +3,12 @@
 import Image from "next/image";
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
-import { Box, InputAdornment, Stack, TextField } from "@mui/material";
+import { Box, Drawer, InputAdornment, Stack, TextField } from "@mui/material";
 import { Container } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
-import { Login, MyProfile } from "..";
+import { DrawerDetail, Login, MyProfile } from "..";
 import { useAuth } from "../provider/AuthenticationProvider";
 
 const arr = [
@@ -30,6 +30,7 @@ export const Header = () => {
   const pathname = usePathname();
   const { open, setOpen, user, isLoggedIn, isAdmin } = useAuth();
   const router = useRouter();
+  const [openDrawer, setOpenDrawer] = useState(false);
 
   return (
     <Stack
@@ -96,13 +97,34 @@ export const Header = () => {
                 style: { padding: "8px 16px" },
               }}
             />
-
-            <Stack spacing={1} direction={"row"} alignItems={"center"}>
+            <Stack
+              onClick={() => {
+                setOpenDrawer(true);
+              }}
+              spacing={1}
+              direction={"row"}
+              alignItems={"center"}
+            >
               <Image src="/component 2 (1).svg" alt="" width={24} height={24} />
               <Typography fontSize={14} fontWeight={700}>
                 Сагс
               </Typography>
             </Stack>
+            <Drawer
+              anchor="right"
+              open={openDrawer}
+              onClose={() => {
+                setOpenDrawer(false);
+              }}
+            >
+              <Stack
+                height={"100%"}
+                justifyContent={"center"}
+                alignItems={"center"}
+              >
+                <DrawerDetail />
+              </Stack>
+            </Drawer>
             <Box
               onClick={() => {
                 if (isLoggedIn) {

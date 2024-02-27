@@ -9,7 +9,7 @@ import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import Link from "next/link";
 import { useState } from "react";
 
-export const CartCard = () => {
+export const DrawerDetail = () => {
   const [count, setCount] = useState(1);
 
   return (

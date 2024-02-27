@@ -21,7 +21,6 @@ type CustomInputSelectProps = {
 export const CreateNewCategory = (props: CustomInputSelectProps) => {
   const { open, handleClose } = props;
   const { postCategory } = useFood();
-  const [openCard, setOpenCard] = useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -35,25 +34,17 @@ export const CreateNewCategory = (props: CustomInputSelectProps) => {
 
   return (
     <Modal
+      open={open}
+      onClose={() => {
+        handleClose();
+      }}
       sx={{
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
       }}
-      open={open}
-      onClick={() => {
-        handleClose();
-      }}
     >
-      <Stack
-        onClick={() => {
-          setOpenCard(true);
-        }}
-        maxWidth={587}
-        width={"100%"}
-        bgcolor={"#fff"}
-        borderRadius={3}
-      >
+      <Stack maxWidth={587} width={"100%"} bgcolor={"#fff"} borderRadius={3}>
         <Stack
           direction={"row"}
           justifyContent={"space-between"}

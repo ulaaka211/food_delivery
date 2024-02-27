@@ -4,11 +4,12 @@ import { Container, Stack } from "@mui/material";
 import { AddNewCategory, AddNewFood } from "..";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../provider/AuthenticationProvider";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export const AdminSection = () => {
   const router = useRouter();
   const { isAdmin, refresh } = useAuth();
+  const [selectedCategory, setSelectedCategory] = useState("All foods");
 
   useEffect(() => {
     if (!isAdmin) {
@@ -43,8 +44,14 @@ export const AdminSection = () => {
           flexDirection: "row",
         }}
       >
-        <AddNewCategory />
-        <AddNewFood />
+        <AddNewCategory
+          selectedCategory={selectedCategory}
+          setSelectedCategory={setSelectedCategory}
+        />
+        <AddNewFood
+          selectedCategory={selectedCategory}
+          setSelectedCategory={setSelectedCategory}
+        />
       </Container>
     </Stack>
   );

@@ -1,12 +1,18 @@
 "use client";
 
 import { Button, Grid, Stack, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { CreateNewFood } from "./CreateNewFood";
 import { CardModel } from "..";
 import { useFood } from "../provider/FoodProvider";
+import { SelectAllRounded } from "@mui/icons-material";
 
-export const AddNewFood = () => {
+type AddNewFoodProps = {
+  selectedCategory: string;
+  setSelectedCategory: Dispatch<SetStateAction<string>>;
+};
+
+export const AddNewFood = (props: AddNewFoodProps) => {
   const { foods } = useFood();
   const [open, setOpen] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
@@ -23,7 +29,7 @@ export const AddNewFood = () => {
       >
         <Stack direction={"row"} justifyContent={"space-between"}>
           <Typography fontSize={22} fontWeight={700}>
-            Breakfast
+            {props.selectedCategory}
           </Typography>
           <Button
             variant="text"

@@ -58,7 +58,6 @@ type AuthContextType = {
     address: string;
     password: string;
     profileImg: string;
-    role: string;
   };
   setUser: Dispatch<
     SetStateAction<{
@@ -67,7 +66,6 @@ type AuthContextType = {
       address: string;
       password: string;
       profileImg: string;
-      role: string;
     }>
   >;
   isAdmin: boolean;
@@ -107,7 +105,6 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     password: "",
     profileImg:
       "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
-    role: "",
   });
 
   const login = async (params: loginParams) => {
