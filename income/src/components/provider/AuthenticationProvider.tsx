@@ -46,6 +46,8 @@ type checkresetotbParams = {
 };
 
 type AuthContextType = {
+  refresh: number;
+  setRefresh: Dispatch<SetStateAction<number>>;
   userEmail: string;
   setUserEmail: Dispatch<SetStateAction<string>>;
   userOtb: string;
@@ -94,7 +96,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   const [isReady, setIsReady] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
 
-  // const [refresh, setRefresh] = usestate("");
+  const [refresh, setRefresh] = useState(1);
 
   const [userEmail, setUserEmail] = useState("");
   const [userOtb, setUserOtb] = useState("");
@@ -256,6 +258,8 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   return (
     <AuthContext.Provider
       value={{
+        refresh,
+        setRefresh,
         userEmail,
         setUserEmail,
         userOtb,

@@ -13,7 +13,14 @@ type AddFoodImgProps = {
 };
 
 export const AddFoodImg = (props: AddFoodImgProps) => {
-  const { open, handleClose, imageUrl, setImageUrl } = props;
+  const {
+    open,
+    handleClose,
+    imageUrl,
+    setImageUrl,
+    showPicture,
+    handleCloseImg,
+  } = props;
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files) return;
@@ -61,11 +68,16 @@ export const AddFoodImg = (props: AddFoodImgProps) => {
                 onChange={handleImageChange}
                 variant="outlined"
               />
-              <Stack>
-                <Button onClick={handleImageUpload} variant="contained">
-                  Upload
-                </Button>
-              </Stack>
+
+              <Button
+                onClick={async () => {
+                  await handleImageUpload();
+                  handleCloseImg();
+                }}
+                variant="contained"
+              >
+                Upload
+              </Button>
 
               {imageUrl && (
                 <Stack width="100%" position="relative">

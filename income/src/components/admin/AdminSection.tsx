@@ -8,7 +8,7 @@ import { useEffect } from "react";
 
 export const AdminSection = () => {
   const router = useRouter();
-  const { isAdmin } = useAuth();
+  const { isAdmin, refresh } = useAuth();
 
   useEffect(() => {
     if (!isAdmin) {

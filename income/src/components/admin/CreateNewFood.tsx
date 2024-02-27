@@ -10,6 +10,7 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import Image from "next/image";
 import { useFood } from "../provider/FoodProvider";
+import { relative } from "path";
 
 type CustomInputSelectProps = {
   imageUrl: string;
@@ -157,6 +158,7 @@ export const CreateNewFood = (props: CustomInputSelectProps) => {
               bgcolor={"#F7F7F8"}
               border={"dashed"}
               borderRadius={3}
+              position={"relative"}
             >
               <Stack alignItems={"center"} borderRadius={3}>
                 <Typography
@@ -171,7 +173,6 @@ export const CreateNewFood = (props: CustomInputSelectProps) => {
                 <Typography
                   onClick={() => {
                     setOpenModal(true);
-                    setShowPicture(true);
                   }}
                   py={1.5}
                   px={1.5}
@@ -201,14 +202,15 @@ export const CreateNewFood = (props: CustomInputSelectProps) => {
                     onClick={() => {
                       setShowPicture(false);
                     }}
+                    top={0}
                     position={"absolute"}
                     zIndex={1}
-                    border={1}
                     borderRadius={3}
                     overflow={"hidden"}
-                    bottom={"22.4%"}
+                    width={"100%"}
+                    height={"100%"}
                   >
-                    <Image src={imageUrl} alt="" width={269} height={139} />
+                    <Image src={imageUrl} alt="" fill objectFit="cover" />
                   </Stack>
                 )}
               </Stack>

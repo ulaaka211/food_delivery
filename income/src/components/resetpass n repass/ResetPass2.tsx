@@ -66,7 +66,7 @@ export const ResetPassword2 = () => {
           fullWidth
           variant="contained"
           disableElevation
-          // disabled={!password}
+          // disabled={!password}\]
           sx={{
             py: "14.5px",
           }}

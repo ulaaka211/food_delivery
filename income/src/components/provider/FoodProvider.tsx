@@ -14,6 +14,7 @@ import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AxiosError } from "axios";
+import { useAuth } from "./AuthenticationProvider";
 
 export type foodParams = {
   name: string;
@@ -40,6 +41,7 @@ export const FoodContext = createContext<FoodContextType>(
 );
 
 export const FoodProvider = ({ children }: PropsWithChildren) => {
+  const { refresh, setRefresh } = useAuth();
   const [categories, setCategories] = useState<Category[]>([]);
   const [foods, setFoods] = useState<foodParams[]>([]);
 
@@ -51,6 +53,7 @@ export const FoodProvider = ({ children }: PropsWithChildren) => {
         autoClose: 3000,
         hideProgressBar: true,
       });
+      setRefresh(refresh + 1);
     } catch (error) {
       if (error instanceof AxiosError) {
         toast.error(error.response?.data.message ?? error.message, {
@@ -86,6 +89,7 @@ export const FoodProvider = ({ children }: PropsWithChildren) => {
         position: "top-center",
         hideProgressBar: true,
       });
+      setRefresh(refresh + 1);
     } catch (error) {
       if (error instanceof AxiosError) {
         toast.error(error.response?.data.message ?? error.message, {
@@ -111,7 +115,7 @@ export const FoodProvider = ({ children }: PropsWithChildren) => {
   useEffect(() => {
     getCategories();
     getFood();
-  }, []);
+  }, [refresh]);
 
   return (
     <FoodContext.Provider

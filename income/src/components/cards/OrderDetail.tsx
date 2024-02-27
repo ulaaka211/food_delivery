@@ -12,13 +12,16 @@ import { useState } from "react";
 type orderDetailProps = {
   open: boolean;
   handleClose: () => void;
+  foodParams: foodParams;
 };
 
-export const OrderDetail = (
-  { open, handleClose }: orderDetailProps,
-  props: foodParams
-) => {
+export const OrderDetail = ({
+  open,
+  handleClose,
+  foodParams,
+}: orderDetailProps) => {
   const [count, setCount] = useState(1);
+
   return (
     <Modal
       sx={{
@@ -40,17 +43,21 @@ export const OrderDetail = (
         gap={4}
         direction={"row"}
       >
-        <Stack width={"50%"} overflow={"hidden"} borderRadius={3} border={1}>
-          <Image
-            src="image 6.svg"
-            alt=""
-            width={500}
-            height={400}
-            objectFit="cover"
-          />
+        <Stack
+          position="relative"
+          width={"50%"}
+          height={"100%"}
+          overflow={"hidden"}
+          borderRadius={3}
+          border={1}
+          sx={{
+            aspectRatio: "1/1",
+          }}
+        >
+          <Image src={foodParams.foodimg} alt="" fill objectFit="cover" />
         </Stack>
 
-        <Stack justifyContent={"space-between"} width={"50%"} border={1}>
+        <Stack width={"50%"}>
           <Stack alignSelf={"end"}>
             <CloseOutlinedIcon
               onClick={() => {
@@ -58,28 +65,52 @@ export const OrderDetail = (
               }}
             />
           </Stack>
-          <Stack spacing={4}>
+          <Stack gap={3.92}>
             <Stack>
               <Typography fontSize={28} fontWeight={700}>
-                {props.name}
+                {foodParams.name}
               </Typography>
-              <Typography color={"#18BA51"} fontSize={18} fontWeight={600}>
-                {props.price}
-              </Typography>
+              <Stack direction={"row"} gap={2}>
+                <Typography color={"#18BA51"} fontSize={18} fontWeight={600}>
+                  {Boolean(foodParams.discount)
+                    ? foodParams.price * (1 - foodParams.discount * 0.01)
+                    : foodParams.price}
+                </Typography>
+                <Typography
+                  color={"common.black"}
+                  fontSize={18}
+                  fontWeight={600}
+                  sx={{
+                    textDecorationLine: "line-through",
+                  }}
+                >
+                  {Boolean(foodParams.discount) && foodParams.price}
+                </Typography>
+              </Stack>
             </Stack>
-            <Stack spacing={1.5}>
+            <Stack gap={1}>
               <Typography fontSize={18} fontWeight={600}>
                 Орц
               </Typography>
-              <Typography padding={1} bgcolor={"#F6F6F6"} color={"#767676"}>
-                {props.ingredients}
+              <Typography
+                padding={1}
+                bgcolor={"#F6F6F6"}
+                color={"#767676"}
+                overflow={"scroll"}
+                noWrap
+                textOverflow={"ellipsis"}
+                sx={{
+                  lineClamp: "1",
+                }}
+              >
+                {foodParams.ingredients}
               </Typography>
             </Stack>
             <Typography fontSize={18} fontWeight={600}>
               Тоо
             </Typography>
             <Stack
-              spacing={2.5}
+              gap={2}
               direction={"row"}
               justifyContent={"space-between"}
               alignItems={"center"}

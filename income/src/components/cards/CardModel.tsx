@@ -77,6 +77,7 @@ export const CardModel = (props: foodParams) => {
         handleClose={() => {
           setOpen(false);
         }}
+        foodParams={props}
       />
     </Stack>
   );

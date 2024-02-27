@@ -32,8 +32,6 @@ export const AddNewCategory = () => {
           >
             {categories.map((item) => (
               <Stack
-                onClick={() => {}}
-                sx={{}}
                 border={1}
                 direction={"row"}
                 alignItems={"center"}
