@@ -5,14 +5,16 @@ import Image from "next/image";
 import Link from "next/link";
 import { useFood } from "../provider/FoodProvider";
 import { CardModel } from "..";
+import { useRouter } from "next/navigation";
 
 type SelectedFoodsProps = {
   category: string;
 };
 
 export const SelectedFoods = (props: SelectedFoodsProps) => {
+  const router = useRouter();
   const { category } = props;
-  const { foods } = useFood();
+  const { foods, setSelectedCategory } = useFood();
   return (
     <Stack>
       <Stack>
@@ -30,14 +32,21 @@ export const SelectedFoods = (props: SelectedFoodsProps) => {
                   {category}
                 </Typography>
               </Stack>
-              <Link href={"/food-menu"}>
-                <Stack gap={2} direction={"row"} alignItems={"center"}>
-                  <Typography color={"#18BA51"} fontSize={14} fontWeight={400}>
-                    Бүгдийг харах
-                  </Typography>
-                  <Image src="/q.svg" alt="" width={10} height={15} />
-                </Stack>
-              </Link>
+
+              <Stack
+                gap={2}
+                direction={"row"}
+                alignItems={"center"}
+                onClick={() => {
+                  setSelectedCategory(category);
+                  router.push("food-menu");
+                }}
+              >
+                <Typography color={"#18BA51"} fontSize={14} fontWeight={400}>
+                  Бүгдийг харах
+                </Typography>
+                <Image src="/q.svg" alt="" width={10} height={15} />
+              </Stack>
             </Stack>
             <Stack direction={"row"} justifyContent={"space-between"}>
               <Grid container spacing={3}>

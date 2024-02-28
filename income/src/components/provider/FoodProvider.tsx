@@ -35,6 +35,8 @@ type FoodContextType = {
   postCategory: (foodCategory: string) => Promise<void>;
   categories: Category[];
   foods: foodParams[];
+  selectedCategory: string;
+  setSelectedCategory: Dispatch<SetStateAction<string>>;
 };
 
 export const FoodContext = createContext<FoodContextType>(
@@ -45,6 +47,7 @@ export const FoodProvider = ({ children }: PropsWithChildren) => {
   const { refresh, setRefresh } = useAuth();
   const [categories, setCategories] = useState<Category[]>([]);
   const [foods, setFoods] = useState<foodParams[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
 
   const createFood = async (params: foodParams) => {
     try {
@@ -127,6 +130,8 @@ export const FoodProvider = ({ children }: PropsWithChildren) => {
         getCategories,
         postCategory,
         createFood,
+        selectedCategory,
+        setSelectedCategory,
       }}
     >
       {children}

@@ -6,6 +6,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import AddIcon from "@mui/icons-material/Add";
 import { CreateNewCategory } from "./CreateNewCategory";
 import { useFood } from "../provider/FoodProvider";
+import { EditCategory } from "..";
 
 type AddNewCategoryProps = {
   selectedCategory: string;
@@ -15,6 +16,15 @@ type AddNewCategoryProps = {
 export const AddNewCategory = (props: AddNewCategoryProps) => {
   const { categories } = useFood();
   const [open, setOpen] = useState(false);
+  const [editOpen, setEditOpen] = useState(false);
+
+  const isSelected = (category: string) => {
+    if (category == props.selectedCategory) {
+      return true;
+    } else {
+      return false;
+    }
+  };
 
   return (
     <Stack width={"22%"}>
@@ -47,6 +57,7 @@ export const AddNewCategory = (props: AddNewCategoryProps) => {
                 borderRadius={1}
                 paddingY={1}
                 paddingX={2}
+                position={"relative"}
                 bgcolor={
                   props.selectedCategory == item.foodCategory
                     ? "primary.main"
@@ -65,7 +76,12 @@ export const AddNewCategory = (props: AddNewCategoryProps) => {
                 >
                   {item.foodCategory}
                 </Typography>
-                <MoreVertIcon />
+                <MoreVertIcon
+                  onClick={() => {
+                    setEditOpen((prev) => !prev);
+                  }}
+                />
+                {isSelected(item.foodCategory) && editOpen && <EditCategory />}
               </Stack>
             ))}
             <Stack

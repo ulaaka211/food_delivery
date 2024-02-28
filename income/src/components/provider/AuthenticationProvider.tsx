@@ -94,9 +94,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   const [open, setOpen] = useState(false);
   const [isReady, setIsReady] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
-
   const [refresh, setRefresh] = useState(1);
-
   const [userEmail, setUserEmail] = useState("");
   const [userOtb, setUserOtb] = useState("");
   const [user, setUser] = useState({

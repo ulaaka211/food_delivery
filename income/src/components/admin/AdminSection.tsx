@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 export const AdminSection = () => {
   const router = useRouter();
   const { isAdmin, refresh } = useAuth();
-  const [selectedCategory, setSelectedCategory] = useState("All foods");
+  const [selectedCategory, setSelectedCategory] = useState("");
 
   useEffect(() => {
     if (!isAdmin) {

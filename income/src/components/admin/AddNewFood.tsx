@@ -29,7 +29,7 @@ export const AddNewFood = (props: AddNewFoodProps) => {
       >
         <Stack direction={"row"} justifyContent={"space-between"}>
           <Typography fontSize={22} fontWeight={700}>
-            {props.selectedCategory}
+            {props.selectedCategory ? props.selectedCategory : "All Foods "}
           </Typography>
           <Button
             variant="text"
@@ -53,11 +53,13 @@ export const AddNewFood = (props: AddNewFoodProps) => {
           />
         </Stack>
         <Grid container spacing={3}>
-          {foods.map((item, index) => (
-            <Grid key={index} item xs={12} md={3}>
-              <CardModel {...item} />
-            </Grid>
-          ))}
+          {foods
+            .filter((item) => item.category.includes(props.selectedCategory))
+            .map((item, index) => (
+              <Grid key={index} item xs={12} md={3}>
+                <CardModel {...item} />
+              </Grid>
+            ))}
         </Grid>
       </Stack>
     </Stack>

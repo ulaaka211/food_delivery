@@ -3,31 +3,13 @@
 import { Grid, Stack, Typography } from "@mui/material";
 import { Container } from "@mui/material";
 import Link from "next/link";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { CardModel } from ".";
 import { useFood } from "./provider/FoodProvider";
 
-const tabs = [
-  {
-    link: "/breakfast",
-    label: "Breakfast",
-  },
-  {
-    link: "/soup",
-    label: "Soup",
-  },
-  {
-    link: "/main-course",
-    label: "Main course",
-  },
-  {
-    link: "/desserts",
-    label: "Desserts",
-  },
-];
-
 export const Menu = () => {
-  const { categories, foods } = useFood();
+  const { categories, foods, selectedCategory, setSelectedCategory } =
+    useFood();
 
   return (
     <Stack height={"120vh"} width={"100vw"}>
@@ -43,7 +25,14 @@ export const Menu = () => {
             {categories.map((item) => (
               <Stack
                 flex={1}
-                onClick={() => {}}
+                onClick={() => {
+                  setSelectedCategory(item.foodCategory);
+                }}
+                bgcolor={
+                  item.foodCategory == selectedCategory
+                    ? "primary.main"
+                    : "common.white"
+                }
                 border={1}
                 justifyContent={"center"}
                 alignItems={"center"}
@@ -56,6 +45,11 @@ export const Menu = () => {
                   key={item.foodCategory}
                   fontSize={18}
                   fontWeight={600}
+                  color={
+                    item.foodCategory == selectedCategory
+                      ? "common.white"
+                      : "common.black"
+                  }
                 >
                   {item.foodCategory}
                 </Typography>
@@ -63,11 +57,13 @@ export const Menu = () => {
             ))}
           </Stack>
           <Grid container spacing={3}>
-            {foods.filter.map((item, index) => (
-              <Grid key={index} item xs={12} sm={6} md={4} lg={3}>
-                <CardModel {...item} />
-              </Grid>
-            ))}
+            {foods
+              .filter((item) => item.category.includes(selectedCategory))
+              .map((item, index) => (
+                <Grid key={index} item xs={12} sm={6} md={4} lg={3}>
+                  <CardModel {...item} />
+                </Grid>
+              ))}
           </Grid>
         </Stack>
       </Container>
