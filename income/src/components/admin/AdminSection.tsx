@@ -25,13 +25,13 @@ export const AdminSection = () => {
       width={"100%"}
     >
       <Stack
-        width={"50%"}
+        width={"33.5%"}
         bgcolor={"#fff"}
         position={"absolute"}
         zIndex={-1}
       ></Stack>
       <Stack
-        width={"50%"}
+        width={"66.5%"}
         height={"100%"}
         bgcolor={"#F7F7F8"}
         position={"absolute"}

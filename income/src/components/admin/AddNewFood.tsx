@@ -18,12 +18,12 @@ export const AddNewFood = (props: AddNewFoodProps) => {
   const [imageUrl, setImageUrl] = useState("");
 
   return (
-    <Stack width={"80%"}>
+    <Stack width={"77.5%"} height={"100%"}>
       <Stack
         width={"100%"}
-        height={"100vh"}
-        paddingTop={6}
-        paddingLeft={5}
+        overflow={"scroll"}
+        paddingY={6}
+        paddingLeft={6}
         gap={6}
         bgcolor={"#F7F7F8"}
       >

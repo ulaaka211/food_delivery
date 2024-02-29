@@ -27,7 +27,7 @@ export const AddNewCategory = (props: AddNewCategoryProps) => {
   };
 
   return (
-    <Stack width={"22%"}>
+    <Stack width={"22.5%"}>
       <Stack
         width={"100%"}
         paddingTop={3}
