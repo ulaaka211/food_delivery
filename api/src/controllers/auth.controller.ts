@@ -14,16 +14,21 @@ export const signup: RequestHandler = async (req, res) => {
       });
     }
     const defaultRole = "user";
+    const defaultImg =
+      "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png";
     const user = await UserModel.create({
       name,
       email,
       address,
       password,
+      userImg: defaultImg,
       role: defaultRole,
     });
 
     return res.json(user);
-  } catch (error) {}
+  } catch (error) {
+    res.json(error);
+  }
 };
 
 export const login: RequestHandler = async (req, res) => {

@@ -5,9 +5,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { useFood } from "../provider/FoodProvider";
 import { CardModel } from "..";
+import { useRouter } from "next/router";
 
 export const AllFoods = () => {
-  const { foods } = useFood();
+  const { foods, categories, setSelectedCategory } = useFood();
+  const router = useRouter();
 
   return (
     <Stack>
@@ -26,14 +28,21 @@ export const AllFoods = () => {
                 All foods
               </Typography>
             </Stack>
-            <Link href={"/food-menu"}>
-              <Stack gap={2} direction={"row"} alignItems={"center"}>
-                <Typography color={"#18BA51"} fontSize={14} fontWeight={400}>
-                  Бүгдийг харах
-                </Typography>
-                <Image src="/q.svg" alt="" width={10} height={15} />
-              </Stack>
-            </Link>
+
+            <Stack
+              onClick={() => {
+                setSelectedCategory();
+                router.push("food-menu");
+              }}
+              gap={2}
+              direction={"row"}
+              alignItems={"center"}
+            >
+              <Typography color={"#18BA51"} fontSize={14} fontWeight={400}>
+                Бүгдийг харах
+              </Typography>
+              <Image src="/q.svg" alt="" width={10} height={15} />
+            </Stack>
           </Stack>
           <Stack direction={"row"} justifyContent={"space-between"}>
             <Grid container spacing={3}>
