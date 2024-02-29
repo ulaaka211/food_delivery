@@ -12,7 +12,7 @@ export const Menu = () => {
     useFood();
 
   return (
-    <Stack height={"120vh"} width={"100vw"}>
+    <Stack paddingBottom={10} width={"100vw"}>
       <Container maxWidth="xl">
         <Stack width={"100%"}>
           <Stack

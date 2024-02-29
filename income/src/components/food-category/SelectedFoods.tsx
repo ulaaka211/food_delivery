@@ -52,6 +52,7 @@ export const SelectedFoods = (props: SelectedFoodsProps) => {
               <Grid container spacing={3}>
                 {foods
                   .filter((item) => item.category == category)
+                  .filter((item, index) => index < 4)
                   .map((item, index) => (
                     <Grid key={index} item xs={12} md={3}>
                       <CardModel {...item} />

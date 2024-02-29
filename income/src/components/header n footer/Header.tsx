@@ -3,13 +3,23 @@
 import Image from "next/image";
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
-import { Box, Drawer, InputAdornment, Stack, TextField } from "@mui/material";
+import {
+  Badge,
+  Box,
+  Drawer,
+  IconButton,
+  InputAdornment,
+  Stack,
+  TextField,
+} from "@mui/material";
 import { Container } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { DrawerDetail, Login, MyProfile } from "..";
 import { useAuth } from "../provider/AuthenticationProvider";
+import { ShoppingBasketOutlined } from "@mui/icons-material";
+import { useFood } from "../provider/FoodProvider";
 
 const arr = [
   {
@@ -29,6 +39,7 @@ const arr = [
 export const Header = () => {
   const pathname = usePathname();
   const { open, setOpen, user, isLoggedIn, isAdmin } = useAuth();
+  const { shareFood } = useFood();
   const router = useRouter();
   const [openDrawer, setOpenDrawer] = useState(false);
 
@@ -105,12 +116,20 @@ export const Header = () => {
               direction={"row"}
               alignItems={"center"}
             >
-              <Image src="/component 2 (1).svg" alt="" width={24} height={24} />
+              <IconButton>
+                <Badge badgeContent={shareFood.length} color="warning">
+                  <ShoppingBasketOutlined />
+                </Badge>
+              </IconButton>
               <Typography fontSize={14} fontWeight={700}>
                 Сагс
               </Typography>
             </Stack>
+
             <Drawer
+              sx={{
+                width: "100%",
+              }}
               anchor="right"
               open={openDrawer}
               onClose={() => {
@@ -125,6 +144,7 @@ export const Header = () => {
                 <DrawerDetail />
               </Stack>
             </Drawer>
+
             <Box
               onClick={() => {
                 if (isLoggedIn) {

@@ -8,6 +8,7 @@ import RemoveOutlinedIcon from "@mui/icons-material/RemoveOutlined";
 import { Button } from "@mui/material";
 import { foodParams } from "../provider/AuthenticationProvider";
 import { useState } from "react";
+import { useFood } from "../provider/FoodProvider";
 
 type orderDetailProps = {
   open: boolean;
@@ -21,6 +22,8 @@ export const OrderDetail = ({
   foodParams,
 }: orderDetailProps) => {
   const [count, setCount] = useState(1);
+  const { foodCount, setFoodCount, shareFood, setShareFood } = useFood();
+  const { name, ingredients, discount, foodimg, price, category } = foodParams;
 
   return (
     <Modal
@@ -124,14 +127,19 @@ export const OrderDetail = ({
                 justifyContent={"center"}
                 alignItems={"center"}
                 onClick={() => {
-                  setCount((prev) => prev - 1);
+                  setFoodCount((prev) => {
+                    if (prev == 1) {
+                      return prev;
+                    }
+                    return prev - 1;
+                  });
                 }}
               >
                 <RemoveOutlinedIcon />
               </Stack>
               <Stack paddingX={"30px"} paddingY={1}>
                 <Typography fontSize={24} fontWeight={500}>
-                  {count}
+                  {foodCount}
                 </Typography>
               </Stack>
               <Stack
@@ -143,7 +151,7 @@ export const OrderDetail = ({
                 justifyContent={"center"}
                 alignItems={"center"}
                 onClick={() => {
-                  setCount((prev) => prev + 1);
+                  setFoodCount((prev) => prev + 1);
                 }}
               >
                 <AddOutlinedIcon />
@@ -156,6 +164,20 @@ export const OrderDetail = ({
               sx={{
                 py: "14.5px",
                 bgcolor: "#18BA51",
+              }}
+              onClick={() => {
+                setShareFood([
+                  ...shareFood,
+                  {
+                    name,
+                    ingredients,
+                    discount,
+                    foodimg,
+                    price,
+                    category,
+                    foodCount,
+                  },
+                ]);
               }}
             >
               Сагслах

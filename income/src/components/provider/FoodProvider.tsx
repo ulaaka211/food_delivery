@@ -24,6 +24,15 @@ export type foodParams = {
   price: number;
   category: string;
 };
+export type shareFoodParams = {
+  name: string;
+  ingredients: string;
+  discount: number;
+  foodimg: string;
+  price: number;
+  category: string;
+  foodCount: number;
+};
 
 type Category = {
   foodCategory: string;
@@ -37,6 +46,10 @@ type FoodContextType = {
   foods: foodParams[];
   selectedCategory: string;
   setSelectedCategory: Dispatch<SetStateAction<string>>;
+  foodCount: number;
+  setFoodCount: Dispatch<SetStateAction<number>>;
+  shareFood: shareFoodParams[];
+  setShareFood: Dispatch<SetStateAction<shareFoodParams[]>>;
 };
 
 export const FoodContext = createContext<FoodContextType>(
@@ -48,6 +61,8 @@ export const FoodProvider = ({ children }: PropsWithChildren) => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [foods, setFoods] = useState<foodParams[]>([]);
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [foodCount, setFoodCount] = useState(1);
+  const [shareFood, setShareFood] = useState<shareFoodParams[]>([]);
 
   const createFood = async (params: foodParams) => {
     try {
@@ -132,6 +147,10 @@ export const FoodProvider = ({ children }: PropsWithChildren) => {
         createFood,
         selectedCategory,
         setSelectedCategory,
+        foodCount,
+        setFoodCount,
+        shareFood,
+        setShareFood,
       }}
     >
       {children}

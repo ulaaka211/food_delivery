@@ -16,7 +16,6 @@ export const AdminSection = () => {
       router.push("/");
     }
   }, []);
-
   return (
     <Stack
       position={"relative"}
