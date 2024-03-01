@@ -45,7 +45,7 @@ export const Header = () => {
 
   return (
     <Stack
-      width="100vw"
+      width="100%"
       bgcolor={"#fff"}
       position={"sticky"}
       top={0}
@@ -136,13 +136,7 @@ export const Header = () => {
                 setOpenDrawer(false);
               }}
             >
-              <Stack
-                height={"100%"}
-                justifyContent={"center"}
-                alignItems={"center"}
-              >
-                <DrawerDetail />
-              </Stack>
+              <DrawerDetail />
             </Drawer>
 
             <Box

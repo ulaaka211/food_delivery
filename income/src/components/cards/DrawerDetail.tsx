@@ -15,28 +15,29 @@ export const DrawerDetail = () => {
   const { shareFood, foodCount, setFoodCount } = useFood();
 
   return (
-    <Container maxWidth="xl">
-      <Stack width={"100%"} height={"90vh"} justifyContent={"space-between"}>
-        <Stack gap={10}>
-          <Stack
-            direction={"row"}
-            alignItems={"center"}
-            justifyContent={"space-between"}
-          >
-            <Stack padding={"6px"}>
-              <Image
-                src="/arrow_forward_ios.svg"
-                alt=""
-                width={11}
-                height={20}
-              />
-            </Stack>
-            <Typography width={"57.6%"} fontSize={20} fontWeight={900}>
-              Таны сагс
-            </Typography>
+    <Stack maxWidth={500} width={"40vw"} height={"100%"} px={4}>
+      <Stack width={"100%"} height={"100%"} justifyContent={"space-between"}>
+        <Stack
+          direction={"row"}
+          justifyContent={"space-between"}
+          position={"sticky"}
+          top={0}
+          right={0}
+          paddingY={7}
+          zIndex={1}
+          borderBottom={1}
+          bgcolor={"#fff"}
+        >
+          <Stack padding={"6px"}>
+            <Image src="/arrow_forward_ios.svg" alt="" width={11} height={20} />
           </Stack>
+          <Typography width={"57.6%"} fontSize={20} fontWeight={900}>
+            Таны сагс
+          </Typography>
+        </Stack>
+        <Stack justifySelf={"start"} flex={1}>
           {shareFood.map((item, index) => (
-            <Stack paddingY={3} borderTop={1} borderBottom={1}>
+            <Stack paddingY={3} borderBottom={1}>
               <Stack
                 padding={2}
                 gap={2}
@@ -73,7 +74,7 @@ export const DrawerDetail = () => {
                           {item.price}
                         </Typography>
                         <Typography
-                          color={"primary.main"}
+                          color={"common.black"}
                           fontSize={18}
                           fontWeight={600}
                           sx={{
@@ -94,6 +95,7 @@ export const DrawerDetail = () => {
                     padding={1}
                     color={"#767676"}
                     noWrap
+                    maxWidth={500}
                     textOverflow={"ellipsis"}
                     sx={{
                       lineClamp: "1",
@@ -116,19 +118,18 @@ export const DrawerDetail = () => {
                       justifyContent={"center"}
                       alignItems={"center"}
                       onClick={() => {
-                        setFoodCount((prev) => {
-                          if (prev == 1) {
-                            return prev;
-                          }
-                          return prev - 1;
-                        });
+                        setFoodCount(item.foodCount);
+                        if (item.foodCount == 1) {
+                          return 1;
+                        }
+                        return item.foodCount--;
                       }}
                     >
                       <RemoveOutlinedIcon />
                     </Stack>
                     <Stack paddingX={"30px"} paddingY={1}>
                       <Typography fontSize={24} fontWeight={500}>
-                        {foodCount}
+                        {item.foodCount}
                       </Typography>
                     </Stack>
                     <Stack
@@ -140,7 +141,20 @@ export const DrawerDetail = () => {
                       justifyContent={"center"}
                       alignItems={"center"}
                       onClick={() => {
-                        setFoodCount((prev) => prev + 1);
+                        let isShare = false;
+
+                        const newShareFood = shareFood.map((element) => {
+                          if (element.foodCount == item.foodCount) {
+                            isShare = true;
+                            element.foodCount += 1;
+                            return element;
+                          } else {
+                            return element;
+                          }
+                        });
+
+                        setFoodCount(newShareFood);
+                        console.log(newShareFood);
                       }}
                     >
                       <AddOutlinedIcon />
@@ -152,7 +166,16 @@ export const DrawerDetail = () => {
           ))}
         </Stack>
 
-        <Stack direction={"row"} alignItems={"center"}>
+        <Stack
+          direction={"row"}
+          alignItems={"center"}
+          paddingY={7}
+          bottom={0}
+          right={30}
+          zIndex={1}
+          bgcolor={"#fff"}
+          position={"sticky"}
+        >
           <Stack width={"50%"}>
             <Typography color={"#5E6166"} fontSize={18} fontWeight={400}>
               Нийт төлөх дүн
@@ -178,6 +201,6 @@ export const DrawerDetail = () => {
           </Stack>
         </Stack>
       </Stack>
-    </Container>
+    </Stack>
   );
 };

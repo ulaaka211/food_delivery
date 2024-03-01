@@ -166,18 +166,34 @@ export const OrderDetail = ({
                 bgcolor: "#18BA51",
               }}
               onClick={() => {
-                setShareFood([
-                  ...shareFood,
-                  {
-                    name,
-                    ingredients,
-                    discount,
-                    foodimg,
-                    price,
-                    category,
-                    foodCount,
-                  },
-                ]);
+                let isShare = false;
+
+                const newShareFood = shareFood.map((element) => {
+                  if (element.name == foodParams.name) {
+                    isShare = true;
+                    element.foodCount += foodCount;
+                    return element;
+                  } else {
+                    return element;
+                  }
+                });
+
+                if (!isShare) {
+                  setShareFood([
+                    ...shareFood,
+                    {
+                      name,
+                      ingredients,
+                      discount,
+                      foodimg,
+                      price,
+                      category,
+                      foodCount,
+                    },
+                  ]);
+                } else {
+                  setShareFood(newShareFood);
+                }
               }}
             >
               Сагслах

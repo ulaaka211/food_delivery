@@ -5,10 +5,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { useFood } from "../provider/FoodProvider";
 import { CardModel } from "..";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 export const AllFoods = () => {
-  const { foods, categories, setSelectedCategory } = useFood();
+  const { foods, setSelectedCategory } = useFood();
   const router = useRouter();
 
   return (
@@ -31,7 +31,7 @@ export const AllFoods = () => {
 
             <Stack
               onClick={() => {
-                setSelectedCategory();
+                setSelectedCategory("");
                 router.push("food-menu");
               }}
               gap={2}
