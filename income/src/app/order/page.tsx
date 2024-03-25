@@ -4,7 +4,7 @@ import { Container, Stack } from "@mui/material";
 
 export default function Order() {
   return (
-    <Stack width={"100vw"} height={"92vh"}>
+    <Stack width={"100vw"} height={"100vh"}>
       <Container maxWidth="xl">
         <Stack
           width={"100%"}

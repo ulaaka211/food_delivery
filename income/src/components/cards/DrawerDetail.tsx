@@ -7,12 +7,24 @@ import { Button } from "@mui/material";
 import RemoveOutlinedIcon from "@mui/icons-material/RemoveOutlined";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import Link from "next/link";
-import { useState } from "react";
 import { useFood } from "../provider/FoodProvider";
-import { relative } from "path";
+
+const numberFormatter = new Intl.NumberFormat("en-US", {
+  style: "decimal",
+  minimumFractionDigits: 0,
+  maximumFractionDigits: 0,
+});
 
 export const DrawerDetail = () => {
-  const { shareFood, foodCount, setFoodCount } = useFood();
+  const { shareFood, setFoodCount } = useFood();
+  const tatolPrice = shareFood.reduce((sum, currentValue) => {
+    return (
+      sum +
+      currentValue.price *
+        currentValue.foodCount *
+        (1 - 0.01 * (currentValue.discount || 0))
+    );
+  }, 0);
 
   return (
     <Stack maxWidth={500} width={"40vw"} height={"100%"} px={4}>
@@ -71,7 +83,9 @@ export const DrawerDetail = () => {
                           fontSize={18}
                           fontWeight={600}
                         >
-                          {item.price}
+                          {Boolean(item.discount)
+                            ? item.price * (1 - item.discount * 0.01)
+                            : item.price}
                         </Typography>
                         <Typography
                           color={"common.black"}
@@ -81,9 +95,7 @@ export const DrawerDetail = () => {
                             textDecorationLine: "line-through",
                           }}
                         >
-                          {Boolean(item.discount)
-                            ? item.price * (1 - item.discount * 0.01)
-                            : item.price}
+                          {item.price}
                         </Typography>
                       </Stack>
                     </Stack>
@@ -153,8 +165,7 @@ export const DrawerDetail = () => {
                           }
                         });
 
-                        setFoodCount(newShareFood);
-                        console.log(newShareFood);
+                        setFoodCount(item.foodCount);
                       }}
                     >
                       <AddOutlinedIcon />
@@ -181,7 +192,7 @@ export const DrawerDetail = () => {
               Нийт төлөх дүн
             </Typography>
             <Typography color={"#121316"} fontSize={18} fontWeight={700}>
-              34,800₮
+              {numberFormatter.format(tatolPrice)}
             </Typography>
           </Stack>
           <Stack width={"50%"}>
