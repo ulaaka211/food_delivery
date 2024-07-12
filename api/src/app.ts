@@ -5,7 +5,7 @@ import authRouter from "./routers/auth.router";
 import foodRouter from "./routers/food.router";
 import { connectDatabase } from "./database";
 import userRouter from "./routers/user.router";
-import emailRouter from "./routers/Reset.router";
+import emailRouter from "./routers/reset.router";
 
 const app = express();
 
