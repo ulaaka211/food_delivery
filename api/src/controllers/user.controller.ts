@@ -8,6 +8,7 @@ export const getUser: RequestHandler = async (req, res) => {
     if (!authorization) {
       return res.status(401).json({ message: "Unauthorized1" });
     }
+
     const { id: userId } = jwt.verify(
       authorization,
       "secret-key"

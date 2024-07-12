@@ -1,11 +1,12 @@
 import { RequestHandler } from "express";
 import nodemailer from "nodemailer";
 import { UserModel } from "../models";
+import otpGenerator from "otp-generator";
 
-export const sendemail: RequestHandler = async (req, res) => {
+export const sendEmail: RequestHandler = async (req, res) => {
   const { email } = req.body;
 
-  const user = await UserModel.findOne({ email: email });
+  const user = await UserModel.findOne({ email });
 
   if (!user) {
     return res.status(401).json({
@@ -13,7 +14,14 @@ export const sendemail: RequestHandler = async (req, res) => {
     });
   }
 
-  const otpCode = Math.floor(Math.random() * 10000);
+  const otp = otpGenerator.generate(4, {
+    upperCaseAlphabets: false,
+    lowerCaseAlphabets: false,
+    specialChars: false,
+  });
+
+  const currentTime = Math.floor(Date.now() / 1000);
+  const expirationTime = currentTime + 300;
 
   try {
     const transporter = nodemailer.createTransport({
@@ -30,15 +38,15 @@ export const sendemail: RequestHandler = async (req, res) => {
       from: "uulaaka73@gmail.com",
       to: email,
       subject: "from Food Delivery",
-      text: `Нэг удаагын code: ${otpCode}`,
+      text: `Нэг удаагын code: ${otp}`,
     };
     await transporter.sendMail(mailOptions);
 
-    const checkotb = await UserModel.updateOne(
+    await UserModel.updateOne(
       {
         _id: user.id,
       },
-      { $set: { otp: otpCode } }
+      { $set: { otp: otp, otpExpiresIn: expirationTime } }
     );
 
     res.json("Email sent!");
@@ -47,57 +55,36 @@ export const sendemail: RequestHandler = async (req, res) => {
   }
 };
 
-export const resetpass: RequestHandler = async (req, res) => {
-  const { email, code, password } = req.body;
-  // return res.json({ message: code });
-
-  const user = await UserModel.findOne({ email: email, otp: code });
-
-  if (!user) {
-    return res.status(401).json({
-      message: "Wrond otp",
-    });
-  }
+export const resetPassword: RequestHandler = async (req, res) => {
   try {
-    if (user.otp === code) {
+    const { email, password, otp } = req.body;
+
+    const user = await UserModel.findOne({ email, otp });
+
+    if (!user) {
+      return res.status(401).json({
+        message: "Нэг удаагын код буруу байна",
+      });
     }
 
-    const userPassword = await UserModel.updateOne({ password: password });
+    const currentTime = Math.floor(Date.now() / 1000);
+    if (user.otpExpiresIn != null && user.otpExpiresIn < currentTime) {
+      return res
+        .status(401)
+        .json({ message: "Нэг удаагын кодны хугацаа дууссан байна" });
+    }
 
-    res.json({ message: "Password updated!" });
-  } catch (error) {
-    res.status(500).json(error);
+    await UserModel.findOneAndUpdate(
+      { email },
+      {
+        password,
+        updatedAt: new Date(),
+        otp: null,
+        otpExpiresIn: null,
+      }
+    );
+    res.json({ message: "Хэрэглэгчийн нууц үг шинэчлэгдсэн" });
+  } catch (err) {
+    res.json(err);
   }
 };
-
-// export const resetPassword: RequestHandler = async (req, res) => {
-//   try {
-//     const { email, password, otp } = req.body;
-//     const user = await UserModel.findOne({ email });
-
-//     if (!user) {
-//       return res.status(401).json({
-//         message: "Хэрэглэгч олдсонгүй, и-мэйлээ дахин шалгана уу!",
-//       });
-//     }
-
-//     const userOTP = user?.otp;
-
-//     if (userOTP != otp) {
-//       return res.status(401).json({
-//         message: "Нэг удаагийн код буруу байна.",
-//       });
-//     }
-
-//     const updateUser = await UserModel.findOneAndUpdate(
-//       { _id: user._id },
-//       {
-//         password: password,
-//         updatedAt: new Date(),
-//       }
-//     );
-//     res.json({ message: "Хэрэглэгчийн нууц үг шинэчлэгдсэн" });
-//   } catch (err) {
-//     res.json(err);
-//   }
-// };

@@ -1,13 +1,12 @@
 "use client";
 
 import { Stack, Typography } from "@mui/material";
-import { CustomInput, OrderDetail } from "..";
+import { CustomInput } from "..";
 import { Modal } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { useFood } from "../provider/FoodProvider";
-import { useState } from "react";
 
 const validationSchema = yup.object({
   foodCategory: yup.string(),

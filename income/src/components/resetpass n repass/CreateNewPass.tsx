@@ -8,12 +8,16 @@ import { Button } from "@mui/material";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import Router, { useRouter } from "next/navigation";
-import { useContext } from "react";
-import { AuthContext } from "../provider/AuthenticationProvider";
 import { useAuth } from "../provider/AuthenticationProvider";
 
 const validationSchema = yup.object({
-  password: yup.string().required(""),
+  password: yup
+    .string()
+    .required("")
+    .matches(
+      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+      "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number, and One Special Case Character"
+    ),
   rePassword: yup
     .string()
     .required("")
@@ -24,8 +28,6 @@ export const CreateNewPassword = () => {
   const router = useRouter();
   const { index, setIndex, setOpen, checkresetotb, userEmail, userOtb } =
     useAuth();
-  const [password, setPassword] = useState("");
-  const [rePassword, setRePassword] = useState("");
 
   const formik = useFormik({
     initialValues: {
@@ -36,10 +38,9 @@ export const CreateNewPassword = () => {
     onSubmit: (values) => {
       checkresetotb({
         email: userEmail,
-        code: userOtb,
+        otp: userOtb,
         password: values.password,
       });
-      console.log(values.password, userOtb, userEmail);
     },
   });
 
@@ -86,7 +87,7 @@ export const CreateNewPassword = () => {
           fullWidth
           variant="contained"
           disableElevation
-          // disabled={!password || !rePassword}
+          disabled={!formik.isValid}
           onClick={() => {
             setIndex((prev) => prev + 1);
             if (index === 2) {

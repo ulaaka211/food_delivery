@@ -9,16 +9,10 @@ import {
   TextFieldProps,
   Typography,
 } from "@mui/material";
-import { ChangeEventHandler, HTMLInputTypeAttribute, useState } from "react";
-// type CustomInputProps = {
-//   label: string;
-//   placeholder?: string;
-//   value?: string;
-//   onChange?: ChangeEventHandler<HTMLTextAreaElement | HTMLInputElement>;
-//   type?: HTMLInputTypeAttribute;
-// };
+import { useState } from "react";
+
 export const CustomInput = (props: TextFieldProps) => {
-  const { label, type = "text", ...rest } = props;
+  const { label, type = "text", helperText, ...rest } = props;
   const [showPassword, setShowPassword] = useState(false);
   const handleShowPassword = () => {
     setShowPassword((prev) => !prev);
@@ -51,6 +45,9 @@ export const CustomInput = (props: TextFieldProps) => {
           ),
         }}
       />
+      <Typography fontSize={12} color={"#b91c1c"}>
+        {helperText}
+      </Typography>
     </Stack>
   );
 };

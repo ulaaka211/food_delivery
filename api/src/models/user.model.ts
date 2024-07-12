@@ -28,10 +28,16 @@ const userSchema = new Schema({
     type: String,
     required: false,
   },
+  otpExpiresIn: {
+    type: Number,
+    required: false,
+  },
   role: {
     type: String,
     required: true,
   },
+  updatedAt: Date,
+  createdAt: Date,
 });
 
 export const UserModel = model("user", userSchema);

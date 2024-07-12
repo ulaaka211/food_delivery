@@ -1,8 +1,4 @@
 "use client";
-// .matches(
-//   /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
-//   "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number, and One Special Case Character"
-// )
 
 import { Modal, Stack, Typography } from "@mui/material";
 import { CustomInput } from "@/components";
@@ -29,7 +25,10 @@ export const Login = ({ handleClose, open }: LoginProps) => {
       .required("И-мэйлээ оруулна уу"),
     password: yup
       .string()
-
+      // .matches(
+      //   /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+      //   "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number, and One Special Case Character"
+      // )
       .required("Нууц үгээ оруулна уу"),
   });
 
@@ -104,6 +103,9 @@ export const Login = ({ handleClose, open }: LoginProps) => {
               color={"#000"}
               fontSize={14}
               fontWeight={400}
+              sx={{
+                cursor: "pointer",
+              }}
             >
               Нууц үг сэргээх
             </Typography>

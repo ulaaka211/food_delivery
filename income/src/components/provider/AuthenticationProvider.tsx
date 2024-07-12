@@ -42,7 +42,7 @@ type checkresetemailParams = {
 
 type checkresetotbParams = {
   email: string;
-  code: string;
+  otp: string;
   password: string;
 };
 
@@ -199,7 +199,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 
   const checkresetemail = async (params?: checkresetemailParams) => {
     try {
-      const { data } = await api.post("/sendemail", params);
+      const { data } = await api.post("/sendEmail", params);
 
       toast.success("Амжилттай илгээгдлээ", {
         position: "top-center",
@@ -220,7 +220,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 
   const checkresetotb = async (params?: checkresetotbParams) => {
     try {
-      const { data } = await api.post("/resetpass", params);
+      const { data } = await api.post("/resetPassword", params);
 
       toast.success(data.message, {
         position: "top-center",

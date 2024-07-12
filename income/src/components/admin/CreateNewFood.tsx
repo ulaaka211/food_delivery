@@ -1,7 +1,14 @@
 "use client";
 // .required("Хоолны зургаа оруулна уу"),
 
-import { Stack, Typography, Button, TextField, MenuItem } from "@mui/material";
+import {
+  Stack,
+  Typography,
+  Button,
+  TextField,
+  MenuItem,
+  IconButton,
+} from "@mui/material";
 import { AddFoodImg, CustomInput, CustomInputSelect2, IOSSwitch } from "..";
 import { Modal } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
@@ -10,7 +17,8 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import Image from "next/image";
 import { useFood } from "../provider/FoodProvider";
-import { relative } from "path";
+import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
+import { none } from "@cloudinary/url-gen/qualifiers/progressive";
 
 type CustomInputSelectProps = {
   imageUrl: string;
@@ -172,6 +180,7 @@ export const CreateNewFood = (props: CustomInputSelectProps) => {
             <Stack
               alignSelf={"flex-start"}
               width={"100%"}
+              height={"100%"}
               py={3}
               bgcolor={"#F7F7F8"}
               border={"dashed"}
@@ -188,21 +197,26 @@ export const CreateNewFood = (props: CustomInputSelectProps) => {
                 >
                   Add image for the food
                 </Typography>
-                <Typography
+
+                <Button
+                  sx={{
+                    py: "8px",
+                    px: "16px",
+                    fontSize: "16px",
+                    fontWeight: "700",
+                    color: "#fff",
+                    bgcolor: "#3F4145",
+                    borderRadius: "16px",
+                    "&:hover": {
+                      bgcolor: "#383a3e",
+                    },
+                  }}
                   onClick={() => {
                     setOpenModal(true);
                   }}
-                  py={1.5}
-                  px={1.5}
-                  borderRadius={3}
-                  fontSize={16}
-                  fontWeight={700}
-                  color={"#fff"}
-                  bgcolor={"#3F4145"}
-                  width={"fit-content"}
                 >
                   Add Image
-                </Typography>
+                </Button>
                 <AddFoodImg
                   showPicture={showPicture}
                   handleCloseImg={() => {
@@ -217,18 +231,47 @@ export const CreateNewFood = (props: CustomInputSelectProps) => {
                 />
                 {showPicture && (
                   <Stack
-                    onClick={() => {
-                      setShowPicture(false);
-                    }}
                     top={0}
-                    position={"absolute"}
-                    zIndex={1}
-                    borderRadius={3}
+                    left={0}
                     overflow={"hidden"}
+                    position={"absolute"}
+                    borderRadius={3}
                     width={"100%"}
                     height={"100%"}
+                    sx={{
+                      "&:hover .deleteImgBtn": {
+                        display: "flex",
+                      },
+                    }}
                   >
                     <Image src={imageUrl} alt="" fill objectFit="cover" />
+                    <IconButton
+                      className="deleteImgBtn"
+                      onClick={() => {
+                        setShowPicture(false);
+                      }}
+                      sx={{
+                        display: "none",
+                        bgcolor: "#000",
+                        position: "absolute",
+                        top: "2%",
+                        right: "1%",
+                        width: 10,
+                        height: 10,
+                        justifyContent: "center",
+                        alignItems: "center",
+                        "&:hover": {
+                          bgcolor: "#121316",
+                        },
+                      }}
+                    >
+                      <ClearOutlinedIcon
+                        sx={{
+                          color: "#fff",
+                          fontSize: "12px",
+                        }}
+                      />
+                    </IconButton>
                   </Stack>
                 )}
               </Stack>
@@ -243,18 +286,26 @@ export const CreateNewFood = (props: CustomInputSelectProps) => {
           px={3}
           gap={1}
         >
-          <Typography
-            py={1}
-            px={2}
-            fontSize={16}
-            fontWeight={700}
-            color={"#3F4145"}
+          <Button
+            sx={{
+              py: "8px",
+              px: "16px",
+              fontSize: "16px",
+              fontWeight: "700",
+              color: "#3F4145",
+            }}
+            onClick={() => {
+              formik.resetForm();
+              setShowPicture(false);
+              setImageUrl("");
+            }}
           >
             Clear
-          </Typography>
+          </Button>
           <Button
             onClick={() => {
               formik.handleSubmit();
+              formik.resetForm();
             }}
             sx={{
               py: "8px",
@@ -263,6 +314,9 @@ export const CreateNewFood = (props: CustomInputSelectProps) => {
               fontWeight: "700",
               color: "#fff",
               bgcolor: "#3f4145",
+              "&:hover": {
+                bgcolor: "#383a3e",
+              },
             }}
             variant="contained"
           >
