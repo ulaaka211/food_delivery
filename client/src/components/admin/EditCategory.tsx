@@ -4,10 +4,18 @@ import { Button, Modal, Stack, Typography } from "@mui/material";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import { UpdateCategory } from "./UpdateCategory";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { DeleteCategory } from "./DeleteCategory";
 
-export const EditCategory = ({ categoryName }: { categoryName: string }) => {
+type editCategoryProps = {
+  _id: string;
+  categoryName: string;
+  editCategoryId: string;
+  setEditCategoryId: Dispatch<SetStateAction<string>>;
+};
+
+export const EditCategory = (props: editCategoryProps) => {
+  const { _id, categoryName, editCategoryId, setEditCategoryId } = props;
   const [openEdit, setOpenEdit] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
 
@@ -21,6 +29,7 @@ export const EditCategory = ({ categoryName }: { categoryName: string }) => {
       >
         <Button
           onClick={() => {
+            setEditCategoryId(_id);
             setOpenEdit(true);
           }}
           sx={{
@@ -41,10 +50,12 @@ export const EditCategory = ({ categoryName }: { categoryName: string }) => {
         <UpdateCategory
           openEdit={openEdit}
           handleEditClose={() => setOpenEdit(false)}
+          editCategoryId={editCategoryId}
           categoryName={categoryName}
         />
         <Button
           onClick={() => {
+            setEditCategoryId(_id);
             setOpenDelete(true);
           }}
           sx={{
@@ -64,7 +75,7 @@ export const EditCategory = ({ categoryName }: { categoryName: string }) => {
         <DeleteCategory
           openDelete={openDelete}
           handleDeleteCategory={() => setOpenDelete(false)}
-          categoryName={categoryName}
+          editCategoryId={editCategoryId}
         />
       </Stack>
     </Stack>

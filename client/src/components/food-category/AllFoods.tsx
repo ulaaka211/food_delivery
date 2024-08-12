@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useFood } from "../../provider/FoodProvider";
 import { CardModel } from "..";
 import { useRouter } from "next/navigation";
+import { FoodModel } from "./FoodModel";
 
 export const AllFoods = () => {
   const { foods, setSelectedCategory } = useFood();
@@ -16,7 +17,7 @@ export const AllFoods = () => {
       <Container maxWidth="xl">
         <Stack spacing={3}>
           <Stack
-            padding={2}
+            paddingY={2}
             width={"100%"}
             direction={"row"}
             justifyContent={"space-between"}
@@ -50,7 +51,7 @@ export const AllFoods = () => {
                 .filter((item, index) => index < 4)
                 .map((item, index) => (
                   <Grid key={index} item xs={12} md={3}>
-                    <CardModel {...item} />
+                    <FoodModel {...item} />
                   </Grid>
                 ))}
             </Grid>

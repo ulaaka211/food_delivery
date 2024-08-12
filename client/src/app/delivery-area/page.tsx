@@ -20,8 +20,12 @@ export default function delivery() {
       <Stack paddingBottom={4} paddingTop={4}>
         <Container maxWidth="xl">
           <Stack height={"100vh"} spacing={6}>
-            <Stack height={"80vh"}>
-              <Map
+            <iframe
+              width="100%"
+              height="616"
+              src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=en&amp;q=Gurvan%20gol%20building,%20Ulaanbaatar,%20Mongolia+(Pinecone%20LLC)&amp;t=p&amp;z=15&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
+            ></iframe>
+            {/* <Map
                 zoom={9}
                 center={{
                   lat: 47.9221,
@@ -42,16 +46,14 @@ export default function delivery() {
                   )}
                   <Pin background={"primary.main"} glyphColor={"grey"} />
                 </AdvancedMarker>
-              </Map>
-              {/* <GoogleMapsEmbed
+              </Map> */}
+            {/* <GoogleMapsEmbed
                 apiKey="AIzaSyBAdenS5wzqAaY7Tnxlig46zOi01XCI4cE"
                 height={"80vh"}
                 width={"100%"}
                 mode="place"
                 q="Brooklyn+Bridge,New+York,NY"
               ></GoogleMapsEmbed> */}
-            </Stack>
-
             <Stack width={"100%"}>
               <Stack spacing={1} direction={"row"} alignItems={"center"}>
                 <Image src="/Star 1.svg" alt="" width={32} height={32} />

@@ -7,12 +7,12 @@ import { useFood } from "../../provider/FoodProvider";
 type SignOutProps = {
   dltFood: boolean;
   handleDeleteFood: () => void;
-  deleteFoodName: string;
+  editFoodId: string;
 };
 
 export const DeleteFood = ({
   dltFood,
-  deleteFoodName,
+  editFoodId,
   handleDeleteFood,
 }: SignOutProps) => {
   const { deleteFood } = useFood();
@@ -40,13 +40,12 @@ export const DeleteFood = ({
         >
           Устгахдаа итгэлтэй байна уу?
         </Typography>
-        <Stack flexDirection={"row"} gap={0.2}>
+        <Stack flexDirection={"row"} gap={0.3} overflow={"hidden"}>
           <Typography
             onClick={() => {
-              console.log(deleteFoodName);
-              deleteFood(deleteFoodName);
+              deleteFood(editFoodId);
             }}
-            width={0.5}
+            width={0.6}
             bgcolor={"#18BA5133"}
             textAlign={"center"}
             fontSize={20}
@@ -67,7 +66,7 @@ export const DeleteFood = ({
             onClick={() => {
               handleDeleteFood();
             }}
-            width={0.5}
+            width={0.6}
             bgcolor={"#18BA5133"}
             textAlign={"center"}
             fontSize={20}

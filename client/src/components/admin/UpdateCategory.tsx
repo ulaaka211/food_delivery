@@ -11,6 +11,7 @@ import { useFood } from "../../provider/FoodProvider";
 type CustomInputSelectProps = {
   openEdit: boolean;
   handleEditClose: () => void;
+  editCategoryId: string;
   categoryName: string;
 };
 
@@ -19,7 +20,7 @@ const validationSchema = yup.object({
 });
 
 export const UpdateCategory = (props: CustomInputSelectProps) => {
-  const { openEdit, handleEditClose, categoryName } = props;
+  const { openEdit, handleEditClose, editCategoryId, categoryName } = props;
   const { updateCategory } = useFood();
 
   const formik = useFormik({
@@ -29,8 +30,8 @@ export const UpdateCategory = (props: CustomInputSelectProps) => {
     validationSchema: validationSchema,
     onSubmit: (values) => {
       updateCategory({
-        editCategory: categoryName,
-        newCategory: values.foodCategory,
+        _id: editCategoryId,
+        foodCategory: values.foodCategory,
       });
     },
   });

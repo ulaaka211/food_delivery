@@ -6,24 +6,34 @@ import ForwardToInboxOutlinedIcon from "@mui/icons-material/ForwardToInboxOutlin
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 
 import {
+  IconButton,
   InputAdornment,
   Stack,
   TextField,
   TextFieldProps,
 } from "@mui/material";
 
-export const CustomInput2 = (props: TextFieldProps) => {
+type EditProps = {
+  edit: boolean;
+};
+
+type CustomProps = TextFieldProps & EditProps;
+
+export const CustomInput2 = (props: CustomProps) => {
   const {
     variant = "standard",
     label,
     defaultValue,
     type = "text",
+    edit,
+    disabled,
     ...rest
   } = props;
 
   return (
     <Stack gap={1}>
       <TextField
+        disabled={!edit}
         sx={{
           bgcolor: "#F6F6F6",
           border: "none",
@@ -66,11 +76,13 @@ export const CustomInput2 = (props: TextFieldProps) => {
           ),
           endAdornment: (
             <InputAdornment position="end">
-              <EditOutlinedIcon
-                sx={{
-                  color: "primary.main",
-                }}
-              />
+              {edit && (
+                <EditOutlinedIcon
+                  sx={{
+                    color: "primary.main",
+                  }}
+                />
+              )}
             </InputAdornment>
           ),
         }}

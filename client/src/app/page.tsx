@@ -14,7 +14,7 @@ export default function Home() {
       <Stack gap={10} paddingY={15}>
         <AllFoods />
         {categories.map((item, index) => (
-          <SelectedFoods category={item.foodCategory} />
+          <SelectedFoods key={index} category={item.foodCategory} />
         ))}
       </Stack>
     </Stack>

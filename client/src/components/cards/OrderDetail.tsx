@@ -6,9 +6,10 @@ import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import RemoveOutlinedIcon from "@mui/icons-material/RemoveOutlined";
 import { Button } from "@mui/material";
-import { foodParams, useAuth } from "../../provider/AuthenticationProvider";
+import { useAuth } from "../../provider/AuthenticationProvider";
 import { useFood } from "../../provider/FoodProvider";
-import { isatty } from "tty";
+import { useState } from "react";
+import { foodParams } from "@/types";
 
 type orderDetailProps = {
   open: boolean;
@@ -21,10 +22,10 @@ export const OrderDetail = ({
   foodParams,
   handleClose,
 }: orderDetailProps) => {
-  const { foodCount, setFoodCount, shareFood, setShareFood, setOpenDrawer } =
-    useFood();
+  const { basket, setBasket, setOpenDrawer } = useFood();
+  const [foodCount, setFoodCount] = useState(1);
   const { isLoggedIn, isAdmin } = useAuth();
-  const { foodName, ingredients, discount, foodImg, price, category } =
+  const { _id, foodName, ingredients, discount, foodImg, price, category } =
     foodParams;
 
   return (
@@ -97,19 +98,19 @@ export const OrderDetail = ({
               <Typography fontSize={18} fontWeight={600}>
                 Орц
               </Typography>
-              <Typography
+              <Stack
                 padding={1}
                 bgcolor={"#F6F6F6"}
                 color={"#767676"}
-                overflow={"scroll"}
-                noWrap
-                textOverflow={"ellipsis"}
-                sx={{
-                  lineClamp: "1",
-                }}
+                width={"100%"}
+                height={"80%"}
               >
-                {foodParams.ingredients}
-              </Typography>
+                <Stack width={"100%"} bgcolor={"#F6F6F6"} overflow={"scroll"}>
+                  <Typography noWrap width={"fit-content"}>
+                    {foodParams.ingredients}
+                  </Typography>
+                </Stack>
+              </Stack>
             </Stack>
             <Typography fontSize={18} fontWeight={600}>
               Тоо
@@ -170,9 +171,8 @@ export const OrderDetail = ({
               onClick={() => {
                 if (isLoggedIn || isAdmin) {
                   let isShare = false;
-
-                  const newShareFood = shareFood.map((element) => {
-                    if (element.foodName == foodParams.foodName) {
+                  const newBasket = basket.map((element) => {
+                    if (element.foodId == foodParams._id) {
                       isShare = true;
                       element.foodCount += foodCount;
                       return element;
@@ -181,9 +181,10 @@ export const OrderDetail = ({
                     }
                   });
                   if (!isShare) {
-                    setShareFood([
-                      ...shareFood,
+                    setBasket([
+                      ...basket,
                       {
+                        foodId: _id,
                         foodName,
                         ingredients,
                         discount,
@@ -194,7 +195,7 @@ export const OrderDetail = ({
                       },
                     ]);
                   } else {
-                    setShareFood(newShareFood);
+                    setBasket(newBasket);
                   }
                 } else {
                   handleClose();

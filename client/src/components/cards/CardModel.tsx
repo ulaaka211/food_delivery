@@ -2,29 +2,68 @@
 
 import { Button, Stack, Typography } from "@mui/material";
 import Image from "next/image";
-import { foodParams, useAuth } from "../../provider/AuthenticationProvider";
-import { useState } from "react";
-import { OrderDetail } from "..";
+import { useAuth } from "../../provider/AuthenticationProvider";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import { UpdateFood } from "../admin/UpdateFood";
 import { DeleteFood } from "../admin/DeleteFood";
-import { useFood } from "../../provider/FoodProvider";
 
-export const CardModel = (props: foodParams) => {
-  const [foodName, setFoodName] = useState("");
-  const [deleteFoodName, setDeleteFoodName] = useState("");
-  const [open, setOpen] = useState(false);
+type CardModelProps = {
+  _id: string;
+  foodName: string;
+  price: number;
+  foodImg: string;
+  category: string;
+  ingredients: string;
+  discount: number;
+  editFoodId: string;
+  setEditFoodId: Dispatch<SetStateAction<string>>;
+  editFoodName: string;
+  setEditFoodName: Dispatch<SetStateAction<string>>;
+  editPrice: number;
+  setEditPrice: Dispatch<SetStateAction<number>>;
+  editDiscount: number;
+  setEditDiscount: Dispatch<SetStateAction<number>>;
+  editIngredients: string;
+  setEditInredients: Dispatch<SetStateAction<string>>;
+  editFoodImg: string;
+  setEditFoodImg: Dispatch<SetStateAction<string>>;
+  editCategory: string;
+  setEditCategory: Dispatch<SetStateAction<string>>;
+};
+
+export const CardModel = (props: CardModelProps) => {
+  const {
+    _id,
+    foodName,
+    price,
+    foodImg,
+    category,
+    ingredients,
+    discount,
+    editFoodId,
+    setEditFoodId,
+    editFoodName,
+    setEditFoodName,
+    editPrice,
+    setEditPrice,
+    editDiscount,
+    setEditDiscount,
+    editIngredients,
+    setEditInredients,
+    editFoodImg,
+    setEditFoodImg,
+    editCategory,
+    setEditCategory,
+  } = props;
+
   const [dltFood, setDltFood] = useState(false);
   const [update, setUpdate] = useState(false);
   const { isAdmin } = useAuth();
-  const [foodInfo, setFoodInfo] = useState({});
 
   return (
     <Stack>
       <Stack
-        onClick={() => {
-          setOpen(true);
-        }}
         spacing={1.75}
         sx={{
           "&:hover .editBtn": {
@@ -43,9 +82,9 @@ export const CardModel = (props: foodParams) => {
             overflow={"hidden"}
             borderRadius={3}
           >
-            <Image src={props.foodImg} alt="" fill objectFit="cover" />
+            <Image src={foodImg} alt="" fill objectFit="cover" />
           </Stack>
-          {Boolean(props.discount) && (
+          {Boolean(discount) && (
             <Typography
               top={10}
               right={10}
@@ -62,7 +101,7 @@ export const CardModel = (props: foodParams) => {
               fontSize={18}
               fontWeight={600}
             >
-              {props.discount}%
+              {discount}%
             </Typography>
           )}
           {isAdmin && (
@@ -81,18 +120,14 @@ export const CardModel = (props: foodParams) => {
               <Button
                 onClick={(e) => {
                   e.stopPropagation();
+                  setEditFoodId(_id);
+                  setEditFoodName(foodName);
+                  setEditFoodImg(foodImg);
+                  setEditPrice(price);
+                  setEditDiscount(discount);
+                  setEditInredients(ingredients);
+                  setEditCategory(category);
                   setUpdate(true);
-                  const foodDetails = {
-                    foodName: props.foodName,
-                    price: props.price,
-                    foodImg: props.foodImg,
-                    ingredients: props.ingredients,
-                    discount: props.discount,
-                    category: props.category,
-                  };
-                  setFoodInfo(foodDetails);
-                  setFoodName(props.foodName);
-                  console.log(setFoodInfo);
                 }}
                 className="editBtn"
                 sx={{
@@ -115,8 +150,13 @@ export const CardModel = (props: foodParams) => {
                 Edit
               </Button>
               <UpdateFood
-                // foodInfo={foodInfo}
-                foodName={foodName}
+                editFoodId={editFoodId}
+                editFoodName={editFoodName}
+                editPrice={editPrice}
+                editCategory={editCategory}
+                editFoodImg={editFoodImg}
+                editDiscount={editDiscount}
+                editIngredients={editIngredients}
                 update={update}
                 handleUpdateClose={() => setUpdate(false)}
               />
@@ -125,7 +165,7 @@ export const CardModel = (props: foodParams) => {
                 onClick={(e) => {
                   e.stopPropagation();
                   setDltFood(true);
-                  setDeleteFoodName(props.foodName);
+                  setEditFoodId(_id);
                 }}
                 sx={{
                   zIndex: 20,
@@ -147,22 +187,20 @@ export const CardModel = (props: foodParams) => {
                 />
               </Button>
               <DeleteFood
+                editFoodId={editFoodId}
                 dltFood={dltFood}
                 handleDeleteFood={() => setDltFood(false)}
-                deleteFoodName={deleteFoodName}
               />
             </Stack>
           )}
         </Stack>
         <Stack>
           <Typography fontSize={20} fontWeight={590}>
-            {props.foodName}
+            {foodName}
           </Typography>
           <Stack direction={"row"} spacing={1.9}>
             <Typography color={"#18BA51"} fontSize={18} fontWeight={590}>
-              {Boolean(props.discount)
-                ? props.price * (1 - props.discount * 0.01)
-                : props.price}
+              {Boolean(discount) ? price * (1 - discount * 0.01) : price}
             </Typography>
             <Typography
               sx={{
@@ -171,18 +209,11 @@ export const CardModel = (props: foodParams) => {
               fontSize={18}
               fontWeight={590}
             >
-              {Boolean(props.discount) && props.price}
+              {Boolean(discount) && price}
             </Typography>
           </Stack>
         </Stack>
       </Stack>
-      <OrderDetail
-        open={open}
-        handleClose={() => {
-          setOpen(false);
-        }}
-        foodParams={props}
-      />
     </Stack>
   );
 };

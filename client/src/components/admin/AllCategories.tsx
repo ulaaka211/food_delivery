@@ -7,6 +7,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { CreateNewCategory } from "./CreateNewCategory";
 import { useFood } from "../../provider/FoodProvider";
 import { EditCategory } from "..";
+import { foodParams } from "@/types";
 
 type AllCategoriesProps = {
   selectedCategory: string;
@@ -18,6 +19,7 @@ export const AllCategories = (props: AllCategoriesProps) => {
   const [open, setOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
   const [categoryName, setCategoryName] = useState("");
+  const [editCategoryId, setEditCategoryId] = useState("");
 
   const isSelected = (category: string) => {
     if (category == props.selectedCategory) {
@@ -45,17 +47,20 @@ export const AllCategories = (props: AllCategoriesProps) => {
             paddingBottom={10}
             gap={5}
           >
-            {categories.map((item) => (
+            {categories.map((item, index) => (
               <Stack
+                key={index}
                 onClick={() => {
-                  props.setSelectedCategory(item.foodCategory);
+                  props.setSelectedCategory((prevCategory) =>
+                    prevCategory === item.foodCategory ? "" : item.foodCategory
+                  );
                   setCategoryName(item.foodCategory);
                 }}
                 border={1}
                 direction={"row"}
                 alignItems={"center"}
                 justifyContent={"space-between"}
-                width={"15vw"}
+                width={"160%"}
                 borderRadius={1}
                 paddingY={1}
                 paddingX={2}
@@ -87,7 +92,12 @@ export const AllCategories = (props: AllCategoriesProps) => {
                   }}
                 />
                 {isSelected(item.foodCategory) && editOpen && (
-                  <EditCategory categoryName={categoryName} />
+                  <EditCategory
+                    categoryName={categoryName}
+                    _id={item._id ?? ""}
+                    editCategoryId={editCategoryId}
+                    setEditCategoryId={setEditCategoryId}
+                  />
                 )}
               </Stack>
             ))}
@@ -95,7 +105,7 @@ export const AllCategories = (props: AllCategoriesProps) => {
               direction={"row"}
               gap={1}
               border={1}
-              width={"15vw"}
+              width={"160%"}
               justifyContent={"start"}
               alignItems={"center"}
               borderRadius={1}

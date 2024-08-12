@@ -5,70 +5,79 @@ import { Stack, Typography, Button, MenuItem, IconButton } from "@mui/material";
 import { AddFoodImg, CustomInput, IOSSwitch } from "..";
 import { Modal } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import Image from "next/image";
 import { useFood } from "../../provider/FoodProvider";
 import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
 
-type CustomInputSelectProps = {
-  foodName: string;
+type UpdateFoodProps = {
   update: boolean;
   handleUpdateClose: () => void;
-  // foodInfo: {
-  //   foodName: string;
-  //   price: number;
-  //   foodImg: string;
-  //   discount: number;
-  //   ingredients: string;
-  //   category: string;
-  // };
+  editFoodId: string;
+  editFoodName: string;
+  editPrice: number;
+  editFoodImg: string;
+  editDiscount: number;
+  editIngredients: string;
+  editCategory: string;
 };
 
-export const UpdateFood = (props: CustomInputSelectProps) => {
+export const UpdateFood = (props: UpdateFoodProps) => {
   const { updateFood } = useFood();
-  const { update, handleUpdateClose, foodName } = props;
+  const {
+    update,
+    handleUpdateClose,
+    editFoodId,
+    editFoodName,
+    editPrice,
+    editFoodImg,
+    editDiscount,
+    editIngredients,
+    editCategory,
+  } = props;
   const { categories } = useFood();
   const [checkDiscount, setCheckDiscount] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
   const [openModal, setOpenModal] = useState(false);
   const [showPicture, setShowPicture] = useState(false);
 
+  useEffect(() => {
+    if (editFoodImg) {
+      setImageUrl(editFoodImg);
+      setShowPicture(true);
+    }
+  }, [editFoodImg]);
+
   const validationSchema = yup.object({
-    name: yup.string().required("Хоолны нэрээ оруулна уу"),
+    foodName: yup.string().required("Хоолны нэрээ оруулна уу"),
+    category: yup.string().required("Хоолны төрлөө оруулна уу"),
     ingredients: yup.string().required("Хоолны орцнуудаа оруулна уу"),
     price: yup.number().required("Хоолны үнээ оруулна уу"),
     discount: yup.number(),
-    category: yup.string().required("Хоолны төрлөө оруулна уу"),
   });
 
   const formik = useFormik({
     initialValues: {
-      foodName: "",
-      ingredients: "",
-      foodImg: "",
-      price: 0,
-      discount: 0,
-      category: "",
-      // name: foodInfo.foodName ?? "",
-      // ingredients: foodInfo.ingredients ?? "",
-      // foodimg: foodInfo.foodImg ?? "",
-      // price: foodInfo.price ?? 0,
-      // discount: foodInfo.discount ?? 0,
-      // category: foodInfo.category ?? "",
+      foodName: editFoodName ? editFoodName : "",
+      category: editCategory ? editCategory : "",
+      ingredients: editIngredients ? editIngredients : "",
+      price: editPrice ? editPrice : 0,
+      discount: editDiscount ? editDiscount : 0,
+      foodimg: editFoodImg ? editFoodImg : "",
     },
 
     validationSchema: validationSchema,
     onSubmit: (values) => {
       updateFood({
+        _id: editFoodId,
         foodName: values.foodName,
+        category: values.category,
         ingredients: values.ingredients,
         price: values.price,
         discount: values.discount,
         foodImg: imageUrl,
-        category: values.category,
-        editFood: foodName,
       });
     },
   });
@@ -257,6 +266,7 @@ export const UpdateFood = (props: CustomInputSelectProps) => {
                       className="deleteImgBtn"
                       onClick={() => {
                         setShowPicture(false);
+                        setImageUrl("");
                       }}
                       sx={{
                         display: "none",
