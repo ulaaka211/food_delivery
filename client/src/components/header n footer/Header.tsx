@@ -20,6 +20,7 @@ import { DrawerDetail, Login, MyProfile } from "..";
 import { useAuth } from "../../provider/AuthenticationProvider";
 import { ShoppingBasketOutlined } from "@mui/icons-material";
 import { useFood } from "../../provider/FoodProvider";
+import { foodParams } from "@/types";
 
 const arr = [
   {
@@ -39,7 +40,7 @@ const arr = [
 export const Header = () => {
   const pathname = usePathname();
   const { open, setOpen, user, isLoggedIn, isAdmin } = useAuth();
-  const { shareFood } = useFood();
+  const { basket } = useFood();
   const router = useRouter();
   const { openDrawer, setOpenDrawer } = useFood();
 
@@ -121,7 +122,7 @@ export const Header = () => {
               }}
             >
               <IconButton>
-                <Badge badgeContent={shareFood.length} color="warning">
+                <Badge badgeContent={basket.length} color="warning">
                   <ShoppingBasketOutlined
                     sx={{
                       color: "#000",
@@ -164,7 +165,9 @@ export const Header = () => {
                   cursor: "pointer",
                 }}
               >
-                <Image src="/vector (4).svg" alt="" width={19} height={19} />
+                <IconButton>
+                  <Image src="/vector (4).svg" alt="" width={19} height={19} />
+                </IconButton>
                 <Typography fontSize={14} fontWeight={700}>
                   {isLoggedIn ? user.name : "Нэвтрэх"}
                 </Typography>

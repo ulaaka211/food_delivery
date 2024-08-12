@@ -15,63 +15,14 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AxiosError } from "axios";
 import { useAuth } from "./AuthenticationProvider";
-
-export type foodParams = {
-  foodName: string;
-  ingredients: string;
-  discount: number;
-  foodImg: string;
-  price: number;
-  category: string;
-};
-
-export type updateFoodParams = {
-  foodName: string;
-  ingredients: string;
-  discount: number;
-  foodImg: string;
-  price: number;
-  category: string;
-  editFood: string;
-};
-
-export type shareFoodParams = {
-  foodName: string;
-  ingredients: string;
-  discount: number;
-  foodImg: string;
-  price: number;
-  category: string;
-  foodCount: number;
-};
-
-type Category = {
-  foodCategory: string;
-};
-
-type updateCategoryParams = {
-  editCategory: string;
-  newCategory: string;
-};
-
-type DeliveryAddress = {
-  additional: string;
-  bair: string;
-  district: string;
-  khoroo: string;
-  paymentMethod: boolean;
-  phone: string;
-};
-
-type Order = {
-  createdAt: Date;
-  deliveryStatus: string;
-  userID: string;
-  _v: number;
-  _id: string;
-  deliveryAddress: DeliveryAddress[];
-  foods: shareFoodParams[];
-};
+import {
+  Category,
+  Order,
+  cartItem,
+  foodParams,
+  updateCategoryParams,
+  updateFoodParams,
+} from "@/types";
 
 type FoodContextType = {
   getFood: () => Promise<void>;
@@ -79,17 +30,17 @@ type FoodContextType = {
   getCategories: () => Promise<void>;
   postCategory: (foodCategory: string) => Promise<void>;
   updateFood: (params: updateFoodParams) => Promise<void>;
-  deleteFood: (deleteFoodName: string) => Promise<void>;
+  deleteFood: (_id: string) => Promise<void>;
   updateCategory: (params: updateCategoryParams) => Promise<void>;
-  deleteCategory: (deleteCategory: string) => Promise<void>;
+  deleteCategory: (_id: string) => Promise<void>;
   categories: Category[];
   foods: foodParams[];
   selectedCategory: string;
   setSelectedCategory: Dispatch<SetStateAction<string>>;
   foodCount: number;
   setFoodCount: Dispatch<SetStateAction<number>>;
-  shareFood: shareFoodParams[];
-  setShareFood: Dispatch<SetStateAction<shareFoodParams[]>>;
+  basket: cartItem[];
+  setBasket: Dispatch<SetStateAction<cartItem[]>>;
   names: string;
   setNames: Dispatch<SetStateAction<string>>;
   openDrawer: boolean;
@@ -108,7 +59,7 @@ export const FoodProvider = ({ children }: PropsWithChildren) => {
   const [foods, setFoods] = useState<foodParams[]>([]);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [foodCount, setFoodCount] = useState(1);
-  const [shareFood, setShareFood] = useState<shareFoodParams[]>([]);
+  const [basket, setBasket] = useState<cartItem[]>([]);
   const [names, setNames] = useState("");
   const [openDrawer, setOpenDrawer] = useState(false);
   const [allOrders, setAllOrders] = useState<Order[]>([]);
@@ -137,7 +88,7 @@ export const FoodProvider = ({ children }: PropsWithChildren) => {
 
   const updateFood = async (params: updateFoodParams) => {
     try {
-      const { data } = await api.post("/food/updateFood", params, {
+      const { data } = await api.put(`/food/updateFood/${params._id}`, params, {
         headers: { Authorization: localStorage.getItem("token") },
       });
       toast.success(data.message, {
@@ -157,17 +108,11 @@ export const FoodProvider = ({ children }: PropsWithChildren) => {
     }
   };
 
-  const deleteFood = async (deleteFoodName: string) => {
+  const deleteFood = async (_id: string) => {
     try {
-      const { data } = await api.post(
-        "/food/deleteFood",
-        {
-          deleteFood: deleteFoodName,
-        },
-        {
-          headers: { Authorization: localStorage.getItem("token") },
-        }
-      );
+      const { data } = await api.delete(`/food/deleteFood/${_id}`, {
+        headers: { Authorization: localStorage.getItem("token") },
+      });
       toast.success(data.message, {
         position: "top-center",
         autoClose: 3000,
@@ -188,7 +133,7 @@ export const FoodProvider = ({ children }: PropsWithChildren) => {
   const postCategory = async (foodCategory: string) => {
     try {
       const { data } = await api.post(
-        "food/createCategory",
+        "category/createCategory",
         { foodCategory },
         {
           headers: { Authorization: localStorage.getItem("token") },
@@ -212,33 +157,9 @@ export const FoodProvider = ({ children }: PropsWithChildren) => {
 
   const updateCategory = async (params: updateCategoryParams) => {
     try {
-      const { data } = await api.post("/food/updateCategory", params, {
-        headers: { Authorization: localStorage.getItem("token") },
-      });
-      toast.success(data.message, {
-        position: "top-center",
-        autoClose: 3000,
-        hideProgressBar: true,
-      });
-      setRefresh(refresh + 1);
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        toast.error(error.response?.data.message ?? error.message, {
-          position: "top-center",
-          autoClose: 3000,
-          hideProgressBar: true,
-        });
-      }
-    }
-  };
-
-  const deleteCategory = async (deleteCategory: string) => {
-    try {
-      const { data } = await api.post(
-        "/foods/deleteCategory",
-        {
-          deleteCategory,
-        },
+      const { data } = await api.put(
+        `/category/updateCategory/${params._id}`,
+        params,
         {
           headers: { Authorization: localStorage.getItem("token") },
         }
@@ -260,10 +181,34 @@ export const FoodProvider = ({ children }: PropsWithChildren) => {
     }
   };
 
+  const deleteCategory = async (_id: string) => {
+    try {
+      const { data } = await api.delete(`/category/deleteCategory/${_id}`, {
+        headers: { Authorization: localStorage.getItem("token") },
+      });
+      toast.success(data.message, {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: true,
+      });
+      setRefresh(refresh + 1);
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data.message ?? error.message, {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: true,
+        });
+      }
+    }
+  };
+
   const getCategories = async () => {
     try {
-      const { data } = await api.get("food/getCategory", {
-        headers: { Authorization: localStorage.getItem("token") },
+      const { data } = await api.get("category/getCategory", {
+        headers: {
+          Authorization: localStorage.getItem("token" ?? "temporaryAdmin"),
+        },
       });
       setCategories(data);
     } catch (error) {
@@ -274,7 +219,9 @@ export const FoodProvider = ({ children }: PropsWithChildren) => {
   const getFood = async () => {
     try {
       const { data } = await api.get("food/getFood", {
-        headers: { Authorization: localStorage.getItem("token") },
+        headers: {
+          Authorization: localStorage.getItem("token" ?? "temporaryAdmin"),
+        },
       });
       setFoods(data);
     } catch (error) {
@@ -310,8 +257,8 @@ export const FoodProvider = ({ children }: PropsWithChildren) => {
         setSelectedCategory,
         foodCount,
         setFoodCount,
-        shareFood,
-        setShareFood,
+        basket,
+        setBasket,
       }}
     >
       {children}

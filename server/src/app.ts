@@ -6,6 +6,9 @@ import foodRouter from "./routers/food.router";
 import { connectDatabase } from "./database";
 import userRouter from "./routers/user.router";
 import emailRouter from "./routers/reset.router";
+import temporarAdminRouter from "./routers/temporaryAdmin.router";
+import { authMiddleware, eitherAdminOrTemporaryAdmin } from "./middleware";
+import categoryRouter from "./routers/category.router";
 
 const app = express();
 
@@ -15,8 +18,10 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.use("/auth", authRouter);
-app.use("/user", userRouter);
-app.use("/food", foodRouter);
+app.use("/user", authMiddleware, userRouter);
+app.use("/temporary", temporarAdminRouter);
+app.use("/food", eitherAdminOrTemporaryAdmin, foodRouter);
+app.use("/category", eitherAdminOrTemporaryAdmin, categoryRouter);
 app.use("/email", emailRouter);
 
 export default app;

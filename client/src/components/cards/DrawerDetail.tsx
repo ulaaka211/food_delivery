@@ -1,6 +1,6 @@
 "use client";
 
-import { Container, Stack, Typography } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 import Image from "next/image";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import { Button } from "@mui/material";
@@ -9,6 +9,7 @@ import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import Link from "next/link";
 import { useFood } from "../../provider/FoodProvider";
 import { useAuth } from "../../provider/AuthenticationProvider";
+import { useRouter } from "next/navigation";
 
 const numberFormatter = new Intl.NumberFormat("en-US", {
   style: "decimal",
@@ -17,9 +18,10 @@ const numberFormatter = new Intl.NumberFormat("en-US", {
 });
 
 export const DrawerDetail = () => {
-  const { shareFood, setFoodCount, setOpenDrawer } = useFood();
+  const { basket, setOpenDrawer, setBasket } = useFood();
   const { isLoggedIn, setOpen } = useAuth();
-  const tatolPrice = shareFood.reduce((sum, currentValue) => {
+  const router = useRouter();
+  const tatolPrice = basket.reduce((sum, currentValue) => {
     return (
       sum +
       currentValue.price *
@@ -51,8 +53,8 @@ export const DrawerDetail = () => {
         </Stack>
         <Stack justifySelf={"start"} flex={1}>
           {isLoggedIn ? (
-            shareFood.map((item, index) => (
-              <Stack paddingY={3} borderBottom={1}>
+            basket.map((item, index) => (
+              <Stack paddingY={3} borderBottom={1} key={index}>
                 <Stack
                   padding={2}
                   gap={2}
@@ -133,11 +135,19 @@ export const DrawerDetail = () => {
                         justifyContent={"center"}
                         alignItems={"center"}
                         onClick={() => {
-                          setFoodCount(item.foodCount);
-                          if (item.foodCount == 1) {
-                            return 1;
-                          }
-                          return item.foodCount--;
+                          setBasket((prev) => {
+                            const clone = [...prev];
+                            return clone.map((element) => {
+                              {
+                                if (element.foodId == item.foodId) {
+                                  if (element.foodCount != 1) {
+                                    element.foodCount--;
+                                  }
+                                }
+                                return element;
+                              }
+                            });
+                          });
                         }}
                       >
                         <RemoveOutlinedIcon />
@@ -156,19 +166,18 @@ export const DrawerDetail = () => {
                         justifyContent={"center"}
                         alignItems={"center"}
                         onClick={() => {
-                          let isShare = false;
+                          setBasket((prev) => {
+                            const clone = [...prev];
 
-                          const newShareFood = shareFood.map((element) => {
-                            if (element.foodCount == item.foodCount) {
-                              isShare = true;
-                              element.foodCount += 1;
+                            return clone.map((element) => {
+                              if (element.foodId === item.foodId)
+                                return {
+                                  ...element,
+                                  foodCount: element.foodCount + 1,
+                                };
                               return element;
-                            } else {
-                              return element;
-                            }
+                            });
                           });
-
-                          setFoodCount(item.foodCount);
                         }}
                       >
                         <AddOutlinedIcon />
@@ -230,20 +239,28 @@ export const DrawerDetail = () => {
               {numberFormatter.format(tatolPrice)}
             </Typography>
           </Stack>
-          <Stack width={"50%"}>
-            <Link href={"/order"}>
-              <Button
-                fullWidth
-                variant="contained"
-                disableElevation
-                sx={{
-                  py: "14.5px",
-                  bgcolor: "#18BA51",
-                }}
-              >
-                Захиалах
-              </Button>
-            </Link>
+          <Stack
+            width={"50%"}
+            onClick={() => {
+              if (basket.length === 0) {
+                alert("Сагс хоосон байна");
+              } else {
+                router.push("/order");
+                setOpenDrawer(false);
+              }
+            }}
+          >
+            <Button
+              fullWidth
+              variant="contained"
+              disableElevation
+              sx={{
+                py: "14.5px",
+                bgcolor: "#18BA51",
+              }}
+            >
+              Захиалах
+            </Button>
           </Stack>
         </Stack>
       </Stack>

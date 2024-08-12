@@ -3,17 +3,18 @@
 import { Stack, Typography } from "@mui/material";
 import { Modal } from "@mui/material";
 import { useFood } from "../../provider/FoodProvider";
+import { log } from "console";
 
 type SignOutProps = {
   openDelete: boolean;
   handleDeleteCategory: () => void;
-  categoryName: string;
+  editCategoryId: string;
 };
 
 export const DeleteCategory = ({
   openDelete,
   handleDeleteCategory,
-  categoryName,
+  editCategoryId,
 }: SignOutProps) => {
   const { deleteCategory } = useFood();
 
@@ -42,14 +43,14 @@ export const DeleteCategory = ({
         <Stack
           flexDirection={"row"}
           justifyContent={"space-between"}
-          gap={0.2}
+          gap={0.3}
           overflow={"hidden"}
         >
           <Typography
             onClick={() => {
-              deleteCategory(categoryName);
+              deleteCategory(editCategoryId);
             }}
-            width={0.5}
+            width={0.6}
             bgcolor={"#18BA5133"}
             textAlign={"center"}
             fontSize={20}
@@ -70,7 +71,7 @@ export const DeleteCategory = ({
             onClick={() => {
               handleDeleteCategory();
             }}
-            width={0.5}
+            width={0.6}
             bgcolor={"#18BA5133"}
             textAlign={"center"}
             fontSize={20}

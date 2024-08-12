@@ -2,10 +2,9 @@
 
 import { Grid, Stack, Typography } from "@mui/material";
 import { Container } from "@mui/material";
-import Link from "next/link";
-import { Dispatch, SetStateAction, useState } from "react";
-import { CardModel } from ".";
+
 import { useFood } from "../provider/FoodProvider";
+import { FoodModel } from "./food-category/FoodModel";
 
 export const Menu = () => {
   const { categories, foods, selectedCategory, setSelectedCategory } =
@@ -26,7 +25,9 @@ export const Menu = () => {
               <Stack
                 flex={1}
                 onClick={() => {
-                  setSelectedCategory(item.foodCategory);
+                  setSelectedCategory((prevCategory) =>
+                    prevCategory === item.foodCategory ? "" : item.foodCategory
+                  );
                 }}
                 bgcolor={
                   item.foodCategory == selectedCategory
@@ -64,7 +65,7 @@ export const Menu = () => {
               .filter((item) => item.category.includes(selectedCategory))
               .map((item, index) => (
                 <Grid key={index} item xs={12} sm={6} md={4} lg={3}>
-                  <CardModel {...item} />
+                  <FoodModel {...item} />
                 </Grid>
               ))}
           </Grid>

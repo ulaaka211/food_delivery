@@ -14,15 +14,12 @@ export const signup: RequestHandler = async (req, res) => {
       });
     }
 
-    const defaultRole = "user";
-
     await UserModel.create({
       name,
       email,
       phone,
       address,
       password,
-      role: defaultRole,
       createdAt: new Date(),
     });
 

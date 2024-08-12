@@ -16,7 +16,7 @@ export type cartItem = {
   foodImg: string;
   price: number;
   category: string;
-  quantity: number;
+  foodCount: number;
 };
 
 export type signupParams = {
@@ -43,22 +43,23 @@ export type checkresetotbParams = {
 };
 
 export type updateFoodParams = {
+  _id?: string;
   foodName: string;
   ingredients: string;
   discount: number;
   foodImg: string;
   price: number;
   category: string;
-  editFood: string;
 };
 
 export type Category = {
+  _id?: string;
   foodCategory: string;
 };
 
 export type updateCategoryParams = {
-  editCategory: string;
-  newCategory: string;
+  _id?: string;
+  foodCategory: string;
 };
 
 export type DeliveryAddress = {

@@ -14,38 +14,12 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AxiosError } from "axios";
-
-export type foodParams = {
-  foodName: string;
-  ingredients: string;
-  discount: number;
-  foodImg: string;
-  price: number;
-  category: string;
-};
-
-type signupParams = {
-  email: string;
-  password: string;
-  phone: string;
-  name: string;
-  address: string;
-};
-
-type loginParams = {
-  email: string;
-  password: string;
-};
-
-type checkresetemailParams = {
-  email: string;
-};
-
-type checkresetotbParams = {
-  email: string;
-  otp: string;
-  password: string;
-};
+import {
+  checkresetemailParams,
+  checkresetotbParams,
+  loginParams,
+  signupParams,
+} from "@/types";
 
 type AuthContextType = {
   refresh: number;

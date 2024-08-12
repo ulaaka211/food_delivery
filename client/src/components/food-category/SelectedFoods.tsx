@@ -6,6 +6,8 @@ import Link from "next/link";
 import { useFood } from "../../provider/FoodProvider";
 import { CardModel } from "..";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { FoodModel } from "./FoodModel";
 
 type SelectedFoodsProps = {
   category: string;
@@ -15,13 +17,14 @@ export const SelectedFoods = (props: SelectedFoodsProps) => {
   const router = useRouter();
   const { category } = props;
   const { foods, setSelectedCategory } = useFood();
+
   return (
     <Stack>
       <Stack>
         <Container maxWidth="xl">
           <Stack spacing={3}>
             <Stack
-              padding={2}
+              paddingY={2}
               width={"100%"}
               direction={"row"}
               justifyContent={"space-between"}
@@ -34,12 +37,15 @@ export const SelectedFoods = (props: SelectedFoodsProps) => {
               </Stack>
 
               <Stack
+                sx={{
+                  cursor: "pointer",
+                }}
                 gap={2}
                 direction={"row"}
                 alignItems={"center"}
                 onClick={() => {
                   setSelectedCategory(category);
-                  router.push("food-menu");
+                  router.push("/food-menu");
                 }}
               >
                 <Typography color={"#18BA51"} fontSize={14} fontWeight={400}>
@@ -52,10 +58,10 @@ export const SelectedFoods = (props: SelectedFoodsProps) => {
               <Grid container spacing={3}>
                 {foods
                   .filter((item) => item.category.includes(category))
-                  .filter((item, index) => index < 4)
+                  .filter((_item, index) => index < 4)
                   .map((item, index) => (
                     <Grid key={index} item xs={12} md={3}>
-                      <CardModel {...item} />
+                      <FoodModel {...item} />
                     </Grid>
                   ))}
               </Grid>
