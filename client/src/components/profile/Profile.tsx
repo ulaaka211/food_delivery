@@ -7,23 +7,68 @@ import Image from "next/image";
 import HistoryOutlinedIcon from "@mui/icons-material/HistoryOutlined";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import { Box } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "../../provider/AuthenticationProvider";
-import { Edit } from "@mui/icons-material";
+import * as yup from "yup";
+import { useFormik } from "formik";
+
+const validationSchema = yup.object({
+  name: yup.string().required("Нэр оруулна уу"),
+  email: yup.string().email("Буруу имэйл формат").required("Имэйл оруулна уу"),
+  phone: yup.string().required("Утасны дугаар оруулна уу"),
+  address: yup.string().required("Хаяг оруулна уу"),
+  userImg: yup.number(),
+});
 
 export const MyProfile = () => {
+  const { user, updateUser } = useAuth();
+  const { _id, name, email, phone, userImg, address } = user;
   const [open, setOpen] = useState(false);
   const [openSignOut, setOpenSignOut] = useState(false);
-  const { user } = useAuth();
-  const { name, email, phone, userImg } = user;
   const [edit, setEdit] = useState(false);
-  const [userName, setUserName] = useState(name);
-  const [userEmail, setUserEmail] = useState(email);
-  const [userPhone, setUserPhone] = useState(phone);
-  const [imageUrl, setImageUrl] = useState(userImg);
+  const [imageUrl, setImageUrl] = useState(
+    "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+  );
+
+  useEffect(() => {
+    if (userImg) {
+      setImageUrl(userImg);
+    }
+  }, [userImg]);
+
+  const formik = useFormik({
+    initialValues: {
+      name: name ?? "",
+      email: email ?? "",
+      phone: phone ?? "",
+      address: address ?? "",
+    },
+    validationSchema: validationSchema,
+    enableReinitialize: true,
+    onSubmit: (values) => {
+      if (
+        name == values.name &&
+        email == values.email &&
+        phone == values.phone &&
+        address == values.address
+      ) {
+        setEdit(false);
+      } else {
+        updateUser({
+          _id: _id,
+          name: values.name,
+          email: values.email,
+          phone: values.phone,
+          address: values.address,
+          userImg: imageUrl,
+        });
+        setEdit(false);
+      }
+    },
+  });
 
   return (
-    <Stack width={"100%"} height={"85vh"} justifyContent={"center"}>
+    <Stack width={"100%"} height={"100vh"} justifyContent={"center"}>
       <Stack justifyContent={"center"} alignItems={"center"}>
         <Stack spacing={3}>
           <Stack
@@ -84,6 +129,25 @@ export const MyProfile = () => {
                 {user.name}
               </Typography>
 
+              {/* <Button
+                onClick={() => {
+                  setEdit((prev) => !prev);
+                }}
+                sx={{
+                  display: "flex",
+                  gap: "4px",
+                }}
+              >
+                <Typography fontSize={14} fontWeight={400}>
+                  {edit ? "back" : "edit"}
+                </Typography>
+                <CreateOutlinedIcon
+                  sx={{
+                    color: "primary.main",
+                    fontSize: "18px",
+                  }}
+                />
+              </Button> */}
               <Button
                 disabled={edit}
                 onClick={() => {
@@ -111,27 +175,53 @@ export const MyProfile = () => {
         </Stack>
         <Stack gap={2}>
           <CustomInput2
+            name="name"
             type="text"
             label="Таны нэр"
-            defaultValue={userName}
             edit={edit}
+            onChange={formik.handleChange}
+            value={formik.values.name}
+            error={formik.touched.name && Boolean(formik.errors.name)}
+            helperText={formik.touched.name && formik.errors.name}
+            onBlur={formik.handleBlur}
           />
           <CustomInput2
-            type="number"
-            label="Утасны дугаар"
-            defaultValue={userPhone}
-            edit={edit}
-          />
-          <CustomInput2
+            name="email"
             type="email"
             label="Имэйл хаяг"
-            defaultValue={userEmail}
             edit={edit}
+            onChange={formik.handleChange}
+            value={formik.values.email}
+            error={formik.touched.email && Boolean(formik.errors.email)}
+            helperText={formik.touched.email && formik.errors.email}
+            onBlur={formik.handleBlur}
+          />
+          <CustomInput2
+            name="number"
+            type="number"
+            label="Утасны дугаар"
+            edit={edit}
+            onChange={formik.handleChange}
+            value={formik.values.phone}
+            error={formik.touched.phone && Boolean(formik.errors.phone)}
+            helperText={formik.touched.phone && formik.errors.phone}
+            onBlur={formik.handleBlur}
+          />
+          <CustomInput2
+            name="address"
+            type="text"
+            label="Хаяг"
+            edit={edit}
+            onChange={formik.handleChange}
+            value={formik.values.address}
+            error={formik.touched.address && Boolean(formik.errors.address)}
+            helperText={formik.touched.address && formik.errors.address}
+            onBlur={formik.handleBlur}
           />
           {edit && (
             <Button
               onClick={() => {
-                setEdit(false);
+                formik.handleSubmit();
               }}
               variant="contained"
               sx={{
@@ -150,6 +240,7 @@ export const MyProfile = () => {
             alignItems={"center"}
             sx={{
               cursor: "pointer",
+              "&:hover": { backgroundColor: "#F6F6F6" },
             }}
           >
             <Stack
@@ -174,6 +265,7 @@ export const MyProfile = () => {
             }}
             sx={{
               cursor: "pointer",
+              "&:hover": { backgroundColor: "#F6F6F6" },
             }}
           >
             <Stack

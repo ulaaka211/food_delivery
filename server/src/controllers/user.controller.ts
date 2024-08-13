@@ -16,8 +16,58 @@ export const getUser: RequestHandler = async (req, res) => {
       return res.status(401).json({ message: "Хэрэглэгч олдсонгүй" });
     }
 
-    return res.json(user);
+    return res.json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      phone: user.phone,
+      address: user.address,
+      userImg: user.userImg,
+      role: user.role,
+    });
   } catch (err) {
     res.json(err);
+  }
+};
+
+export const updateUser: RequestHandler = async (req, res) => {
+  try {
+    const {
+      params: { _id },
+      body: { name, email, phone, userImg, address },
+    } = req;
+
+    const userExists = await UserModel.findById(_id);
+
+    if (!userExists) {
+      return res.status(401).json({
+        message: `Хэрэглэгч олдсонгүй`,
+      });
+    }
+
+    const duplicaterUser = await UserModel.findOne({
+      _id: { $ne: _id },
+      $or: [{ email }, { phone }],
+    });
+
+    if (duplicaterUser) {
+      return res.status(401).json({
+        message: `${duplicaterUser} мэдээлэл давхцаж байна`,
+      });
+    }
+
+    const updatedFields = {
+      name,
+      email,
+      phone,
+      userImg,
+      address,
+      updatedAt: new Date(),
+    };
+
+    await UserModel.findByIdAndUpdate(_id, updatedFields, { new: true });
+    return res.json({ message: "Мэдээлэл амжилттай шинэчлэгдлээ" });
+  } catch (error) {
+    res.status(401).json(error);
   }
 };

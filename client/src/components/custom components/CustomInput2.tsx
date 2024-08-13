@@ -11,6 +11,7 @@ import {
   Stack,
   TextField,
   TextFieldProps,
+  Typography,
 } from "@mui/material";
 
 type EditProps = {
@@ -23,6 +24,7 @@ export const CustomInput2 = (props: CustomProps) => {
   const {
     variant = "standard",
     label,
+    helperText,
     defaultValue,
     type = "text",
     edit,
@@ -90,6 +92,9 @@ export const CustomInput2 = (props: CustomProps) => {
           style: { marginTop: "7px" },
         }}
       ></TextField>
+      <Typography fontSize={12} color={"#b91c1c"} px={1}>
+        {helperText}
+      </Typography>
     </Stack>
   );
 };

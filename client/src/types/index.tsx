@@ -1,3 +1,6 @@
+import { type } from "os";
+import { string } from "yup";
+
 export type foodParams = {
   _id?: string;
   foodName: string;
@@ -17,6 +20,15 @@ export type cartItem = {
   price: number;
   category: string;
   foodCount: number;
+};
+
+export type updateUserParams = {
+  _id: string;
+  name: string;
+  email: string;
+  phone: string;
+  address: string;
+  userImg: string;
 };
 
 export type signupParams = {

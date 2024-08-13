@@ -1,9 +1,8 @@
 import { Router } from "express";
-import { getUser } from "../controllers/user.controller";
+import { getUser, updateUser } from "../controllers/user.controller";
 
 const userRouter = Router();
 
-//Get request
-userRouter.get("/getUser", getUser);
+userRouter.get("/getUser", getUser).put("/updateUser/:_id", updateUser);
 
 export default userRouter;

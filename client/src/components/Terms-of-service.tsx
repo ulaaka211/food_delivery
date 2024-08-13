@@ -2,11 +2,10 @@ import { Container, Stack, Typography } from "@mui/material";
 import Image from "next/image";
 export const TermsOfService = () => {
   return (
-    <Stack height={"105vh"}>
+    <Stack>
       <Container maxWidth="xl">
         <Stack spacing={3} paddingY={"80px"}>
           <Stack
-            padding={2}
             width={"100%"}
             direction={"row"}
             justifyContent={"space-between"}

@@ -32,7 +32,7 @@ const foodSchema = new Schema({
   },
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "admin",
+    ref: "user",
   },
   updatedAt: Date,
   createdAt: Date,

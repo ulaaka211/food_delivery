@@ -1,9 +1,9 @@
 "use client";
 
 import { Button, Grid, Stack, Typography } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CreateNewFood } from "./CreateNewFood";
-import { CardModel } from "..";
+import { CardModel, DateFilter } from "..";
 import { useFood } from "../../provider/FoodProvider";
 
 type AllFoodsProps = {
@@ -11,7 +11,7 @@ type AllFoodsProps = {
 };
 
 export const AllFoods = (props: AllFoodsProps) => {
-  const { foods } = useFood();
+  const { foods, setFoods, filterByDate } = useFood();
   const [open, setOpen] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
   const [editFoodId, setEditFoodId] = useState("");
@@ -24,13 +24,19 @@ export const AllFoods = (props: AllFoodsProps) => {
 
   return (
     <Stack width={"77.5%"} height={"100%"} pb={"3%"}>
-      <Stack width={"100%"} paddingY={4} paddingLeft={6} bgcolor={"#F7F7F8"}>
+      <Stack
+        width={"100%"}
+        paddingY={4}
+        paddingLeft={6}
+        bgcolor={"#F7F7F8"}
+        gap={4}
+      >
         <Stack direction={"row"} justifyContent={"space-between"}>
           <Typography fontSize={22} fontWeight={700}>
             {props.selectedCategory ? props.selectedCategory : "All Foods "}
           </Typography>
           <Button
-            variant="text"
+            variant="contained"
             onClick={() => {
               setOpen(true);
             }}
@@ -50,6 +56,7 @@ export const AllFoods = (props: AllFoodsProps) => {
             handleClose={() => setOpen(false)}
           />
         </Stack>
+        <DateFilter />
       </Stack>
       <Stack
         borderRadius={2}

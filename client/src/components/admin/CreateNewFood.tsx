@@ -1,8 +1,7 @@
 "use client";
-// .required("Хоолны зургаа оруулна уу"),
 
 import { Stack, Typography, Button, MenuItem, IconButton } from "@mui/material";
-import { AddFoodImg, CustomInput, CustomInputSelect2, IOSSwitch } from "..";
+import { AddFoodImg, CustomInput, IOSSwitch } from "..";
 import { Modal } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { Dispatch, SetStateAction, useState } from "react";
@@ -29,30 +28,30 @@ export const CreateNewFood = (props: CustomInputSelectProps) => {
 
   const validationSchema = yup.object({
     foodName: yup.string().required("Хоолны нэрээ оруулна уу"),
+    category: yup.string().required("Хоолны төрлөө оруулна уу"),
     ingredients: yup.string().required("Хоолны орцнуудаа оруулна уу"),
     price: yup.number().required("Хоолны үнээ оруулна уу"),
     discount: yup.number(),
-    category: yup.string().required("Хоолны төрлөө оруулна уу"),
   });
 
   const formik = useFormik({
     initialValues: {
       foodName: "",
+      category: "",
       ingredients: "",
       price: 0,
       discount: 0,
       foodimg: "",
-      category: "",
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
       createFood({
         foodName: values.foodName,
+        category: values.category,
         ingredients: values.ingredients,
         price: values.price,
         discount: values.discount,
         foodImg: imageUrl,
-        category: values.category,
       });
     },
   });
@@ -297,6 +296,7 @@ export const CreateNewFood = (props: CustomInputSelectProps) => {
           <Button
             onClick={() => {
               formik.handleSubmit();
+              formik.resetForm();
             }}
             sx={{
               py: "8px",
@@ -310,7 +310,10 @@ export const CreateNewFood = (props: CustomInputSelectProps) => {
               },
             }}
             variant="contained"
-            disabled={!formik.isValid}
+            disabled={
+              formik.values.price == 0 ||
+              (!formik.isValid && !formik.values.foodimg)
+            }
           >
             Continue
           </Button>

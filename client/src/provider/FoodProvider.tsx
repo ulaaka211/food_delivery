@@ -35,6 +35,7 @@ type FoodContextType = {
   deleteCategory: (_id: string) => Promise<void>;
   categories: Category[];
   foods: foodParams[];
+  setFoods: Dispatch<SetStateAction<foodParams[]>>;
   selectedCategory: string;
   setSelectedCategory: Dispatch<SetStateAction<string>>;
   foodCount: number;
@@ -47,6 +48,12 @@ type FoodContextType = {
   setOpenDrawer: Dispatch<SetStateAction<boolean>>;
   allOrders: Order[];
   setAllOrders: Dispatch<SetStateAction<Order[]>>;
+  filteredFood: foodParams[];
+  setFilteredFood: Dispatch<SetStateAction<foodParams[]>>;
+  filterByDate: (startDate: string, endDate: string) => Promise<void>;
+  filterByDay: (date: string) => Promise<void>;
+  filterByWeek: (date: string) => Promise<void>;
+  filterByMonts: (date: string) => Promise<void>;
 };
 
 export const FoodContext = createContext<FoodContextType>(
@@ -54,6 +61,7 @@ export const FoodContext = createContext<FoodContextType>(
 );
 
 export const FoodProvider = ({ children }: PropsWithChildren) => {
+  const [isFirstRender, setIsFirstRender] = useState(true);
   const { refresh, setRefresh } = useAuth();
   const [categories, setCategories] = useState<Category[]>([]);
   const [foods, setFoods] = useState<foodParams[]>([]);
@@ -63,6 +71,52 @@ export const FoodProvider = ({ children }: PropsWithChildren) => {
   const [names, setNames] = useState("");
   const [openDrawer, setOpenDrawer] = useState(false);
   const [allOrders, setAllOrders] = useState<Order[]>([]);
+  const [filteredFood, setFilteredFood] = useState<foodParams[]>([]);
+
+  const filterByDate = async (startDate: string, endDate: string) => {
+    try {
+      const { data } = await api.get("/filter/filterByDate", {
+        params: { startDate, endDate },
+      });
+      setFoods(data);
+      console.log(data);
+    } catch (error) {
+      console.log(error), "FFF";
+    }
+  };
+
+  const filterByDay = async (date: string) => {
+    try {
+      const { data } = await api.get("/filter/filterByDay", {
+        params: { date },
+      });
+      setFilteredFood(data);
+    } catch (error) {
+      console.log(error), "FFF";
+    }
+  };
+
+  const filterByWeek = async (date: string) => {
+    try {
+      const { data } = await api.get("/filter/filterByWeek", {
+        params: { date },
+      });
+      setFilteredFood(data);
+    } catch (error) {
+      console.log(error), "FFF";
+    }
+  };
+
+  const filterByMonts = async (date: String) => {
+    try {
+      const { data } = await api.get("/filter/filterByDate", {
+        params: { date },
+      });
+      setFilteredFood(data);
+    } catch (error) {
+      console.log(error), "FFF";
+    }
+  };
 
   const createFood = async (params: foodParams) => {
     try {
@@ -230,6 +284,19 @@ export const FoodProvider = ({ children }: PropsWithChildren) => {
   };
 
   useEffect(() => {
+    const basket = localStorage.getItem("basket");
+    if (basket) {
+      setBasket(JSON.parse(basket));
+    }
+    setIsFirstRender(false);
+  }, []);
+
+  useEffect(() => {
+    if (isFirstRender) return;
+    localStorage.setItem("basket", JSON.stringify(basket));
+  }, [basket]);
+
+  useEffect(() => {
     getCategories();
     getFood();
   }, [refresh]);
@@ -237,6 +304,12 @@ export const FoodProvider = ({ children }: PropsWithChildren) => {
   return (
     <FoodContext.Provider
       value={{
+        filteredFood,
+        setFilteredFood,
+        filterByDate,
+        filterByDay,
+        filterByWeek,
+        filterByMonts,
         allOrders,
         setAllOrders,
         openDrawer,
@@ -248,6 +321,7 @@ export const FoodProvider = ({ children }: PropsWithChildren) => {
         deleteFood,
         updateFood,
         foods,
+        setFoods,
         getFood,
         categories,
         getCategories,
@@ -269,3 +343,92 @@ export const FoodProvider = ({ children }: PropsWithChildren) => {
 export const useFood = () => {
   return useContext(FoodContext);
 };
+
+// const FilterFoodsByDate = () => {
+//   const searchParams = useSearchParams();
+//   const [filteredFoods, setFilteredFoods] = useState([]);
+//   const [loading, setLoading] = useState(false);
+//   const [error, setError] = useState('');
+
+//   useEffect(() => {
+//     const startDate = searchParams.get('startDate');
+//     const endDate = searchParams.get('endDate');
+
+//     if (startDate && endDate) {
+//       fetchFilteredFoods(startDate, endDate);
+//     }
+//   }, [searchParams]);
+
+//   const fetchFilteredFoods = async (startDate, endDate) => {
+//     setLoading(true);
+//     setError('');
+//     try {
+//       const response = await fetch(`/api/foods/filter-by-date?startDate=${startDate}&endDate=${endDate}`);
+
+//       if (!response.ok) {
+//         throw new Error('Failed to filter foods by date');
+//       }
+
+//       const data = await response.json();
+//       setFilteredFoods(data);
+//     } catch (error) {
+//       setError(error.message);
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   const updateUrlParams = (startDate, endDate) => {
+//     const params = new URLSearchParams();
+//     if (startDate) params.set('startDate', startDate);
+//     if (endDate) params.set('endDate', endDate);
+
+//     window.history.replaceState(null, '', `?${params.toString()}`);
+//   };
+
+//   return (
+//     <div>
+//       <h2>Filter Foods by Date</h2>
+//       <div>
+//         <label>
+//           Start Date:
+//           <input
+//             type="date"
+//             value={searchParams.get('startDate') || ''}
+//             onChange={(e) => updateUrlParams(e.target.value, searchParams.get('endDate'))}
+//           />
+//         </label>
+//       </div>
+//       <div>
+//         <label>
+//           End Date:
+//           <input
+//             type="date"
+//             value={searchParams.get('endDate') || ''}
+//             onChange={(e) => updateUrlParams(searchParams.get('startDate'), e.target.value)}
+//           />
+//         </label>
+//       </div>
+
+//       {error && <p style={{ color: 'red' }}>{error}</p>}
+
+//       <div>
+//         {loading ? (
+//           <p>Loading...</p>
+//         ) : filteredFoods.length > 0 ? (
+//           <ul>
+//             {filteredFoods.map((food) => (
+//               <li key={food._id}>
+//                 {food.foodName} - {food.price} USD
+//               </li>
+//             ))}
+//           </ul>
+//         ) : (
+//           !loading && <p>No foods found for the selected dates.</p>
+//         )}
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default FilterFoodsByDate;

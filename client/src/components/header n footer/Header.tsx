@@ -15,12 +15,12 @@ import {
 import { Container } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
-import { DrawerDetail, Login, MyProfile } from "..";
+import { DrawerDetail, Login } from "..";
 import { useAuth } from "../../provider/AuthenticationProvider";
 import { ShoppingBasketOutlined } from "@mui/icons-material";
 import { useFood } from "../../provider/FoodProvider";
-import { foodParams } from "@/types";
+import PersonOutlineSharpIcon from "@mui/icons-material/PersonOutlineSharp";
+import { useEffect, useState } from "react";
 
 const arr = [
   {
@@ -165,8 +165,29 @@ export const Header = () => {
                   cursor: "pointer",
                 }}
               >
-                <IconButton>
-                  <Image src="/vector (4).svg" alt="" width={19} height={19} />
+                <IconButton
+                  sx={{
+                    overflow: "hidden",
+                    width: "28px",
+                    height: "28px",
+                  }}
+                >
+                  {user.userImg ? (
+                    <Image
+                      src={
+                        user.userImg
+                          ? user.userImg
+                          : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+                      }
+                      alt=""
+                      width={28}
+                      height={28}
+                    />
+                  ) : (
+                    <PersonOutlineSharpIcon
+                      sx={{ color: "black", width: "28px", height: "28px" }}
+                    />
+                  )}
                 </IconButton>
                 <Typography fontSize={14} fontWeight={700}>
                   {isLoggedIn ? user.name : "Нэвтрэх"}

@@ -158,6 +158,12 @@ export const CardModel = (props: CardModelProps) => {
                 editDiscount={editDiscount}
                 editIngredients={editIngredients}
                 update={update}
+                setEditFoodName={setEditFoodName}
+                setEditPrice={setEditPrice}
+                setEditCategory={setEditCategory}
+                setEditFoodImg={setEditFoodImg}
+                setEditDiscount={setEditDiscount}
+                setEditInredients={setEditInredients}
                 handleUpdateClose={() => setUpdate(false)}
               />
               <Button

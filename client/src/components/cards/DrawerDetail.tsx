@@ -104,7 +104,14 @@ export const DrawerDetail = () => {
                           </Typography>
                         </Stack>
                       </Stack>
-                      <Stack alignSelf={"center"}>
+                      <Stack
+                        onClick={() => {
+                          const newBasket = basket.filter(
+                            (element) => element.foodId != item.foodId
+                          );
+                          setBasket(newBasket);
+                        }}
+                      >
                         <CloseOutlinedIcon />
                       </Stack>
                     </Stack>

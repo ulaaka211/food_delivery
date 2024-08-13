@@ -5,7 +5,7 @@ import { Stack, Typography, Button, MenuItem, IconButton } from "@mui/material";
 import { AddFoodImg, CustomInput, IOSSwitch } from "..";
 import { Modal } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import Image from "next/image";
@@ -22,6 +22,12 @@ type UpdateFoodProps = {
   editDiscount: number;
   editIngredients: string;
   editCategory: string;
+  setEditFoodName: Dispatch<SetStateAction<string>>;
+  setEditPrice: Dispatch<SetStateAction<number>>;
+  setEditDiscount: Dispatch<SetStateAction<number>>;
+  setEditInredients: Dispatch<SetStateAction<string>>;
+  setEditFoodImg: Dispatch<SetStateAction<string>>;
+  setEditCategory: Dispatch<SetStateAction<string>>;
 };
 
 export const UpdateFood = (props: UpdateFoodProps) => {
@@ -36,6 +42,12 @@ export const UpdateFood = (props: UpdateFoodProps) => {
     editDiscount,
     editIngredients,
     editCategory,
+    setEditFoodName,
+    setEditFoodImg,
+    setEditPrice,
+    setEditDiscount,
+    setEditInredients,
+    setEditCategory,
   } = props;
   const { categories } = useFood();
   const [checkDiscount, setCheckDiscount] = useState(false);
@@ -67,7 +79,7 @@ export const UpdateFood = (props: UpdateFoodProps) => {
       discount: editDiscount ? editDiscount : 0,
       foodimg: editFoodImg ? editFoodImg : "",
     },
-
+    enableReinitialize: true,
     validationSchema: validationSchema,
     onSubmit: (values) => {
       updateFood({
@@ -313,7 +325,12 @@ export const UpdateFood = (props: UpdateFoodProps) => {
               color: "#3F4145",
             }}
             onClick={() => {
-              formik.resetForm();
+              setEditFoodName("");
+              setEditFoodImg("");
+              setEditPrice(0);
+              setEditDiscount(0);
+              setEditInredients("");
+              setEditCategory("");
               setShowPicture(false);
               setImageUrl("");
             }}

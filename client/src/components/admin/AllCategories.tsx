@@ -36,101 +36,105 @@ export const AllCategories = (props: AllCategoriesProps) => {
         paddingTop={3}
         bgcolor={"#fff"}
         alignItems={"flex-start"}
+        overflow={"hidden"}
       >
-        <Stack gap={1} width={"58.5%"}>
+        <Stack gap={5} width={"100%"} mt={"2.5%"}>
           <Typography fontSize={22} fontWeight={700}>
             Food Menu
           </Typography>
           <Stack
-            justifyContent={"space-between"}
-            paddingTop={4}
-            paddingBottom={10}
-            gap={5}
+            borderRadius={1}
+            height={"46%"}
+            overflow={"scroll"}
+            width={"100%"}
           >
-            {categories.map((item, index) => (
-              <Stack
-                key={index}
-                onClick={() => {
-                  props.setSelectedCategory((prevCategory) =>
-                    prevCategory === item.foodCategory ? "" : item.foodCategory
-                  );
-                  setCategoryName(item.foodCategory);
-                }}
-                border={1}
-                direction={"row"}
-                alignItems={"center"}
-                justifyContent={"space-between"}
-                width={"160%"}
-                borderRadius={1}
-                paddingY={1}
-                paddingX={2}
-                position={"relative"}
-                bgcolor={
-                  props.selectedCategory == item.foodCategory
-                    ? "primary.main"
-                    : "common.white"
-                }
-                color={
-                  props.selectedCategory == item.foodCategory
-                    ? "common.white"
-                    : "common.black"
-                }
-                sx={{
-                  cursor: "pointer",
-                }}
-              >
-                <Typography
-                  key={item.foodCategory}
-                  fontSize={18}
-                  fontWeight={600}
-                >
-                  {item.foodCategory}
-                </Typography>
-                <MoreVertIcon
+            <Stack justifyContent={"space-between"} gap={5}>
+              {categories.map((item, index) => (
+                <Stack
+                  key={index}
                   onClick={() => {
-                    setEditOpen((prev) => !prev);
+                    props.setSelectedCategory(item.foodCategory);
+                    setCategoryName(item.foodCategory);
                   }}
-                />
-                {isSelected(item.foodCategory) && editOpen && (
-                  <EditCategory
-                    categoryName={categoryName}
-                    _id={item._id ?? ""}
-                    editCategoryId={editCategoryId}
-                    setEditCategoryId={setEditCategoryId}
+                  border={1}
+                  direction={"row"}
+                  alignItems={"center"}
+                  justifyContent={"space-between"}
+                  width={"90%"}
+                  borderRadius={1}
+                  paddingY={1}
+                  paddingX={2}
+                  position={"relative"}
+                  bgcolor={
+                    props.selectedCategory == item.foodCategory
+                      ? "primary.main"
+                      : "common.white"
+                  }
+                  color={
+                    props.selectedCategory == item.foodCategory
+                      ? "common.white"
+                      : "common.black"
+                  }
+                  sx={{
+                    cursor: "pointer",
+                  }}
+                >
+                  <Typography
+                    key={item.foodCategory}
+                    fontSize={18}
+                    fontWeight={600}
+                  >
+                    {item.foodCategory}
+                  </Typography>
+                  <MoreVertIcon
+                    onClick={() => {
+                      setEditOpen((prev) => !prev);
+                    }}
                   />
-                )}
-              </Stack>
-            ))}
-            <Stack
-              direction={"row"}
-              gap={1}
-              border={1}
-              width={"160%"}
-              justifyContent={"start"}
-              alignItems={"center"}
-              borderRadius={1}
-              paddingY={1}
-              paddingX={2}
-              onClick={() => {
-                setOpen(true);
-              }}
-            >
-              <AddIcon
-                sx={{
-                  color: "#D6D8DB",
-                }}
-              />
-              <Typography color={"#D6D8DB"} fontSize={18} fontWeight={600}>
-                Create new category
-              </Typography>
+                  {isSelected(item.foodCategory) && editOpen && (
+                    <EditCategory
+                      categoryName={categoryName}
+                      _id={item._id ?? ""}
+                      editCategoryId={editCategoryId}
+                      setEditCategoryId={setEditCategoryId}
+                    />
+                  )}
+                </Stack>
+              ))}
             </Stack>
-            <CreateNewCategory
-              open={open}
-              handleClose={() => {
-                setOpen(false);
+          </Stack>
+          <Stack
+            direction={"row"}
+            gap={1}
+            border={1}
+            width={"90%"}
+            justifyContent={"start"}
+            alignItems={"center"}
+            borderRadius={1}
+            paddingY={1}
+            paddingX={2}
+            onClick={() => {
+              setOpen(true);
+            }}
+            sx={{
+              cursor: "pointer",
+            }}
+          >
+            <AddIcon
+              sx={{
+                color: "#D6D8DB",
               }}
             />
+            <Typography color={"#D6D8DB"} fontSize={18} fontWeight={600}>
+              Create new category
+            </Typography>
           </Stack>
+          <CreateNewCategory
+            open={open}
+            handleClose={() => {
+              setOpen(false);
+            }}
+          />
         </Stack>
       </Stack>
     </Stack>

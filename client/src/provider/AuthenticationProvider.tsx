@@ -19,7 +19,9 @@ import {
   checkresetotbParams,
   loginParams,
   signupParams,
+  updateUserParams,
 } from "@/types";
+import { Backdrop, CircularProgress } from "@mui/material";
 
 type AuthContextType = {
   refresh: number;
@@ -29,23 +31,21 @@ type AuthContextType = {
   userOtb: string;
   setUserOtb: Dispatch<SetStateAction<string>>;
   user: {
+    _id: string;
     name: string;
     email: string;
     phone: string;
     address: string;
-    password: string;
     userImg: string;
-    role: string;
   };
   setUser: Dispatch<
     SetStateAction<{
+      _id: string;
       name: string;
       email: string;
       phone: string;
       address: string;
-      password: string;
       userImg: string;
-      role: string;
     }>
   >;
   isAdmin: boolean;
@@ -57,6 +57,7 @@ type AuthContextType = {
   signup: (params: signupParams) => Promise<void>;
   login: (params: loginParams) => Promise<void>;
   signout: () => void;
+  updateUser: (params: updateUserParams) => Promise<void>;
   checkresetemail: (params: checkresetemailParams) => Promise<void>;
   checkresetotb: (params: checkresetotbParams) => Promise<void>;
 };
@@ -76,13 +77,12 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   const [userEmail, setUserEmail] = useState("");
   const [userOtb, setUserOtb] = useState("");
   const [user, setUser] = useState({
+    _id: "",
     name: "",
     email: "",
     phone: "",
     address: "",
-    password: "",
     userImg: "",
-    role: "",
   });
 
   const login = async (params: loginParams) => {
@@ -130,13 +130,13 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
           hideProgressBar: true,
         });
       }
-      console.log(error);
     }
   };
 
   const signout = async () => {
     try {
       localStorage.removeItem("token");
+      localStorage.removeItem("user");
       setIsLoggedIn(false);
       setIsAdmin(false);
       router.push("/");
@@ -152,6 +152,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
       });
 
       setUser(data);
+
       const { role } = data;
       if (role == "admin") {
         setIsAdmin(true);
@@ -163,7 +164,27 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
           hideProgressBar: true,
         });
       }
-      console.log(error), "FFF";
+    }
+  };
+
+  const updateUser = async (params: updateUserParams) => {
+    try {
+      const { data } = await api.put(`/user/updateUser/${params._id}`, params, {
+        headers: { Authorization: localStorage.getItem("token") },
+      });
+      setRefresh(refresh + 1);
+      toast.success(data.message, {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: true,
+      });
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data.message ?? error.message, {
+          position: "top-center",
+          hideProgressBar: true,
+        });
+      }
     }
   };
 
@@ -210,6 +231,12 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   };
 
   useEffect(() => {
+    if (isLoggedIn) {
+      localStorage.setItem("user", JSON.stringify(user));
+    }
+  }, [isLoggedIn, refresh]);
+
+  useEffect(() => {
     const token = localStorage.getItem("token");
 
     if (token) {
@@ -245,6 +272,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
         setUser,
         isAdmin,
         signout,
+        updateUser,
       }}
     >
       {children}

@@ -1,6 +1,6 @@
 "use client";
 
-import { Stack, Typography } from "@mui/material";
+import { Button, Stack, Typography } from "@mui/material";
 import { CustomInput, EditCategory } from "..";
 import { Modal } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
@@ -16,7 +16,7 @@ type CustomInputSelectProps = {
 };
 
 const validationSchema = yup.object({
-  foodCategory: yup.string(),
+  foodCategory: yup.string().required("Ангилалын нэрээ оруулна уу"),
 });
 
 export const UpdateCategory = (props: CustomInputSelectProps) => {
@@ -58,21 +58,31 @@ export const UpdateCategory = (props: CustomInputSelectProps) => {
           width={"74%"}
         >
           <CloseIcon
+            sx={{
+              cursor: "pointer",
+            }}
             onClick={() => {
               handleEditClose();
             }}
           />
-          <Typography fontSize={22} fontWeight={700}>
-            Create new category
+          <Typography fontSize={22} fontWeight={700} mr={"8%"}>
+            Update category
           </Typography>
         </Stack>
         <Stack py={2} px={3}>
           <CustomInput
             label="Category name"
-            placeholder="Placeholder"
+            placeholder="Ангилалын нэр"
             name="foodCategory"
             value={formik.values.foodCategory}
             onChange={formik.handleChange}
+            error={
+              formik.touched.foodCategory && Boolean(formik.errors.foodCategory)
+            }
+            helperText={
+              formik.touched.foodCategory && formik.errors.foodCategory
+            }
+            onBlur={formik.handleBlur}
           />
         </Stack>
 
@@ -84,31 +94,40 @@ export const UpdateCategory = (props: CustomInputSelectProps) => {
           px={3}
           gap={1}
         >
-          <Typography
+          <Button
+            sx={{
+              py: "8px",
+              px: "16px",
+              fontSize: "16px",
+              fontWeight: "700",
+              color: "#3F4145",
+            }}
             onClick={() => {
               formik.resetForm();
             }}
-            py={1}
-            px={2}
-            fontSize={16}
-            fontWeight={700}
-            color={"#3F4145"}
           >
             Clear
-          </Typography>
-          <Typography
+          </Button>
+          <Button
+            variant="contained"
+            sx={{
+              py: "8px",
+              px: "16px",
+              fontSize: "16px",
+              fontWeight: "700",
+              color: "white",
+              bgcolor: "#3F4145",
+              "&:hover": {
+                bgcolor: "#3F4145",
+              },
+            }}
+            disabled={!formik.isValid}
             onClick={() => {
               formik.handleSubmit();
             }}
-            py={1}
-            px={2}
-            fontSize={16}
-            fontWeight={700}
-            color={"#fff"}
-            bgcolor={"#3F4145"}
           >
-            Update
-          </Typography>
+            Continue
+          </Button>
         </Stack>
       </Stack>
     </Modal>

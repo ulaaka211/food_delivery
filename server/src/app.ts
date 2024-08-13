@@ -9,6 +9,7 @@ import emailRouter from "./routers/reset.router";
 import temporarAdminRouter from "./routers/temporaryAdmin.router";
 import { authMiddleware, eitherAdminOrTemporaryAdmin } from "./middleware";
 import categoryRouter from "./routers/category.router";
+import foodFilterRouter from "./routers/foodFilter.router";
 
 const app = express();
 
@@ -18,9 +19,10 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.use("/auth", authRouter);
-app.use("/user", authMiddleware, userRouter);
 app.use("/temporary", temporarAdminRouter);
+app.use("/user", authMiddleware, userRouter);
 app.use("/food", eitherAdminOrTemporaryAdmin, foodRouter);
+app.use("filter", foodFilterRouter);
 app.use("/category", eitherAdminOrTemporaryAdmin, categoryRouter);
 app.use("/email", emailRouter);
 

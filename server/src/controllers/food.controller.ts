@@ -1,5 +1,5 @@
 import { RequestHandler } from "express";
-import { FoodModel, UserModel, categoryModel } from "../models";
+import { FoodModel, UserModel } from "../models";
 
 // CRUD Food
 
@@ -66,13 +66,10 @@ export const updateFood: RequestHandler = async (req, res) => {
       foodImg,
       ingredients,
       category,
+      updatedAt: new Date(),
     };
 
-    await UserModel.findByIdAndUpdate(
-      _id,
-      { updatedFields, updatedAt: new Date() },
-      { new: true }
-    );
+    await UserModel.findByIdAndUpdate(_id, updatedFields, { new: true });
 
     return res.json({ message: "Хоол амжилттай шинэчлэгдлээ" });
   } catch (error) {

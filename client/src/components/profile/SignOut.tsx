@@ -32,7 +32,7 @@ export const SignOutConfirm = ({
         handleOut();
       }}
     >
-      <Stack bgcolor={"#fff"} p={1}>
+      <Stack bgcolor={"#fff"} p={2} borderRadius={3}>
         <Typography
           py={5}
           color={"#171717"}
