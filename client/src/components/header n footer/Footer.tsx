@@ -4,8 +4,6 @@ import { Divider, Stack, Typography } from "@mui/material";
 import Link from "next/link";
 import Image from "next/image";
 
-type FooterProps = {};
-
 const arr = [
   {
     link: "/",
@@ -33,7 +31,7 @@ const arr = [
   },
 ];
 
-export const Footer = (props: FooterProps) => {
+export const Footer = () => {
   return (
     <Stack
       sx={{
@@ -91,8 +89,26 @@ export const Footer = (props: FooterProps) => {
         justifyContent={"center"}
         padding={1}
       >
-        <Image src="/facebook.svg" alt="" width={40} height={46}></Image>
-        <Image src="/instagram.svg" alt="" width={40} height={46}></Image>
+        <Image
+          onClick={() => {
+            window.open(
+              "https://www.facebook.com/profile.php?id=100023804023479"
+            );
+          }}
+          src="/facebook.svg"
+          alt=""
+          width={40}
+          height={46}
+        ></Image>
+        <Image
+          onClick={() => {
+            window.open("https://www.instagram.com/saikhanbaiars/");
+          }}
+          src="/instagram.svg"
+          alt=""
+          width={40}
+          height={46}
+        ></Image>
         <Image src="/twitter.svg" alt="" width={40} height={46}></Image>
       </Stack>
 
