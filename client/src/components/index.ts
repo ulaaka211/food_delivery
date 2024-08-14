@@ -28,11 +28,6 @@ export * from "./inprogress n completed/CompletedIcon";
 export * from "./food-category/AllFoods";
 export * from "./food-category/SelectedFoods";
 
-export * from "./order, orderhistory n address/Address";
-export * from "./order, orderhistory n address/OrderCard";
-export * from "./order, orderhistory n address/OrderHistory";
-export * from "./order, orderhistory n address/OrderDetails";
-
 export * from "./profile/Profile";
 export * from "./HomeImg";
 export * from "./Menu";

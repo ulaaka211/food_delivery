@@ -21,7 +21,6 @@ import {
   signupParams,
   updateUserParams,
 } from "@/types";
-import { Backdrop, CircularProgress } from "@mui/material";
 
 type AuthContextType = {
   refresh: number;
@@ -92,13 +91,12 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
       const { token } = data;
 
       localStorage.setItem("token", token);
-
+      setIsLoggedIn(true);
       toast.success(data.message, {
         position: "top-center",
         autoClose: 3000,
         hideProgressBar: true,
       });
-      setIsLoggedIn(true);
     } catch (error) {
       if (error instanceof AxiosError) {
         toast.error(error.response?.data.message ?? error.message, {
@@ -137,6 +135,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     try {
       localStorage.removeItem("token");
       localStorage.removeItem("user");
+      setRefresh(refresh + 1);
       setIsLoggedIn(false);
       setIsAdmin(false);
       router.push("/");

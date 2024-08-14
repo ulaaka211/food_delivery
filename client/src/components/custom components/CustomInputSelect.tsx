@@ -1,6 +1,6 @@
 "use client";
 
-import { InputAdornment, Stack } from "@mui/material";
+import { InputAdornment, Stack, Typography } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import TextField, { TextFieldProps } from "@mui/material/TextField";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
@@ -12,10 +12,11 @@ type CustomInputSelectProps = {
 type CombinedProps = TextFieldProps & CustomInputSelectProps;
 
 export const CustomInputSelect = (props: CombinedProps) => {
-  const { defaultValue, option, ...rest } = props;
+  const { defaultValue, label, option, helperText, ...rest } = props;
 
   return (
-    <Stack bgcolor={"#ECEDF0"}>
+    <Stack gap={0.5} width={1}>
+      <Typography fontSize={14}>{label}</Typography>
       <TextField
         select
         {...rest}
@@ -23,6 +24,7 @@ export const CustomInputSelect = (props: CombinedProps) => {
         variant="outlined"
         InputProps={{
           sx: {
+            bgcolor: "#ecedf0",
             justifyContent: "center",
             alignItems: "center",
           },
@@ -39,6 +41,9 @@ export const CustomInputSelect = (props: CombinedProps) => {
           </MenuItem>
         ))}
       </TextField>
+      <Typography fontSize={12} color={"#b91c1c"}>
+        {helperText}
+      </Typography>
     </Stack>
   );
 };

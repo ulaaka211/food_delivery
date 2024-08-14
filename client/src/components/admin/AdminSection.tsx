@@ -11,6 +11,7 @@ export const AdminSection = () => {
   const router = useRouter();
   const { isAdmin, refresh } = useAuth();
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [tab, setTab] = useState(false);
 
   useEffect(() => {
     if (!isAdmin) {
@@ -41,6 +42,8 @@ export const AdminSection = () => {
         }}
       >
         <AllCategories
+          tab={tab}
+          setTab={setTab}
           selectedCategory={selectedCategory}
           setSelectedCategory={setSelectedCategory}
         />

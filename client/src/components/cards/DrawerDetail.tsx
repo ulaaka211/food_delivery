@@ -2,8 +2,8 @@
 
 import { Stack, Typography } from "@mui/material";
 import Image from "next/image";
-import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import { Button } from "@mui/material";
+import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import RemoveOutlinedIcon from "@mui/icons-material/RemoveOutlined";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import Link from "next/link";
@@ -249,7 +249,9 @@ export const DrawerDetail = () => {
           <Stack
             width={"50%"}
             onClick={() => {
-              if (basket.length === 0) {
+              if (!isLoggedIn) {
+                return;
+              } else if (basket.length === 0 && isLoggedIn) {
                 alert("Сагс хоосон байна");
               } else {
                 router.push("/order");

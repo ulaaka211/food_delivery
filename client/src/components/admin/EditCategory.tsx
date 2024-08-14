@@ -20,7 +20,7 @@ export const EditCategory = (props: editCategoryProps) => {
   const [openDelete, setOpenDelete] = useState(false);
 
   return (
-    <Stack position={"absolute"} zIndex={1} right={"-74%"} top={"-60%"}>
+    <Stack position={"absolute"} zIndex={10} right={"-70%"} top={0}>
       <Stack
         bgcolor={"white"}
         width={"fit-content"}

@@ -197,6 +197,7 @@ export const OrderDetail = ({
                   } else {
                     setBasket(newBasket);
                   }
+                  handleClose();
                 } else {
                   handleClose();
                   setOpenDrawer(true);

@@ -27,14 +27,14 @@ export const Signup = () => {
     password: yup
       .string()
       .matches(
-        /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
-        "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number, and One Special Case Character"
+        /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+        "8 оронтой байх ёстой, нэг том үсэг, нэг жижиг үсэг, нэг тоо, нэг тусгай тэмдэгт агуулсан байх ёстой"
       )
       .required("Нууц үгээ оруулна уу"),
     rePassword: yup
       .string()
       .required("Нууц үгээ оруулна уу")
-      .oneOf([yup.ref("password")]),
+      .oneOf([yup.ref("password")], "Нууц үг нийцэхгүй байна"),
     address: yup.string().required("Хаягаа оруулна уу"),
     checkBox: yup.boolean().isTrue("Yйлчилгээний нөхцөлийг зөвшөөрнө үү"),
   });
@@ -64,7 +64,7 @@ export const Signup = () => {
   return (
     <Container
       sx={{
-        height: "80vh",
+        height: "90vh",
         width: "100vw",
         display: "flex",
         justifyContent: "center",

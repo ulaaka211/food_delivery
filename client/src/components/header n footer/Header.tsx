@@ -9,6 +9,8 @@ import {
   Drawer,
   IconButton,
   InputAdornment,
+  List,
+  ListItem,
   Stack,
   TextField,
 } from "@mui/material";
@@ -20,7 +22,8 @@ import { useAuth } from "../../provider/AuthenticationProvider";
 import { ShoppingBasketOutlined } from "@mui/icons-material";
 import { useFood } from "../../provider/FoodProvider";
 import PersonOutlineSharpIcon from "@mui/icons-material/PersonOutlineSharp";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { SearchedFood } from "./SearchedFood";
 
 const arr = [
   {
@@ -40,9 +43,14 @@ const arr = [
 export const Header = () => {
   const pathname = usePathname();
   const { open, setOpen, user, isLoggedIn, isAdmin } = useAuth();
-  const { basket } = useFood();
+  const { basket, foods } = useFood();
   const router = useRouter();
   const { openDrawer, setOpenDrawer } = useFood();
+  const [search, setSearch] = useState("");
+
+  const filteredFoods = foods.filter((item) =>
+    item.foodName.toLowerCase().includes(search.toLowerCase())
+  );
 
   return (
     <Stack
@@ -95,6 +103,11 @@ export const Header = () => {
 
           <Stack spacing={3} direction={"row"} alignItems={"center"}>
             <TextField
+              value={search}
+              onChange={(e) => {
+                setSearch(e.target.value);
+                console.log(search);
+              }}
               variant="outlined"
               type="search"
               placeholder="Хайх"
@@ -110,6 +123,27 @@ export const Header = () => {
                 style: { padding: "8px 16px" },
               }}
             />
+
+            {search && (
+              <Stack
+                bgcolor={"white"}
+                maxWidth={"432px"}
+                minHeight={"500px"}
+                height={"100%"}
+                width={"100%"}
+                padding={3}
+                borderRadius={2}
+                position={"absolute"}
+                top={"100%"}
+                right={"10%"}
+              >
+                <Stack overflow={"scroll"}>
+                  {filteredFoods.map((item) => (
+                    <SearchedFood key={item._id} {...item} />
+                  ))}
+                </Stack>
+              </Stack>
+            )}
             <Stack
               onClick={() => {
                 setOpenDrawer(true);
@@ -172,7 +206,7 @@ export const Header = () => {
                     height: "28px",
                   }}
                 >
-                  {user.userImg ? (
+                  {isLoggedIn ? (
                     <Image
                       src={
                         user.userImg

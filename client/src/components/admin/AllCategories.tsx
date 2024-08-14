@@ -5,21 +5,25 @@ import { Dispatch, SetStateAction, useState } from "react";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import AddIcon from "@mui/icons-material/Add";
 import { CreateNewCategory } from "./CreateNewCategory";
-import { useFood } from "../../provider/FoodProvider";
-import { EditCategory } from "..";
-import { foodParams } from "@/types";
+import { EditCategory, OrderDetail } from "..";
+import { useFood } from "@/provider/FoodProvider";
+import { OrderHistoryFoods } from "../order, orderhistory n address/OrderDetails";
+import { OrderHistory } from "../order, orderhistory n address/OrderHistory";
 
 type AllCategoriesProps = {
   selectedCategory: string;
   setSelectedCategory: Dispatch<SetStateAction<string>>;
+  tab: boolean;
+  setTab: Dispatch<SetStateAction<boolean>>;
 };
 
 export const AllCategories = (props: AllCategoriesProps) => {
-  const { categories } = useFood();
+  const { allOrders, categories } = useFood();
   const [open, setOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
   const [categoryName, setCategoryName] = useState("");
   const [editCategoryId, setEditCategoryId] = useState("");
+  const [selectedOrder, setSelectedOrder] = useState("");
 
   const isSelected = (category: string) => {
     if (category == props.selectedCategory) {
@@ -36,19 +40,45 @@ export const AllCategories = (props: AllCategoriesProps) => {
         paddingTop={3}
         bgcolor={"#fff"}
         alignItems={"flex-start"}
-        overflow={"hidden"}
+        maxHeight={"50%"}
       >
         <Stack gap={5} width={"100%"} mt={"2.5%"}>
-          <Typography fontSize={22} fontWeight={700}>
-            Food Menu
-          </Typography>
-          <Stack
-            borderRadius={1}
-            height={"46%"}
-            overflow={"scroll"}
-            width={"100%"}
-          >
-            <Stack justifyContent={"space-between"} gap={5}>
+          <Stack direction={"row"} justifyContent={"space-between"} pr={2}>
+            <Typography
+              sx={{
+                cursor: "pointer",
+              }}
+              onClick={() => {
+                props.setTab(true);
+              }}
+              fontSize={26}
+              fontWeight={props.tab ? 700 : 400}
+              color={props.tab ? "primary.main" : "#D6D8DB"}
+            >
+              Food Menu
+            </Typography>
+            <Typography
+              sx={{
+                cursor: "pointer",
+              }}
+              onClick={() => {
+                props.setTab(false);
+              }}
+              fontSize={26}
+              fontWeight={props.tab ? 400 : 700}
+              color={props.tab ? "#D6D8DB" : "primary.main"}
+            >
+              Order
+            </Typography>
+          </Stack>
+          {props.tab ? (
+            <Stack
+              borderRadius={1}
+              height={"52%"}
+              // overflow={"scroll"}
+              width={"95%"}
+              gap={4}
+            >
               {categories.map((item, index) => (
                 <Stack
                   key={index}
@@ -60,7 +90,7 @@ export const AllCategories = (props: AllCategoriesProps) => {
                   direction={"row"}
                   alignItems={"center"}
                   justifyContent={"space-between"}
-                  width={"90%"}
+                  width={"100%"}
                   borderRadius={1}
                   paddingY={1}
                   paddingX={2}
@@ -101,40 +131,50 @@ export const AllCategories = (props: AllCategoriesProps) => {
                   )}
                 </Stack>
               ))}
+              <Stack
+                direction={"row"}
+                gap={1}
+                border={1}
+                width={"100%"}
+                justifyContent={"start"}
+                alignItems={"center"}
+                borderRadius={1}
+                paddingY={1}
+                paddingX={2}
+                onClick={() => {
+                  setOpen(true);
+                }}
+                sx={{
+                  cursor: "pointer",
+                }}
+              >
+                <AddIcon
+                  sx={{
+                    color: "#D6D8DB",
+                  }}
+                />
+                <Typography color={"#D6D8DB"} fontSize={18} fontWeight={600}>
+                  Create new category
+                </Typography>
+              </Stack>
+              <CreateNewCategory
+                open={open}
+                handleClose={() => {
+                  setOpen(false);
+                }}
+              />
             </Stack>
-          </Stack>
-          <Stack
-            direction={"row"}
-            gap={1}
-            border={1}
-            width={"90%"}
-            justifyContent={"start"}
-            alignItems={"center"}
-            borderRadius={1}
-            paddingY={1}
-            paddingX={2}
-            onClick={() => {
-              setOpen(true);
-            }}
-            sx={{
-              cursor: "pointer",
-            }}
-          >
-            <AddIcon
-              sx={{
-                color: "#D6D8DB",
-              }}
-            />
-            <Typography color={"#D6D8DB"} fontSize={18} fontWeight={600}>
-              Create new category
-            </Typography>
-          </Stack>
-          <CreateNewCategory
-            open={open}
-            handleClose={() => {
-              setOpen(false);
-            }}
-          />
+          ) : (
+            <Stack height={"50%"} overflow={"scroll"} width={"95%"}>
+              {allOrders.map((item, index) => (
+                <OrderHistory
+                  key={index}
+                  {...item}
+                  setSelectedOrder={setSelectedOrder}
+                />
+              ))}
+            </Stack>
+          )}
         </Stack>
       </Stack>
     </Stack>

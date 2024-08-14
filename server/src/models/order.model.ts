@@ -1,7 +1,7 @@
 import mongoose, { Schema, model } from "mongoose";
 
 const orderSchema = new Schema({
-  _id: {
+  userId: {
     type: mongoose.Schema.Types.ObjectId,
   },
   deliveryAddress: [
@@ -17,11 +17,11 @@ const orderSchema = new Schema({
   foods: [
     {
       foodName: String,
-      foodCategory: String,
-      foodIngredients: String,
-      foodPrice: Number,
+      category: String,
+      ingredients: String,
+      price: Number,
       discount: Number,
-      foodPic: String,
+      foodImg: String,
       foodCount: Number,
     },
   ],

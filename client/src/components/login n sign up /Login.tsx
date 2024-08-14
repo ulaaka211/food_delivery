@@ -39,6 +39,7 @@ export const Login = ({ handleClose, open }: LoginProps) => {
     validationSchema: validationSchema,
     onSubmit: (values) => {
       login({ email: values.email, password: values.password });
+      formik.resetForm;
     },
   });
 

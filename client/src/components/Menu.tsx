@@ -5,6 +5,7 @@ import { Container } from "@mui/material";
 import { useFood } from "../provider/FoodProvider";
 import { FoodModel } from "./food-category/FoodModel";
 import { DateFilter } from ".";
+import Image from "next/image";
 
 export const Menu = () => {
   const { categories, foods, selectedCategory, setSelectedCategory } =
@@ -40,8 +41,7 @@ export const Menu = () => {
                     border={1.5}
                     justifyContent={"center"}
                     alignItems={"center"}
-                    minWidth={"20%"}
-                    width={"100%"}
+                    width={"300px"}
                     borderRadius={"18px"}
                     paddingY={1}
                     paddingX={2}
@@ -65,33 +65,37 @@ export const Menu = () => {
                 ))}
               </Stack>
             </Stack>
-
-            {/* <Button
-              onClick={() => {
-                setIndex(index - 1);
-              }}
-            >
-              left
-            </Button>
-            <Button
-              onClick={() => {
-                setIndex(index + 1);
-              }}
-            >
-              right
-            </Button> */}
           </Stack>
           <DateFilter />
           <Stack overflow={"scroll"} borderRadius={3} height={"640px"} mt={4}>
-            <Grid container spacing={3}>
-              {foods
-                .filter((item) => item.category.includes(selectedCategory))
-                .map((item, index) => (
-                  <Grid key={index} item xs={12} sm={6} md={4} lg={3}>
-                    <FoodModel {...item} />
-                  </Grid>
-                ))}
-            </Grid>
+            {foods.length > 0 ? (
+              <Grid container spacing={3}>
+                {foods
+                  .filter((item) => item.category.includes(selectedCategory))
+                  .map((item, index) => (
+                    <Grid key={index} item xs={12} sm={6} md={4} lg={3}>
+                      <FoodModel {...item} />
+                    </Grid>
+                  ))}
+              </Grid>
+            ) : (
+              <Stack
+                height={"70vh"}
+                justifyContent={"center"}
+                alignItems={"center"}
+              >
+                <Stack
+                  justifyContent={"center"}
+                  alignItems={"center"}
+                  spacing={4}
+                >
+                  <Image src="/NotFound.svg" width={133} height={133} alt="" />
+                  <Typography fontSize={14} fontWeight={400}>
+                    Уучлаарай илэрц олдсонгүй...
+                  </Typography>
+                </Stack>
+              </Stack>
+            )}
           </Stack>
         </Stack>
       </Container>

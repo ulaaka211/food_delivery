@@ -17,6 +17,7 @@ import { AxiosError } from "axios";
 import { useAuth } from "./AuthenticationProvider";
 import {
   Category,
+  DeliveryAddress,
   Order,
   cartItem,
   foodParams,
@@ -46,14 +47,21 @@ type FoodContextType = {
   setNames: Dispatch<SetStateAction<string>>;
   openDrawer: boolean;
   setOpenDrawer: Dispatch<SetStateAction<boolean>>;
+  orderList: Order[];
   allOrders: Order[];
-  setAllOrders: Dispatch<SetStateAction<Order[]>>;
-  filteredFood: foodParams[];
-  setFilteredFood: Dispatch<SetStateAction<foodParams[]>>;
   filterByDate: (startDate: string, endDate: string) => Promise<void>;
   filterByDay: (date: string) => Promise<void>;
   filterByWeek: (date: string) => Promise<void>;
   filterByMonts: (date: string) => Promise<void>;
+  createOrder: (
+    deliveryAddress: DeliveryAddress,
+    order: cartItem[]
+  ) => Promise<void>;
+  changeOrderStatus: (
+    selectedCategoryID: string,
+    newStatus: string,
+    userID: string
+  ) => Promise<void>;
 };
 
 export const FoodContext = createContext<FoodContextType>(
@@ -70,8 +78,8 @@ export const FoodProvider = ({ children }: PropsWithChildren) => {
   const [basket, setBasket] = useState<cartItem[]>([]);
   const [names, setNames] = useState("");
   const [openDrawer, setOpenDrawer] = useState(false);
+  const [orderList, setOrderList] = useState<Order[]>([]);
   const [allOrders, setAllOrders] = useState<Order[]>([]);
-  const [filteredFood, setFilteredFood] = useState<foodParams[]>([]);
 
   const filterByDate = async (startDate: string, endDate: string) => {
     try {
@@ -79,7 +87,6 @@ export const FoodProvider = ({ children }: PropsWithChildren) => {
         params: { startDate, endDate },
       });
       setFoods(data);
-      console.log(data);
     } catch (error) {
       console.log(error), "FFF";
     }
@@ -90,7 +97,7 @@ export const FoodProvider = ({ children }: PropsWithChildren) => {
       const { data } = await api.get("/filter/filterByDay", {
         params: { date },
       });
-      setFilteredFood(data);
+      setFoods(data);
     } catch (error) {
       console.log(error), "FFF";
     }
@@ -101,7 +108,7 @@ export const FoodProvider = ({ children }: PropsWithChildren) => {
       const { data } = await api.get("/filter/filterByWeek", {
         params: { date },
       });
-      setFilteredFood(data);
+      setFoods(data);
     } catch (error) {
       console.log(error), "FFF";
     }
@@ -109,10 +116,10 @@ export const FoodProvider = ({ children }: PropsWithChildren) => {
 
   const filterByMonts = async (date: String) => {
     try {
-      const { data } = await api.get("/filter/filterByDate", {
+      const { data } = await api.get("/filter/filterByMonts", {
         params: { date },
       });
-      setFilteredFood(data);
+      setFoods(data);
     } catch (error) {
       console.log(error), "FFF";
     }
@@ -257,13 +264,90 @@ export const FoodProvider = ({ children }: PropsWithChildren) => {
     }
   };
 
+  const createOrder = async (
+    deliveryAddress: DeliveryAddress,
+    order: cartItem[]
+  ) => {
+    try {
+      const { data } = await api.post(
+        "/order/createOrder",
+        { deliveryAddress, order },
+        {
+          headers: { Authorization: localStorage.getItem("token") },
+        }
+      );
+
+      toast.success(data.message, {
+        position: "top-center",
+        hideProgressBar: true,
+      });
+      setRefresh(refresh + 1);
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data.message ?? error.message, {
+          position: "top-center",
+          hideProgressBar: true,
+        });
+      }
+    }
+  };
+
+  const changeOrderStatus = async (
+    selectedOrderID: string,
+    newStatus: string,
+    userID: string
+  ) => {
+    try {
+      const { data } = await api.post(
+        "/order/changeOrderStatus",
+        {
+          selectedOrderID,
+          newStatus,
+          userID,
+        },
+        {
+          headers: { Authorization: localStorage.getItem("token") },
+        }
+      );
+      toast.success(data.message, {
+        position: "top-center",
+        hideProgressBar: true,
+      });
+      setRefresh(refresh + 1);
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data.message ?? error.message, {
+          position: "top-center",
+          hideProgressBar: true,
+        });
+      }
+    }
+  };
+  const getOrderList = async () => {
+    try {
+      const { data } = await api.get("/order/getOrderList", {
+        headers: { Authorization: localStorage.getItem("token") },
+      });
+      setOrderList(data);
+    } catch (error) {
+      console.log(error), "FFF";
+    }
+  };
+
+  const getAllOrders = async () => {
+    try {
+      const { data } = await api.get("/order/getAllOrders", {
+        headers: { Authorization: localStorage.getItem("token") },
+      });
+      setAllOrders(data);
+    } catch (error) {
+      console.log(error), "FFF";
+    }
+  };
+
   const getCategories = async () => {
     try {
-      const { data } = await api.get("category/getCategory", {
-        headers: {
-          Authorization: localStorage.getItem("token" ?? "temporaryAdmin"),
-        },
-      });
+      const { data } = await api.get("/getCategory");
       setCategories(data);
     } catch (error) {
       console.log(error), "FFF";
@@ -272,11 +356,7 @@ export const FoodProvider = ({ children }: PropsWithChildren) => {
 
   const getFood = async () => {
     try {
-      const { data } = await api.get("food/getFood", {
-        headers: {
-          Authorization: localStorage.getItem("token" ?? "temporaryAdmin"),
-        },
-      });
+      const { data } = await api.get("/getFood");
       setFoods(data);
     } catch (error) {
       console.log(error), "FFF";
@@ -299,19 +379,21 @@ export const FoodProvider = ({ children }: PropsWithChildren) => {
   useEffect(() => {
     getCategories();
     getFood();
+    getOrderList();
+    getAllOrders();
   }, [refresh]);
 
   return (
     <FoodContext.Provider
       value={{
-        filteredFood,
-        setFilteredFood,
+        createOrder,
+        changeOrderStatus,
         filterByDate,
         filterByDay,
         filterByWeek,
         filterByMonts,
         allOrders,
-        setAllOrders,
+        orderList,
         openDrawer,
         setOpenDrawer,
         setNames,
@@ -343,92 +425,3 @@ export const FoodProvider = ({ children }: PropsWithChildren) => {
 export const useFood = () => {
   return useContext(FoodContext);
 };
-
-// const FilterFoodsByDate = () => {
-//   const searchParams = useSearchParams();
-//   const [filteredFoods, setFilteredFoods] = useState([]);
-//   const [loading, setLoading] = useState(false);
-//   const [error, setError] = useState('');
-
-//   useEffect(() => {
-//     const startDate = searchParams.get('startDate');
-//     const endDate = searchParams.get('endDate');
-
-//     if (startDate && endDate) {
-//       fetchFilteredFoods(startDate, endDate);
-//     }
-//   }, [searchParams]);
-
-//   const fetchFilteredFoods = async (startDate, endDate) => {
-//     setLoading(true);
-//     setError('');
-//     try {
-//       const response = await fetch(`/api/foods/filter-by-date?startDate=${startDate}&endDate=${endDate}`);
-
-//       if (!response.ok) {
-//         throw new Error('Failed to filter foods by date');
-//       }
-
-//       const data = await response.json();
-//       setFilteredFoods(data);
-//     } catch (error) {
-//       setError(error.message);
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-//   const updateUrlParams = (startDate, endDate) => {
-//     const params = new URLSearchParams();
-//     if (startDate) params.set('startDate', startDate);
-//     if (endDate) params.set('endDate', endDate);
-
-//     window.history.replaceState(null, '', `?${params.toString()}`);
-//   };
-
-//   return (
-//     <div>
-//       <h2>Filter Foods by Date</h2>
-//       <div>
-//         <label>
-//           Start Date:
-//           <input
-//             type="date"
-//             value={searchParams.get('startDate') || ''}
-//             onChange={(e) => updateUrlParams(e.target.value, searchParams.get('endDate'))}
-//           />
-//         </label>
-//       </div>
-//       <div>
-//         <label>
-//           End Date:
-//           <input
-//             type="date"
-//             value={searchParams.get('endDate') || ''}
-//             onChange={(e) => updateUrlParams(searchParams.get('startDate'), e.target.value)}
-//           />
-//         </label>
-//       </div>
-
-//       {error && <p style={{ color: 'red' }}>{error}</p>}
-
-//       <div>
-//         {loading ? (
-//           <p>Loading...</p>
-//         ) : filteredFoods.length > 0 ? (
-//           <ul>
-//             {filteredFoods.map((food) => (
-//               <li key={food._id}>
-//                 {food.foodName} - {food.price} USD
-//               </li>
-//             ))}
-//           </ul>
-//         ) : (
-//           !loading && <p>No foods found for the selected dates.</p>
-//         )}
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default FilterFoodsByDate;

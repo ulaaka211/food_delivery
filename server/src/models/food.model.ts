@@ -1,4 +1,4 @@
-import mongoose, { Schema, model } from "mongoose";
+import { Schema, model } from "mongoose";
 
 const foodSchema = new Schema({
   foodName: {
@@ -29,10 +29,6 @@ const foodSchema = new Schema({
   discountExpiresIn: {
     type: Number,
     required: false,
-  },
-  createdBy: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "user",
   },
   updatedAt: Date,
   createdAt: Date,

@@ -14,7 +14,7 @@ import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
 import { theme } from "@/theme";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
-import { AuthProvider } from "@/provider/AuthenticationProvider";
+import { AuthProvider, useAuth } from "@/provider/AuthenticationProvider";
 import { FoodProvider } from "@/provider/FoodProvider";
 import { useEffect, useState } from "react";
 

@@ -5,13 +5,14 @@ import { useEffect, useState } from "react";
 import { CreateNewFood } from "./CreateNewFood";
 import { CardModel, DateFilter } from "..";
 import { useFood } from "../../provider/FoodProvider";
+import Image from "next/image";
 
 type AllFoodsProps = {
   selectedCategory: string;
 };
 
 export const AllFoods = (props: AllFoodsProps) => {
-  const { foods, setFoods, filterByDate } = useFood();
+  const { foods } = useFood();
   const [open, setOpen] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
   const [editFoodId, setEditFoodId] = useState("");
@@ -26,7 +27,7 @@ export const AllFoods = (props: AllFoodsProps) => {
     <Stack width={"77.5%"} height={"100%"} pb={"3%"}>
       <Stack
         width={"100%"}
-        paddingY={4}
+        paddingY={4.5}
         paddingLeft={6}
         bgcolor={"#F7F7F8"}
         gap={4}
@@ -66,37 +67,52 @@ export const AllFoods = (props: AllFoodsProps) => {
         gap={6}
         bgcolor={"#F7F7F8"}
       >
-        <Grid container spacing={3}>
-          {foods
-            .filter((item) => item.category.includes(props.selectedCategory))
-            .map((item, index) => (
-              <Grid key={index} item xs={12} md={3}>
-                <CardModel
-                  _id={item._id ?? ""}
-                  foodName={item.foodName}
-                  price={item.price}
-                  category={item.category}
-                  foodImg={item.foodImg}
-                  discount={item.discount}
-                  ingredients={item.ingredients}
-                  editFoodId={editFoodId}
-                  setEditFoodId={setEditFoodId}
-                  editFoodName={editFoodName}
-                  setEditFoodName={setEditFoodName}
-                  editPrice={editPrice}
-                  setEditPrice={setEditPrice}
-                  editCategory={editCategory}
-                  setEditCategory={setEditCategory}
-                  editFoodImg={editFoodImg}
-                  setEditFoodImg={setEditFoodImg}
-                  editDiscount={editDiscount}
-                  setEditDiscount={setEditDiscount}
-                  editIngredients={editIngredients}
-                  setEditInredients={setEditIngredients}
-                />
-              </Grid>
-            ))}
-        </Grid>
+        {foods.length > 0 ? (
+          <Grid container spacing={3}>
+            {foods
+              .filter((item) => item.category.includes(props.selectedCategory))
+              .map((item, index) => (
+                <Grid key={index} item xs={12} md={3}>
+                  <CardModel
+                    _id={item._id ?? ""}
+                    foodName={item.foodName}
+                    price={item.price}
+                    category={item.category}
+                    foodImg={item.foodImg}
+                    discount={item.discount}
+                    ingredients={item.ingredients}
+                    editFoodId={editFoodId}
+                    setEditFoodId={setEditFoodId}
+                    editFoodName={editFoodName}
+                    setEditFoodName={setEditFoodName}
+                    editPrice={editPrice}
+                    setEditPrice={setEditPrice}
+                    editCategory={editCategory}
+                    setEditCategory={setEditCategory}
+                    editFoodImg={editFoodImg}
+                    setEditFoodImg={setEditFoodImg}
+                    editDiscount={editDiscount}
+                    setEditDiscount={setEditDiscount}
+                    editIngredients={editIngredients}
+                    setEditInredients={setEditIngredients}
+                  />
+                </Grid>
+              ))}
+          </Grid>
+        ) : (
+          <Stack
+            height={"70vh"}
+            justifyContent={"center"}
+            alignItems={"center"}
+          >
+            <Stack justifyContent={"center"} alignItems={"center"} spacing={4}>
+              <Image src="/NotFound.svg" width={133} height={133} alt="" />
+              <Typography fontSize={14} fontWeight={400}>
+                Уучлаарай илэрц олдсонгүй...
+              </Typography>
+            </Stack>
+          </Stack>
+        )}
       </Stack>
     </Stack>
   );

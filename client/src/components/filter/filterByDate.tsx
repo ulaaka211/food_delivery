@@ -62,11 +62,18 @@ export const FilterByDate = () => {
         value={formik.values.endDate}
       />
       <Button
+        variant="outlined"
+        sx={{
+          border: "2px solid",
+          "&:hover": {
+            border: "2px solid",
+          },
+        }}
         onClick={() => {
           formik.handleSubmit();
         }}
       >
-        send
+        хайх
       </Button>
     </Stack>
   );

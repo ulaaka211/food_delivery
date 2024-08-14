@@ -38,7 +38,7 @@ export const filterByDay: RequestHandler = async (req, res) => {
     }
 
     const start = new Date(date as string);
-    const end = new Date(date as string);
+    const end = new Date(start);
     end.setDate(end.getDate() + 1);
 
     const foods = await FoodModel.find({
@@ -68,7 +68,7 @@ export const filterByWeek: RequestHandler = async (req, res) => {
     }
 
     const start = new Date(date as string);
-    const end = new Date(date as string);
+    const end = new Date(start);
     end.setDate(end.getDate() + 7);
 
     const foods = await FoodModel.find({
@@ -98,7 +98,7 @@ export const filterByMonts: RequestHandler = async (req, res) => {
     }
 
     const start = new Date(date as string);
-    const end = new Date(date as string);
+    const end = new Date(start);
     end.setMonth(end.getMonth() + 1);
 
     const foods = await FoodModel.find({

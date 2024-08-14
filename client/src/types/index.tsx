@@ -1,6 +1,3 @@
-import { type } from "os";
-import { string } from "yup";
-
 export type foodParams = {
   _id?: string;
   foodName: string;
@@ -75,11 +72,11 @@ export type updateCategoryParams = {
 };
 
 export type DeliveryAddress = {
-  additional: string;
+  additional?: string;
   bair: string;
   district: string;
   khoroo: string;
-  paymentMethod: boolean;
+  paymentMethod: string;
   phone: string;
 };
 

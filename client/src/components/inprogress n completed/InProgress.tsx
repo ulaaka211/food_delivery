@@ -1,6 +1,12 @@
 import { Stack, Typography } from "@mui/material";
 
-export const InProgress = () => {
+type InProgressProps = {
+  step: string;
+  addressInfo: string;
+  status: string;
+};
+
+export const InProgress = (props: InProgressProps) => {
   return (
     <Stack
       direction={"row"}
@@ -26,13 +32,13 @@ export const InProgress = () => {
       </Stack>
       <Stack gap={"4px"}>
         <Typography color={"#8B8E95"} fontSize={14} fontWeight={400}>
-          Алхам 1
+          {props.step}
         </Typography>
         <Typography fontSize={20} fontWeight={400}>
-          Хаягийн мэдээлэл оруулах
+          {props.addressInfo}
         </Typography>
         <Typography color={"#0468C8"} fontSize={16} fontWeight={400}>
-          Хүлээгдэж байна
+          {props.status}
         </Typography>
       </Stack>
     </Stack>
