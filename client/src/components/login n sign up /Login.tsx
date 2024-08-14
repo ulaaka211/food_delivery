@@ -24,10 +24,10 @@ export const Login = ({ handleClose, open }: LoginProps) => {
       .required("И-мэйлээ оруулна уу"),
     password: yup
       .string()
-      // .matches(
-      //   /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
-      //   "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number, and One Special Case Character"
-      // )
+      .matches(
+        /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+        "8 оронтой байх ёстой, нэг том үсэг, нэг жижиг үсэг, нэг тоо, нэг тусгай тэмдэгт агуулсан байх ёстой"
+      )
       .required("Нууц үгээ оруулна уу"),
   });
 

@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../../provider/AuthenticationProvider";
 import * as yup from "yup";
 import { useFormik } from "formik";
+import { useRouter } from "next/navigation";
 
 const validationSchema = yup.object({
   name: yup.string().required("Нэр оруулна уу"),
@@ -29,6 +30,7 @@ export const MyProfile = () => {
   const [imageUrl, setImageUrl] = useState(
     "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
   );
+  const router = useRouter();
 
   useEffect(() => {
     if (userImg) {
@@ -129,25 +131,6 @@ export const MyProfile = () => {
                 {user.name}
               </Typography>
 
-              {/* <Button
-                onClick={() => {
-                  setEdit((prev) => !prev);
-                }}
-                sx={{
-                  display: "flex",
-                  gap: "4px",
-                }}
-              >
-                <Typography fontSize={14} fontWeight={400}>
-                  {edit ? "back" : "edit"}
-                </Typography>
-                <CreateOutlinedIcon
-                  sx={{
-                    color: "primary.main",
-                    fontSize: "18px",
-                  }}
-                />
-              </Button> */}
               <Button
                 disabled={edit}
                 onClick={() => {
@@ -241,6 +224,9 @@ export const MyProfile = () => {
             sx={{
               cursor: "pointer",
               "&:hover": { backgroundColor: "#F6F6F6" },
+            }}
+            onClick={() => {
+              router.push("/order-history");
             }}
           >
             <Stack
