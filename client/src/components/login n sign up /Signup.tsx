@@ -22,8 +22,8 @@ export const Signup = () => {
       .required("И-мэйлээ оруулна уу"),
     phone: yup
       .string()
-      .matches(/^\d{8}$|^\d{10}$/)
-      .required("Утасны дугаараа оруулна уу"),
+      .matches(/^\d{8}$/, "Утасны дугаар нь яг 8 оронтой байх ёстой")
+      .required("Утасны дугаар оруулах шаардлагатай"),
     password: yup
       .string()
       .matches(
