@@ -24,11 +24,11 @@ app.get("/getFood", getFood);
 app.get("/getCategory", getCategories);
 app.use("/email", emailRouter);
 app.use("/auth", authRouter);
+app.use("/filter", foodFilterRouter);
 app.use("/temporary", temporarAdminRouter);
 app.use("/user", authMiddleware, userRouter);
-app.use("/food", eitherAdminOrTemporaryAdmin, foodRouter);
-app.use("/category", eitherAdminOrTemporaryAdmin, categoryRouter);
-app.use("/filter", foodFilterRouter);
-app.use("/order", orderRouter);
+app.use("/food", authMiddleware, foodRouter);
+app.use("/category", authMiddleware, categoryRouter);
+app.use("/order", authMiddleware, orderRouter);
 
 export default app;

@@ -2,7 +2,6 @@ import { Router } from "express";
 import {
   createFood,
   deleteFood,
-  getFood,
   updateFood,
 } from "../controllers/food.controller";
 

@@ -12,7 +12,6 @@ import {
 } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { AxiosError } from "axios";
 import {
   checkresetemailParams,
@@ -105,7 +104,6 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
           hideProgressBar: true,
         });
       }
-    } finally {
     }
   };
 

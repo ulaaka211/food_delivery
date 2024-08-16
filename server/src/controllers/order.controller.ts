@@ -5,6 +5,20 @@ import nodemailer from "nodemailer";
 import { UserModel } from "../models";
 
 export const getAllOrders: RequestHandler = async (req, res) => {
+  const { authorization } = req.headers;
+
+  if (!authorization) {
+    return res.status(401).json({
+      message: "Invalid credentials",
+    });
+  }
+  const { role } = jwt.verify(authorization, "secret-key") as JwtPayload;
+
+  if (role !== "admin") {
+    return res.status(403).json({
+      message: "Forbidden: You do not have admin privileges",
+    });
+  }
   try {
     const order = await orderModel.find({});
 
@@ -14,7 +28,6 @@ export const getAllOrders: RequestHandler = async (req, res) => {
   }
 };
 
-//Get order list
 export const getOrderList: RequestHandler = async (req, res) => {
   try {
     const { authorization } = req.headers;
@@ -64,8 +77,22 @@ export const createOrder: RequestHandler = async (req, res) => {
 
 //Change order status
 export const changeOrderStatus: RequestHandler = async (req, res) => {
+  const { authorization } = req.headers;
+  const { selectedOrderID, newStatus, userID } = req.body;
+
   try {
-    const { selectedOrderID, newStatus, userID } = req.body;
+    if (!authorization) {
+      return res.status(401).json({
+        message: "Invalid credentials",
+      });
+    }
+    const { role } = jwt.verify(authorization, "secret-key") as JwtPayload;
+
+    if (role !== "admin") {
+      return res.status(403).json({
+        message: "Forbidden: You do not have admin privileges",
+      });
+    }
 
     const orderExist = await orderModel.findOne({ _id: selectedOrderID });
 
