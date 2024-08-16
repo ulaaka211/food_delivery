@@ -13,17 +13,20 @@ import { OrderHistory } from "../order, orderhistory n address/OrderHistory";
 type AllCategoriesProps = {
   selectedCategory: string;
   setSelectedCategory: Dispatch<SetStateAction<string>>;
+  selectedOrder: string;
+  setSelectedOrder: Dispatch<SetStateAction<string>>;
   tab: boolean;
   setTab: Dispatch<SetStateAction<boolean>>;
+  handleClick: () => void;
 };
 
 export const AllCategories = (props: AllCategoriesProps) => {
+  const { selectedOrder, setSelectedOrder, handleClick } = props;
   const { allOrders, categories } = useFood();
   const [open, setOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
   const [categoryName, setCategoryName] = useState("");
   const [editCategoryId, setEditCategoryId] = useState("");
-  const [selectedOrder, setSelectedOrder] = useState("");
 
   const isSelected = (category: string) => {
     if (category == props.selectedCategory) {
@@ -38,12 +41,13 @@ export const AllCategories = (props: AllCategoriesProps) => {
       <Stack
         width={"100%"}
         paddingTop={3}
+        pr={1}
         bgcolor={"#fff"}
         alignItems={"flex-start"}
         maxHeight={"50%"}
       >
         <Stack gap={5} width={"100%"} mt={"2.5%"}>
-          <Stack direction={"row"} justifyContent={"space-between"} pr={2}>
+          <Stack direction={"row"} justifyContent={"space-between"}>
             <Typography
               sx={{
                 cursor: "pointer",
@@ -52,7 +56,7 @@ export const AllCategories = (props: AllCategoriesProps) => {
                 props.setTab(true);
               }}
               fontSize={26}
-              fontWeight={props.tab ? 700 : 400}
+              fontWeight={700}
               color={props.tab ? "primary.main" : "#D6D8DB"}
             >
               Food Menu
@@ -65,7 +69,7 @@ export const AllCategories = (props: AllCategoriesProps) => {
                 props.setTab(false);
               }}
               fontSize={26}
-              fontWeight={props.tab ? 400 : 700}
+              fontWeight={700}
               color={props.tab ? "#D6D8DB" : "primary.main"}
             >
               Order
@@ -76,7 +80,7 @@ export const AllCategories = (props: AllCategoriesProps) => {
               borderRadius={1}
               height={"52%"}
               // overflow={"scroll"}
-              width={"95%"}
+              width={"100%"}
               gap={4}
             >
               {categories.map((item, index) => (
@@ -165,7 +169,12 @@ export const AllCategories = (props: AllCategoriesProps) => {
               />
             </Stack>
           ) : (
-            <Stack height={"50%"} overflow={"scroll"} width={"95%"}>
+            <Stack
+              height={"50%"}
+              overflow={"scroll"}
+              width={"100%"}
+              onClick={handleClick}
+            >
               {allOrders.map((item, index) => (
                 <OrderHistory
                   key={index}

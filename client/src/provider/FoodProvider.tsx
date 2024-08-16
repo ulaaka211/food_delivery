@@ -26,6 +26,7 @@ import {
 } from "@/types";
 
 type FoodContextType = {
+  numberFormatter: Intl.NumberFormat;
   getFood: () => Promise<void>;
   createFood: (params: foodParams) => Promise<void>;
   getCategories: () => Promise<void>;
@@ -383,9 +384,16 @@ export const FoodProvider = ({ children }: PropsWithChildren) => {
     getAllOrders();
   }, [refresh]);
 
+  const numberFormatter = new Intl.NumberFormat("en-US", {
+    style: "decimal",
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  });
+
   return (
     <FoodContext.Provider
       value={{
+        numberFormatter,
         createOrder,
         changeOrderStatus,
         filterByDate,

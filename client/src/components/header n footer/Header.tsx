@@ -9,8 +9,6 @@ import {
   Drawer,
   IconButton,
   InputAdornment,
-  List,
-  ListItem,
   Stack,
   TextField,
 } from "@mui/material";
@@ -107,7 +105,6 @@ export const Header = () => {
               value={search}
               onChange={(e) => {
                 setSearch(e.target.value);
-                console.log(search);
               }}
               variant="outlined"
               type="search"

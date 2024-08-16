@@ -89,8 +89,10 @@ export const DrawerDetail = () => {
                             fontWeight={600}
                           >
                             {Boolean(item.discount)
-                              ? item.price * (1 - item.discount * 0.01)
-                              : item.price}
+                              ? numberFormatter.format(
+                                  item.price * (1 - item.discount * 0.01)
+                                ) + "₮"
+                              : numberFormatter.format(item.price) + "₮"}
                           </Typography>
                           <Typography
                             color={"common.black"}
@@ -100,7 +102,8 @@ export const DrawerDetail = () => {
                               textDecorationLine: "line-through",
                             }}
                           >
-                            {item.price}
+                            {Boolean(item.discount) &&
+                              numberFormatter.format(item.price) + "₮"}
                           </Typography>
                         </Stack>
                       </Stack>

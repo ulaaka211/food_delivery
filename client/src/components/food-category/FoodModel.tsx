@@ -6,9 +6,11 @@ import { useAuth } from "../../provider/AuthenticationProvider";
 import { useState } from "react";
 import { OrderDetail } from "..";
 import { foodParams } from "@/types";
+import { useFood } from "@/provider/FoodProvider";
 
 export const FoodModel = (props: foodParams) => {
   const { foodName, foodImg, price, discount } = props;
+  const { numberFormatter } = useFood();
   const [open, setOpen] = useState(false);
 
   return (
@@ -64,7 +66,9 @@ export const FoodModel = (props: foodParams) => {
           </Typography>
           <Stack direction={"row"} spacing={1.9}>
             <Typography color={"#18BA51"} fontSize={18} fontWeight={590}>
-              {Boolean(discount) ? price * (1 - discount * 0.01) : price}
+              {Boolean(discount)
+                ? numberFormatter.format(price * (1 - discount * 0.01)) + "₮"
+                : numberFormatter.format(price) + "₮"}
             </Typography>
             <Typography
               sx={{
@@ -73,7 +77,7 @@ export const FoodModel = (props: foodParams) => {
               fontSize={18}
               fontWeight={590}
             >
-              {Boolean(discount) && price}
+              {Boolean(discount) && numberFormatter.format(price) + "₮"}
             </Typography>
           </Stack>
         </Stack>

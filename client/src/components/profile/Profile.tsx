@@ -52,7 +52,8 @@ export const MyProfile = () => {
         name == values.name &&
         email == values.email &&
         phone == values.phone &&
-        address == values.address
+        address == values.address &&
+        imageUrl === userImg
       ) {
         setEdit(false);
       } else {
@@ -180,7 +181,7 @@ export const MyProfile = () => {
             onBlur={formik.handleBlur}
           />
           <CustomInput2
-            name="number"
+            name="phone"
             type="number"
             label="Утасны дугаар"
             edit={edit}

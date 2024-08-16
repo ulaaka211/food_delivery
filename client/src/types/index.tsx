@@ -83,7 +83,7 @@ export type DeliveryAddress = {
 export type Order = {
   createdAt: Date;
   deliveryStatus: string;
-  userID: string;
+  userId: string;
   _v: number;
   _id: string;
   deliveryAddress: DeliveryAddress[];

@@ -7,6 +7,7 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import { UpdateFood } from "../admin/UpdateFood";
 import { DeleteFood } from "../admin/DeleteFood";
+import { useFood } from "@/provider/FoodProvider";
 
 type CardModelProps = {
   _id: string;
@@ -60,6 +61,7 @@ export const CardModel = (props: CardModelProps) => {
   const [dltFood, setDltFood] = useState(false);
   const [update, setUpdate] = useState(false);
   const { isAdmin } = useAuth();
+  const { numberFormatter } = useFood();
 
   return (
     <Stack>
@@ -206,7 +208,9 @@ export const CardModel = (props: CardModelProps) => {
           </Typography>
           <Stack direction={"row"} spacing={1.9}>
             <Typography color={"#18BA51"} fontSize={18} fontWeight={590}>
-              {Boolean(discount) ? price * (1 - discount * 0.01) : price}
+              {Boolean(discount)
+                ? numberFormatter.format(price * (1 - discount * 0.01)) + "₮"
+                : numberFormatter.format(price) + "₮"}
             </Typography>
             <Typography
               sx={{
@@ -215,7 +219,8 @@ export const CardModel = (props: CardModelProps) => {
               fontSize={18}
               fontWeight={590}
             >
-              {Boolean(discount) && price}
+              {Boolean(numberFormatter.format(discount)) &&
+                numberFormatter.format(price) + "₮"}
             </Typography>
           </Stack>
         </Stack>

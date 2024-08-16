@@ -5,9 +5,11 @@ import { Stack, Typography } from "@mui/material";
 import Image from "next/image";
 import { useState } from "react";
 import { OrderDetail } from "..";
+import { useFood } from "@/provider/FoodProvider";
 
 export const SearchedFood = (props: foodParams) => {
   const [open, setOpen] = useState(false);
+  const { numberFormatter } = useFood();
 
   return (
     <Stack borderBottom={1}>
@@ -48,8 +50,10 @@ export const SearchedFood = (props: foodParams) => {
                   fontWeight={600}
                 >
                   {Boolean(props.discount)
-                    ? props.price * (1 - props.discount * 0.01)
-                    : props.price}
+                    ? numberFormatter.format(
+                        props.price * (1 - props.discount * 0.01)
+                      ) + "₮"
+                    : numberFormatter.format(props.price) + "₮"}
                 </Typography>
                 <Typography
                   color={"common.black"}
@@ -59,7 +63,8 @@ export const SearchedFood = (props: foodParams) => {
                     textDecorationLine: "line-through",
                   }}
                 >
-                  {props.price}
+                  {Boolean(props.discount) &&
+                    numberFormatter.format(props.price) + "₮"}
                 </Typography>
               </Stack>
             </Stack>

@@ -22,7 +22,7 @@ export const OrderDetail = ({
   foodParams,
   handleClose,
 }: orderDetailProps) => {
-  const { basket, setBasket, setOpenDrawer } = useFood();
+  const { basket, setBasket, setOpenDrawer, numberFormatter } = useFood();
   const [foodCount, setFoodCount] = useState(1);
   const { isLoggedIn, isAdmin } = useAuth();
   const { _id, foodName, ingredients, discount, foodImg, price, category } =
@@ -80,7 +80,7 @@ export const OrderDetail = ({
                 <Typography color={"#18BA51"} fontSize={18} fontWeight={600}>
                   {Boolean(foodParams.discount)
                     ? foodParams.price * (1 - foodParams.discount * 0.01)
-                    : foodParams.price}
+                    : numberFormatter.format(foodParams.price) + "₮"}
                 </Typography>
                 <Typography
                   color={"common.black"}
@@ -90,7 +90,8 @@ export const OrderDetail = ({
                     textDecorationLine: "line-through",
                   }}
                 >
-                  {Boolean(foodParams.discount) && foodParams.price}
+                  {Boolean(foodParams.discount) &&
+                    numberFormatter.format(foodParams.price) + "₮"}
                 </Typography>
               </Stack>
             </Stack>
