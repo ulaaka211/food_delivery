@@ -51,6 +51,7 @@ export const Footer = () => {
         alignItems={"center"}
       >
         <Image src="/Logo1.svg" alt="" width={31} height={26} />
+
         <Typography
           sx={{
             margin: "auto",
