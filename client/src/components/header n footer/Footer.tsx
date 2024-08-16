@@ -116,7 +116,7 @@ export const Footer = () => {
 
       <Stack alignItems={"center"}>
         <Typography color={"#fff"} fontSize={16} fontWeight={400}>
-          © 2024 Cайханбаяр
+          © 2024 Cайханбаяр.
         </Typography>
         <Typography color={"#fff"} fontSize={16} fontWeight={400}>
           Зохиогчийн эрх хуулиар хамгаалагдсан.
