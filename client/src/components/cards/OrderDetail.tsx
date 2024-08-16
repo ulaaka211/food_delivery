@@ -78,9 +78,10 @@ export const OrderDetail = ({
               </Typography>
               <Stack direction={"row"} gap={2}>
                 <Typography color={"#18BA51"} fontSize={18} fontWeight={600}>
-                  {Boolean(foodParams.discount)
-                    ? foodParams.price * (1 - foodParams.discount * 0.01)
-                    : numberFormatter.format(foodParams.price) + "₮"}
+                  {Boolean(discount)
+                    ? numberFormatter.format(price * (1 - discount * 0.01)) +
+                      "₮"
+                    : numberFormatter.format(price) + "₮"}
                 </Typography>
                 <Typography
                   color={"common.black"}
